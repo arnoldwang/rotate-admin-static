@@ -1,4 +1,6 @@
-## crystal-demo
+先安装nodejs
+
+npm install gulp -g
 npm install
 gulp && gulp watch
 
