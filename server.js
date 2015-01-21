@@ -5,13 +5,13 @@ var _ = require('lodash');
 var pathUtil = require('path');
 var port = 3000;
 
-_.forEach(require('./server.json'), function(config, path) {
+_.forEach(require('./server-config.js'), function(config, path) {
     if (!config.status) {
         config.status = 200;
     }
 
     app[config.method || 'get'](path, function(req, res) {
-        res.status(config.status).send(config.response);
+        res.status(config.status).send(typeof config.response === 'function' ? config.response(req, res) : config.response);
     })
 });
 

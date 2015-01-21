@@ -42,13 +42,13 @@ model = [
         },
 
         expandAll: function() {
-            this.node.cascade(function(node) {
+            this.node.cascadeChildFirst(function(node) {
                 node.expand();
-            })
+            });
         },
 
         collapseAll: function() {
-            this.node.cascade(function(node) {
+            this.node.cascadeChildFirst(function(node) {
                 node.collapse();
             })
         }

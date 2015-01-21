@@ -57,11 +57,18 @@ model = [
             return child;
         },
 
-        cascade: function(fn) {
+        cascadeParentFirst: function(fn) {
             fn(this);
             this.children().forEach(function(child) {
-                child.cascade(fn)
+                child.cascadeParentFirst(fn)
             })
+        },
+
+        cascadeChildFirst: function(fn) {
+            this.children().forEach(function(child) {
+                child.cascadeChildFirst(fn)
+            });
+            fn(this);
         }
     }
 ]
