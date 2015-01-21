@@ -1,0 +1,30 @@
+<div data-bind="text: data.name"></div>
+<div class="op">
+    <div class="editable" data-bind="click: edit">编辑</div>
+    <div class="seperator"></div>
+    <div class="editable" data-bind="click: remove">删除</div>
+    <div class="seperator"></div>
+    <div class="editable" data-bind="click: create">添加子战区</div>
+</div>
+<script>
+var _ = require('lodash')
+
+model = [
+    function(data) {
+        this.data = data;   
+    },
+    {
+        edit: function() {
+            console.log('edit')
+        },
+
+        remove: function() {
+            console.log('remove')
+        },
+
+        create: function() {
+            console.log('create')
+        }
+    }
+]
+</script>

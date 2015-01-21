@@ -1,0 +1,8 @@
+<script>
+    model = [
+        require('module/node/node'),
+        function() {
+            this.item = new (require('./node-item'))(this);
+        }
+    ]
+</script>

@@ -20,7 +20,6 @@ var DIST = 'dist/'
 var pkg = JSON.parse(fs.readFileSync('./package.json'));
 var COMMON_LIBS = pkg.dependencies;
 
-
 var PACKAGE_FOLDERS = ['service'];
 
 var browserify = function(opt) {

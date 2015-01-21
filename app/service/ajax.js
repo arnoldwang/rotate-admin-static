@@ -4,16 +4,16 @@ var _ = require('lodash');
 var BUSINESS_DATA_TYPE = 'json code-message';
 
 // mock url
-if (ENV.mock) {
-    $.ajaxPrefilter(BUSINESS_DATA_TYPE, function(options) {
-        options.url = 'mock-server/' + options.url + '.json';
-    });
-}
-else {
-    $.ajaxPrefilter(BUSINESS_DATA_TYPE, function(options) {
-        options.url = '/' + ENV.path + '/' + options.url;
-    });
-}
+// if (ENV.mock) {
+//     $.ajaxPrefilter(BUSINESS_DATA_TYPE, function(options) {
+//         options.url = 'mock-server/' + options.url + '.json';
+//     });
+// }
+// else {
+//     $.ajaxPrefilter(BUSINESS_DATA_TYPE, function(options) {
+//         options.url = '/' + ENV.path + '/' + options.url;
+//     });
+// }
 
 // evaluate data
 $.ajaxPrefilter(BUSINESS_DATA_TYPE, function(options) {

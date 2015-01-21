@@ -1,0 +1,57 @@
+<div class="territory">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            设置-层次结构
+        </div>
+        <div class="panel-body">
+            <div class="op for tree">
+                <div class="editable" data-bind="click: collapseAll">
+                    全部折叠
+                </div>
+                <div class="editable" data-bind="click: expandAll">
+                    全部展开
+                </div>
+            </div>
+            <!-- ko module: node --><!-- /ko -->
+        </div>
+    </div>
+</div>
+
+<script>
+model = [
+    function() {
+        this.node = new (require('module/territory/node'))();
+        this.node.setData({
+            name: '根节点'
+        });
+        this.node.expand();
+    },
+    {
+        onStateChange: function() {
+            this.pipe([
+                function(callback) {
+                    this.fetch({
+                        url: '/territory/descendants',
+                        success: callback
+                    });
+                },
+                function(children) {
+                    this.node.setChildren(children);
+                }
+            ])
+        },
+
+        expandAll: function() {
+            this.node.cascade(function(node) {
+                node.expand();
+            })
+        },
+
+        collapseAll: function() {
+            this.node.cascade(function(node) {
+                node.collapse();
+            })
+        }
+    }
+]
+</script>
