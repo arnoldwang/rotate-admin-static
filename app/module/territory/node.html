@@ -1,7 +1,5 @@
-<div class="node" data-bind="css: {
-    active: __active
-}">
-    <div class="handle" data-action="hover">
+<div class="node">
+    <div class="handle">
         <!-- ko if: children().length -->
         <i class="glyphicon glyphicon-plus" data-bind="visible: !__expand()" data-action="expand"></i>
         <i class="glyphicon glyphicon-minus" data-bind="visible: __expand" data-action="collapse"></i>
@@ -29,8 +27,6 @@ var base = Base.prototype;
 
 model = [
     Base,
-    function() {
-    },
     {
         DATA_CHILDREN_PROP: 'childrenList',
 
@@ -50,15 +46,12 @@ model = [
             console.log('delete');
         },
         create: function() {
-            console.log('create');
-        },
-
-        activate: function() {
-            this.__active(true)
-        },
-
-        deactivate: function() {
-            this.__active(false);
+            this.modal({
+                target: require('./modal-create'),
+                confirm: function(o) {
+                    
+                }
+            })
         }
     }
 ]

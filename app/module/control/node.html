@@ -23,13 +23,20 @@ model = [
         setData: function(data) {
             // DATA_CHILDREN_PROP 属性需要特别处理
             var children = data[this.DATA_CHILDREN_PROP];
-            data[this.DATA_CHILDREN_PROP] = [];
-            
+
+            if (children) {
+                data.children = [];
+                delete data[this.DATA_CHILDREN_PROP];
+            }
+           
             kom.fromJS(data, null, this);
 
             if (children) {
                 this.children(children.map(this.createChildNode, this));
+
+                // restore
                 data[this.DATA_CHILDREN_PROP] = children;
+                delete data.children;
             }
         },
 

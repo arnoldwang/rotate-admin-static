@@ -1,0 +1,46 @@
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-bind="click: cancel" >×</button>
+                <h4>添加战区</h4>
+            </div>
+            <div class="modal-body">                
+                <div class="form-horizontal">
+                    
+                </div>
+            </div>
+            <div class="modal-footer" >
+                <button type="button" class="btn btn-default" data-bind="click: cancel">取消</button>
+                <button type="button" class="btn btn-primary" data-bind="click: confirm">完成</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var _ = require('lodash');
+    var ko = require('knockout');
+    var kom = require('knockout.mapping');
+    var notification = require('service/notification');
+
+
+    model = [
+        function() {
+
+        },
+        {
+            onOpen: function(data, callback) {
+                this.callback = callback;
+            },
+
+            cancel: function() {
+                this.callback();
+            },
+
+            confirm: function() {
+                this.callback(kom.toJS(this))
+            }
+        }
+    ]
+</script>

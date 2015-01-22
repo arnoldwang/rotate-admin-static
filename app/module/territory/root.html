@@ -15,19 +15,6 @@
         '[data-action=create]': function(node) {
             node.create();
         }
-    },
-
-    mouseover: {
-        '.name': function(node) {
-            console.log(1);
-            node.activate();
-        }
-    },
-
-    mouseout: {
-        '.name': function(node) {
-            node.deactivate();
-        }
     }
 }">
     <div class="handle">
@@ -60,9 +47,6 @@
 var Node = require('./node');
 model = [
     Node,
-    function() {
-        this.expand();
-    },
     {
         ChildNodeClass: Node,
 

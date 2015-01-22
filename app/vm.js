@@ -3,6 +3,7 @@ var _ = require('lodash');
 var mixin = require('mixin-class');
 
 var ajax = require('service/ajax');
+var modal = require('service/modal');
 
 var slice = [].slice;
 var noop = function() {};
@@ -25,6 +26,12 @@ module.exports = mixin([
         setAppState: function(data) {
             state.setData(data);
             return this;
+        },
+
+        modal: function(options) {
+            modal(_.extend({
+                context: this
+            }, options));
         },
 
         fetch: function(options) {
