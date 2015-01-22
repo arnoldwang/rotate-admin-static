@@ -9,7 +9,6 @@ _.forEach(require('./server-config.js'), function(config, path) {
     if (!config.status) {
         config.status = 200;
     }
-
     app[config.method || 'get'](path, function(req, res) {
         res.status(config.status).send(typeof config.response === 'function' ? config.response(req, res) : config.response);
     })

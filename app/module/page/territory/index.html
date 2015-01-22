@@ -10,6 +10,7 @@
 </div>
 
 <script>
+
 model = [
     function() {
         this.tree = new (require('module/territory/root'))();  
@@ -19,12 +20,12 @@ model = [
             this.pipe([
                 function(callback) {
                     this.fetch({
-                        url: '/territory/descendants',
+                        url: '/data/territory/tree',
                         success: callback
                     });
-                },
-                function(children) {
-                    this.tree.setChildren(children);
+                },                
+                function(data) {
+                    this.tree.setData(data);
                 }
             ])
         }

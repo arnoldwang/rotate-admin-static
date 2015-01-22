@@ -7,7 +7,7 @@
     </div>
     <div>
         <div class="item">
-            <div data-bind="text: name"></div>
+            <div data-bind="text: territoryName"></div>
             <div class="op">
                 <div class="editable" data-action="edit">编辑</div>
                 <div class="seperator"></div>
@@ -22,9 +22,24 @@
     </div>
 </div>
 <script>
+var Base = require('module/control/node');
+var base = Base.prototype;
+
 model = [
-    require('module/control/node'),
+    Base,
+    function() {
+    },
     {
+        DATA_CHILDREN_PROP: 'childrenList',
+
+        reset: function() {
+            base.reset.call(this);
+            this.setData({
+                id: null,
+                territoryName: null
+            });
+        },
+
         edit: function() {
             console.log('edit');
         },

@@ -1,4 +1,6 @@
 <script>
+var kom = require('knockout.mapping');
+var _ = require('lodash');
 model = [
     function() {
         this.reset();
@@ -10,14 +12,27 @@ model = [
     {
         ChildNodeClass: null,
 
+        DATA_CHILDREN_PROP: 'children',
+
         reset: function() {
             this.setData({
-                id: null,
-                name: null,
                 children: [],
 
                 __expand: false
             });
+        },
+
+        setData: function(o) {
+            var data = _.extend({}, o);
+
+            var children = data[this.DATA_CHILDREN_PROP];
+            data[this.DATA_CHILDREN_PROP] = [];
+            
+            kom.fromJS(data, null, this);
+
+            if (children) {
+                this.children(children.map(this.createChildNode, this));
+            }
         },
 
         expand: function() {
@@ -28,19 +43,9 @@ model = [
             this.__expand(false);
         },
 
-        setChildren: function(children) {
-            this.children(children.map(this.createChildNode, this))
-        },
-
         createChildNode: function(data) {
             var child = new this.ChildNodeClass();
-            var children = data.children;
-            delete data.children;
             child.setData(data);
-            // children要特别设置
-            if (children) {
-                child.setChildren(children);
-            }
             return child;
         },
 
