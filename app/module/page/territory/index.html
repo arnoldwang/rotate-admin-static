@@ -4,7 +4,7 @@
             设置-层次结构
         </div>
         <div class="panel-body">
-            <!-- ko module: node --><!-- /ko -->
+            <!-- ko module: tree --><!-- /ko -->
         </div>
     </div>
 </div>
@@ -12,7 +12,7 @@
 <script>
 model = [
     function() {
-        this.node = new (require('module/territory/root'))();  
+        this.tree = new (require('module/territory/root'))();  
     },
     {
         onStateChange: function() {
@@ -24,7 +24,7 @@ model = [
                     });
                 },
                 function(children) {
-                    this.node.setChildren(children);
+                    this.tree.setChildren(children);
                 }
             ])
         }
