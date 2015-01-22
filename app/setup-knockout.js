@@ -36,6 +36,10 @@ _.extend(ko.extenders, {
     }
 });
 
+ko.filters.json = function(o) {
+    return JSON.stringify(ko.unwrap(o));
+};
+
 (function(config) {    
     var addBinding = function(key, value) {
         bindingHandlers[key] = value;

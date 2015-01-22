@@ -1,0 +1,55 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>URL</th>
+            <th>method</th>
+            <th>参数</th>
+            <th>返回值</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: services">
+        <tr>
+            <td>
+                {{ url }}
+            </td>
+            <td>
+                {{method}}
+            </td>
+            <td>
+                {{params | json}}
+            </td>
+            <td>
+                {{response | json}}
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<script>
+var _ = require('lodash');
+
+
+
+model = function() {
+    this.setData({
+        services: []
+    })
+
+    this.pipe([
+        function(callback) {
+            this.fetch({
+                url: '/data/services',
+                success: callback
+            });
+        },                
+        function(data) {
+            var arr = [];
+            _.forEach(data, function(config, url) {
+                config.url = url;
+                arr.push(config);
+            })
+            this.services(arr);
+        }
+    ]);
+}
+</script>

@@ -1,5 +1,7 @@
-<div class="node">
-    <div class="handle">
+<div class="node" data-bind="css: {
+    active: __active
+}">
+    <div class="handle" data-action="hover">
         <!-- ko if: children().length -->
         <i class="glyphicon glyphicon-plus" data-bind="visible: !__expand()" data-action="expand"></i>
         <i class="glyphicon glyphicon-minus" data-bind="visible: __expand" data-action="collapse"></i>
@@ -36,7 +38,8 @@ model = [
             base.reset.call(this);
             this.setData({
                 id: null,
-                territoryName: null
+                territoryName: null,
+                __active: false
             });
         },
 
@@ -48,6 +51,14 @@ model = [
         },
         create: function() {
             console.log('create');
+        },
+
+        activate: function() {
+            this.__active(true)
+        },
+
+        deactivate: function() {
+            this.__active(false);
         }
     }
 ]

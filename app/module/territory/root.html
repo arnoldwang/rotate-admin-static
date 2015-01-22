@@ -15,6 +15,19 @@
         '[data-action=create]': function(node) {
             node.create();
         }
+    },
+
+    mouseover: {
+        '.name': function(node) {
+            console.log(1);
+            node.activate();
+        }
+    },
+
+    mouseout: {
+        '.name': function(node) {
+            node.deactivate();
+        }
     }
 }">
     <div class="handle">
@@ -25,7 +38,7 @@
     </div>
     <div>
         <div class="item">
-            <div data-bind="text: territoryName"></div>
+            <div class="name" data-bind="text: territoryName"></div>
             <div class="op">
                 <div class="editable" data-bind="click: expandAll">
                     全部展开

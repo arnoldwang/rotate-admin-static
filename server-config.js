@@ -1,7 +1,7 @@
 var _ = require('lodash');
 
 module.exports = {
-    "/data/territory/tree": {
+    "/rotate/data/territory/tree": {
         "method": "get",
         "params": {
             "id": 1

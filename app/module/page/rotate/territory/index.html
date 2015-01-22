@@ -1,5 +1,5 @@
 <div class="territory">
-    <div class="panel panel-default">
+    <div class="panel panel-info">
         <div class="panel-heading">
             设置-层次结构
         </div>
@@ -14,20 +14,22 @@
 model = [
     function() {
         this.tree = new (require('module/territory/root'))();  
+
+        this.pipe([
+            function(callback) {
+                this.fetch({
+                    url: '/rotate/data/territory/tree',
+                    success: callback
+                });
+            },                
+            function(data) {
+                this.tree.setData(data);
+            }
+        ])
     },
     {
         onStateChange: function() {
-            this.pipe([
-                function(callback) {
-                    this.fetch({
-                        url: '/data/territory/tree',
-                        success: callback
-                    });
-                },                
-                function(data) {
-                    this.tree.setData(data);
-                }
-            ])
+
         }
     }
 ]

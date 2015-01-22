@@ -4,14 +4,12 @@ var _ = require('lodash');
 model = [
     function() {
         this.reset();
-
-        if (!this.ChildNodeClass) {
-            this.ChildNodeClass = this.constructor;
-        }
     },
     {
+        // 子节点的类
         ChildNodeClass: null,
 
+        // setData时，数据里面的"children"对应的字段
         DATA_CHILDREN_PROP: 'children',
 
         reset: function() {
@@ -22,9 +20,8 @@ model = [
             });
         },
 
-        setData: function(o) {
-            var data = _.extend({}, o);
-
+        setData: function(data) {
+            // DATA_CHILDREN_PROP 属性需要特别处理
             var children = data[this.DATA_CHILDREN_PROP];
             data[this.DATA_CHILDREN_PROP] = [];
             
@@ -32,6 +29,7 @@ model = [
 
             if (children) {
                 this.children(children.map(this.createChildNode, this));
+                data[this.DATA_CHILDREN_PROP] = children;
             }
         },
 
@@ -44,7 +42,7 @@ model = [
         },
 
         createChildNode: function(data) {
-            var child = new this.ChildNodeClass();
+            var child = new (this.ChildNodeClass || this.constructor)();
             child.setData(data);
             return child;
         },

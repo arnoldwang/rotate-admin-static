@@ -5,7 +5,8 @@ var _ = require('lodash');
 var pathUtil = require('path');
 var port = 3000;
 
-_.forEach(require('./server-config.js'), function(config, path) {
+var services = require('./server-config.js');
+_.forEach(services, function(config, path) {
     if (!config.status) {
         config.status = 200;
     }
@@ -13,6 +14,10 @@ _.forEach(require('./server-config.js'), function(config, path) {
         res.status(config.status).send(typeof config.response === 'function' ? config.response(req, res) : config.response);
     })
 });
+
+app.get('/data/services', function(req, res) {
+    res.status(200).send(services);
+})
 
 var staticIndexPageContent = fs.readFileSync('./index.html');
 
@@ -27,6 +32,7 @@ app.get('*', function(req, res) {
         if (extname) {
             res.type(extname.substring(1));
         }
+        // res.set('Access-Control-Allow-Origin', '*')
         res.send(fs.readFileSync(path));
     }
     // index page 
