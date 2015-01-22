@@ -4,14 +4,6 @@
             设置-层次结构
         </div>
         <div class="panel-body">
-            <div class="op for tree">
-                <div class="editable" data-bind="click: collapseAll">
-                    全部折叠
-                </div>
-                <div class="editable" data-bind="click: expandAll">
-                    全部展开
-                </div>
-            </div>
             <!-- ko module: node --><!-- /ko -->
         </div>
     </div>
@@ -20,11 +12,7 @@
 <script>
 model = [
     function() {
-        this.node = new (require('module/territory/node'))();
-        this.node.setData({
-            name: '根节点'
-        });
-        this.node.expand();
+        this.node = new (require('module/territory/root'))();  
     },
     {
         onStateChange: function() {
@@ -39,18 +27,6 @@ model = [
                     this.node.setChildren(children);
                 }
             ])
-        },
-
-        expandAll: function() {
-            this.node.cascadeChildFirst(function(node) {
-                node.expand();
-            });
-        },
-
-        collapseAll: function() {
-            this.node.cascadeChildFirst(function(node) {
-                node.collapse();
-            })
         }
     }
 ]

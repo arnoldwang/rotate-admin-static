@@ -55,5 +55,6 @@ _.extend(ko.extenders, {
         }
     });
 })({
-    module: require('./binding-handler/module')
+    module: require('./binding-handler/module'),
+    delegateEvent: require('./binding-handler/delegate-event')
 });
