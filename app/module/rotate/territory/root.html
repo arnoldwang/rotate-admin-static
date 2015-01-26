@@ -6,14 +6,14 @@
         '[data-action=collapse]': function(node) {
             node.collapse();
         },
-        '[data-action=edit]': function(node) {
-            node.toEdit();
+        '[data-action=toEdit]': function(node) {
+            toEdit(node);
         },
-        '[data-action=delete]': function(node) {
-            node.toDelete();
+        '[data-action=toDelete]': function(node) {
+            toDelete(node);
         },
-        '[data-action=create]': function(node) {
-            node.toCreate();
+        '[data-action=toCreate]': function(node) {
+            toCreate(node);
         }
     }
 }">
@@ -35,7 +35,7 @@
                     全部折叠
                 </div>
                 <div class="seperator"></div>
-                <div class="editable" data-action="create">添加子战区</div>
+                <div class="editable" data-action="toCreate">添加子战区</div>
             </div>
         </div>
         <div class="children" data-bind="visible: __expand, foreach: children">
@@ -45,10 +45,26 @@
 </div>
 <script>
 var Node = require('./node');
+var notification = require('service/notification');
+
 model = [
     Node,
     {
         ChildNodeClass: Node,
+
+        load: function() {
+            this.pipe([
+                function(callback) {
+                    this.fetch({
+                        url: '/rotate/data/territory/tree',
+                        success: callback
+                    });
+                },                
+                function(data) {
+                    this.setData(data);
+                }
+            ])
+        },
 
         expandAll: function() {
             this.cascadeChildFirst(function(node) {
@@ -60,6 +76,80 @@ model = [
             this.cascadeChildFirst(function(node) {
                 node.collapse();
             })
+        },
+
+        findNode: function(id) {
+            var found;
+            this.cascadeParentFirst(function(node) {
+                if (node.id() === id) {
+                    found = node;
+                    return true;
+                }
+            });
+            if (!found) {
+                throw new Error('id为' + id + '的战区不存在')
+            }
+            return found;
+        },
+
+        toCreate: function(node) {
+            this.pipe([
+                // 打开新建对话框
+                function(data, callback) {
+                    this.modal({
+                        target: require('./modal-create'),
+                        data: {
+                            parentTerritoryId: data.id
+                        },
+                        confirm: function(o) {
+                            callback(o);
+                        }
+                    })
+                },
+                // 提交新建
+                function(data, callback) {
+                    this.post({
+                        url: '/rotate/data/territory/create',
+                        data: data,
+                        success: callback
+                    })
+                },
+                // 获取新建的节点信息
+                function(id, callback) {
+                    this.fetch({
+                        url: '/rotate/data/territory/base-info',
+                        data: {
+                            territoryId: id
+                        },
+                        success: callback
+                    });
+                },
+                // 把节点加到树上
+                function(data, callback) {
+                    this.addNode(data);
+                    notification.success('添加子战区成功');
+                }
+            ], node.getData())            
+        },
+
+        toEdit: function() {
+            console.log('edit');
+        },
+
+        toDelete: function() {
+            console.log('delete');
+        },
+
+        addNode: function(nodeData) {
+            var node;
+            try {
+                node = this.findNode(nodeData.parentTerritoryId);            
+            } catch (e) {
+                notification.error(e.message);
+            }
+            
+            node.children.push(node.createChildNode(nodeData));
+            node.expand();
         }
     }
 ]

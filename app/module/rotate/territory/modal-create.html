@@ -124,6 +124,8 @@
             },
             
             onOpen: function(data, callback) {
+                this.reset();
+                this.setData(data);
                 this.callback = callback;
             },
 

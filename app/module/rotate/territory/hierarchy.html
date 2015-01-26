@@ -14,21 +14,8 @@
 model = [
     function() {
         this.tree = new (require('./root'))();
-
-        this.pipe([
-            function(callback) {
-                this.fetch({
-                    url: '/rotate/data/territory/tree',
-                    success: callback
-                });
-            },                
-            function(data) {
-                this.tree.setData(data);
-                this.tree.expand();
-
-                this.tree.toCreate();
-            }
-        ])
+        this.tree.expand();
+        this.tree.load();
     }
 ]
 </script>

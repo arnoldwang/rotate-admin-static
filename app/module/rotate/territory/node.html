@@ -27,7 +27,6 @@ var base = Base.prototype;
 
 var notification = require('service/notification');
 
-
 model = [
     Base,
     {
@@ -37,41 +36,8 @@ model = [
             base.reset.call(this);
             this.setData({
                 id: null,
-                territoryName: null,
-                __active: false
+                territoryName: null
             });
-        },
-
-        toEdit: function() {
-            console.log('edit');
-        },
-
-        toDelete: function() {
-            console.log('delete');
-        },
-
-        toCreate: function() {
-            this.pipe([
-                function(callback) {
-                    this.modal({
-                        target: require('./modal-create'),
-                        confirm: function(o) {
-                            callback(o);
-                        }
-                    })
-                },
-                function(data, callback) {
-                    this.post({
-                        url: '/rotate/data/territory/create',
-                        data: data,
-                        success: callback
-                    })
-                },
-                function(response) {
-                    notification.success('添加子战区成功')
-                }
-            ])
-            
         }
     }
 ]

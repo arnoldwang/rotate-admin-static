@@ -55,17 +55,21 @@ model = [
         },
 
         cascadeParentFirst: function(fn) {
-            fn(this);
-            this.children().forEach(function(child) {
-                child.cascadeParentFirst(fn)
+            if (fn(this) === true) {
+                return true;
+            }
+            return this.children().some(function(child) {
+                return child.cascadeParentFirst(fn)
             })
         },
 
         cascadeChildFirst: function(fn) {
-            this.children().forEach(function(child) {
-                child.cascadeChildFirst(fn)
-            });
-            fn(this);
+            if (this.children().some(function(child) {
+                return child.cascadeChildFirst(fn)
+            })) {
+                return true;
+            }
+            return fn(this);
         }
     }
 ]
