@@ -1,0 +1,13 @@
+<textarea class="form-control" data-bind="value: value, event: event, enable: editable, valueUpdate: ['keyup']" rows="{{rows}}"></textarea>
+<p style="color: #999">
+    {{ '当前字数' + (value() ? value().length : 0) + '/' + length }}
+</p>
+<script>
+    module.exports = [
+        require('./textarea'),
+        {
+            length: 0
+        }
+    ];
+</script>
+

@@ -8,13 +8,13 @@
     },
     "repository": {
         "type": "git",
-        "url": "git@code.dianpingoa.com:jay.yang/crystal-demo.git"
+        "url": "git@code.dianpingoa.com:jay.yang/rotate-admin-static.git"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
         "events": "*",
-        "crystal-page": "^1.0.0",
+        "crystal-page": "^2.0.0",
         "crystal-state": "^1.0.0",
         "jquery": "^2.1.1",
         "knockout-commonjs": "0.0.3",

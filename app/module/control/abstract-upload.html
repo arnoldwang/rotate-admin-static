@@ -1,0 +1,86 @@
+<script>
+var _ = require('lodash');
+var ko = require('knockout');
+var $ = require('jquery');
+var notification = require('service/notification');
+
+module.exports = [
+    function() {
+        this.totalFiles = ko.observable(0);
+        this.uploadedFiles = ko.observable(0);
+
+        var self = this;
+
+        this.filesTextVisible = ko.computed(function() {
+            return self.totalFiles() !== 0 && self.totalFiles()  !== self.uploadedFiles()
+        });
+
+        this.filesText = ko.computed(function() {
+            return '完成' + self.uploadedFiles() + '张，共' +  self.totalFiles() + '张';
+        });
+    },
+    {
+        label: '上传',
+
+        paramName: 'filedata',
+
+        getUploadConfig: function() {
+            var o = {};
+
+            // clone prototype to plain
+            var i;
+            for (i in this) {
+                o[i] = this[i];
+            }
+
+            return o;
+        },
+
+        afterRender: function(els) {
+            var options = this.getUploadConfig();
+            if (options.dropPasteZoneSelector) {
+                options.dropZone = options.pasteZone = $element.closest(options.dropPasteZoneSelector);
+            } else {
+                options.dropZone = options.pasteZone = null;
+            }
+            $(els).find('input[type=file]').fileupload(options);
+        },
+
+        // required
+        url: null,
+
+        dataType: 'json',
+
+        change: function(e, data) {
+            var context = $(this).fileupload('option');
+            context.uploadedFiles(0);
+            context.totalFiles(data.files.length);
+        },
+
+        formData: function() {
+            var file = this.files[0];
+            return [{
+                name: 'filename',
+                value: file.name
+            }]
+        },
+
+        done: function(e, data) {
+            var result = data.result;
+            var context = data;
+
+            context.uploadedFiles(context.uploadedFiles() + 1);
+            context.onSuccess(result);
+        },
+
+        fail: function(e, data) {
+            notification.error('上传失败: ' + data.jqXHR.responseText);
+        },
+
+        onSuccess: function(items) {
+            throw new Error('to be implemented');
+        }
+    }
+
+]
+</script>

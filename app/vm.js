@@ -40,6 +40,16 @@ module.exports = mixin([
             }, options));
         },
 
+        post: function(options) {
+            options.data = JSON.stringify(options.data)
+
+            ajax(_.extend({
+                context: this,
+                method: 'post',
+                contentType: 'application/json'
+            }, options));
+        },
+
         pipe: function(fns) {
             var context = this;
             var args = slice.call(arguments, 1);

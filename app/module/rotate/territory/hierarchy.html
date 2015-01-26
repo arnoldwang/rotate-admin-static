@@ -13,7 +13,7 @@
 
 model = [
     function() {
-        this.tree = new (require('module/territory/root'))();
+        this.tree = new (require('./root'))();
 
         this.pipe([
             function(callback) {
@@ -25,6 +25,8 @@ model = [
             function(data) {
                 this.tree.setData(data);
                 this.tree.expand();
+
+                this.tree.toCreate();
             }
         ])
     }

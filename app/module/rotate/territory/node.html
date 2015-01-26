@@ -9,11 +9,11 @@
         <div class="item">
             <div data-bind="text: territoryName"></div>
             <div class="op">
-                <div class="editable" data-action="edit">编辑</div>
+                <div class="editable" data-action="toEdit">编辑</div>
                 <div class="seperator"></div>
-                <div class="editable" data-action="delete">删除</div>
+                <div class="editable" data-action="toDelete">删除</div>
                 <div class="seperator"></div>
-                <div class="editable" data-action="create">添加子战区</div>
+                <div class="editable" data-action="toCreate">添加子战区</div>
             </div>
         </div>
         <div class="children" data-bind="visible: __expand, foreach: children">
@@ -24,6 +24,9 @@
 <script>
 var Base = require('module/control/node');
 var base = Base.prototype;
+
+var notification = require('service/notification');
+
 
 model = [
     Base,
@@ -39,19 +42,36 @@ model = [
             });
         },
 
-        edit: function() {
+        toEdit: function() {
             console.log('edit');
         },
-        delete: function() {
+
+        toDelete: function() {
             console.log('delete');
         },
-        create: function() {
-            this.modal({
-                target: require('./modal-create'),
-                confirm: function(o) {
-                    
+
+        toCreate: function() {
+            this.pipe([
+                function(callback) {
+                    this.modal({
+                        target: require('./modal-create'),
+                        confirm: function(o) {
+                            callback(o);
+                        }
+                    })
+                },
+                function(data, callback) {
+                    this.post({
+                        url: '/rotate/data/territory/create',
+                        data: data,
+                        success: callback
+                    })
+                },
+                function(response) {
+                    notification.success('添加子战区成功')
                 }
-            })
+            ])
+            
         }
     }
 ]

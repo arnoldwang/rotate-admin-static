@@ -1,5 +1,6 @@
 @import "node.styl"
 @import "territory.styl"
+@import "services.styl"
 
 .editable
     display inline-block
@@ -12,7 +13,19 @@
 .op
     .editable
         padding 0 0.5em
-        
-main
-    padding 1em
-    
+
+.form-group
+    .checkbox-inline,
+    .radio-inline
+        margin-left 0
+        margin-right 20px
+
+    &.required
+        > .control-label:before
+            content '*'
+            color red
+
+.modal-dialog
+    legend
+        font-size 16px
+        border-bottom none

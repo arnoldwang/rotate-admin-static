@@ -37,7 +37,7 @@ _.extend(ko.extenders, {
 });
 
 ko.filters.json = function(o) {
-    return JSON.stringify(ko.unwrap(o));
+    return JSON.stringify(ko.unwrap(o), null, 4);
 };
 
 (function(config) {    

@@ -1,0 +1,33 @@
+<div class="ellipsis-popover">
+
+    {{#if: (content() ? content().length : 0) > length}}
+    <div class="popover top">
+        <div class="arrow"></div>
+        <div class="popover-content">
+            {{content}}
+        </div>
+    </div>
+    {{/}}
+
+    <span>{{content | fit: length}}</span>
+</div>
+<script>
+    var $ = require('jquery');
+
+    module.exports = {
+        afterRender: function(els) {
+            if (this.content() && this.content().length > this.length) {
+                var $el = $(els);
+
+                var $popover = $el.find('.popover');
+
+                $el.hover(function() {
+                    $popover.show();
+                }, function() {
+                    $popover.hide();
+                })
+            }
+        }
+    }
+</script>
+

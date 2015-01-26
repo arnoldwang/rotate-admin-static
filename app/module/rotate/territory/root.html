@@ -7,13 +7,13 @@
             node.collapse();
         },
         '[data-action=edit]': function(node) {
-            node.edit();
+            node.toEdit();
         },
         '[data-action=delete]': function(node) {
-            node.delete();
+            node.toDelete();
         },
         '[data-action=create]': function(node) {
-            node.create();
+            node.toCreate();
         }
     }
 }">

@@ -1,4 +1,4 @@
-<table class="table table-striped">
+<table class="table table-striped services">
     <thead>
         <tr>
             <th>URL</th>
@@ -16,10 +16,14 @@
                 {{method}}
             </td>
             <td>
-                {{params | json}}
+                <pre>
+{{params | json}}
+                </pre>
             </td>
             <td>
-                {{response | json}}
+                <pre>
+{{response | json}}
+                </pre>
             </td>
         </tr>
     </tbody>
@@ -27,8 +31,6 @@
 
 <script>
 var _ = require('lodash');
-
-
 
 model = function() {
     this.setData({

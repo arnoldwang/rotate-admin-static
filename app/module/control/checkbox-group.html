@@ -1,0 +1,22 @@
+<!-- ko foreach: options -->
+<label class="checkbox-inline" style="margin-right: 10px">
+    <input type="checkbox" data-bind="checked: $parent.value, checkedValue: value, event: $parent.event, enable: $parent.editable ">{{text}}
+</label>
+<!-- /ko -->
+<script>
+    module.exports = [
+        function() {
+            this.event = {};
+            var self = this;
+            if (this.validator) {
+                this.event.click = function() {
+                    self.validator.validate();
+                    return true;
+                };
+            }
+        },
+        {
+            editable: true
+        }
+    ]
+</script>

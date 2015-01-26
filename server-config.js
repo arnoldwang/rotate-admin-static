@@ -1,33 +1,20 @@
 var _ = require('lodash');
 
 module.exports = {
+    "/rotate/data/territory/create": {
+        'method': 'post',
+        'params': {
+            territoryName: 111
+        },
+        response: "1"
+    },
+
     "/rotate/data/territory/tree": {
         "method": "get",
         "params": {
             "id": 1
         },
-        "response": 
-        // function() {
-        //     var deep = 3;
-        //     var childrenList = 3;
-
-        //     var createLevel = function(level) {
-        //         if (level === deep) {
-        //             return [];
-        //         }
-
-        //         return _.times(childrenList, function(i) {
-        //             return {
-        //                 id: level * deep + i,
-        //                 name: 'level=' + level + ',i=' + i,
-        //                 childrenList: createLevel(level + 1)
-        //             }
-        //         })
-        //     };
-
-        //     return createLevel(0);
-        // }
-        {
+        "response": {
             "territoryName": "点评",
             "childrenList": [
                 {
