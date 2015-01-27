@@ -19,6 +19,42 @@ module.exports = {
         }
     },
 
+    '/territory/all': {
+        response: [
+            {
+                "id": 8,
+                "bizId": 101,
+                "territoryName": "普通客户-上海",
+                "parentTerritoryId": 6
+            },
+            {
+                "id": 10,
+                "bizId": 101,
+                "territoryName": "宝山",
+                "parentTerritoryId": 8,
+                "childrenList": null
+            }, {
+                "id": 11,
+                "bizId": 101,
+                "territoryName": "崇明",
+                "parentTerritoryId": 8,
+                "childrenList": null
+            }, {
+                "id": 12,
+                "bizId": 101,
+                "territoryName": "环上海郊区一",
+                "parentTerritoryId": 8,
+                "childrenList": null
+            }, {
+                "id": 13,
+                "bizId": 101,
+                "territoryName": "环上海郊区二",
+                "parentTerritoryId": 8,
+                "childrenList": null
+            }
+        ]
+    },
+
     '/territory/:id': {
         method: 'delete',
         response: "11"

@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-bind="click: cancel" >×</button>
-                <h4>添加战区</h4>
+                <h4>添加战区11</h4>
             </div>
             <div class="modal-body">
                 <div class="form-horizontal">
@@ -56,12 +56,13 @@
             this.buildModules();
         },
         {
-
             reset: function() {
                 this.setData({
                     parentTerritoryId: null,
+                    parentTerritoryName: null,
                     territoryName: null,
                     chiefLeaderId: null,
+                    chiefLeaderName: null,
                     notOnlineMutGroupCountLimit: null,
                     notOnlineSingleGroupCountLimit: null
                 });
@@ -70,9 +71,8 @@
             buildValidators: function() {
                 this.validators = {
                     territoryName: new Validator(this.territoryName, [v.required]),
-                    parentTerritoryId: new Validator(this.parentTerritoryId, [v.required]),
-                    bizId: new Validator(this.bizId, [v.required])
-                }
+                    parentTerritoryId: new Validator(this.parentTerritoryId, [v.required])
+                };
             },
 
             buildModules: function() {
@@ -87,8 +87,9 @@
                     }),
 
                     parentTerritory: new FormGroup({
-                        content: new TextBox({
-                            value: this.parentTerritoryId
+                        content: new (require('module/control/territory-typeahead'))({
+                            value: this.parentTerritoryId,
+                            text: this.parentTerritoryName
                         }),
                         label: '父战区',
                         required: true,
@@ -96,15 +97,16 @@
                     }),
 
                     chiefLeaderId: new FormGroup({
-                        content: new TextBox({
-                            value: this.chiefLeaderId
+                        content: new (require('module/control/chiefLeader-typeahead'))({
+                            value: this.chiefLeaderId,
+                            text: this.chiefLeaderName
                         }),
                         label: '战区长官',
                         required: false
                     }),
 
                     notOnlineMutGroupCountLimit: new FormGroup({
-                        content: new NumberBox({
+                        content: new TextBox({
                             value: this.notOnlineMutGroupCountLimit.extend({
                                 ensureNumber: true
                             })
@@ -114,7 +116,7 @@
                     }),
 
                     notOnlineSingleGroupCountLimit: new FormGroup({
-                        content: new NumberBox({
+                        content: new TextBox({
                             value: this.notOnlineSingleGroupCountLimit.extend({
                                 ensureNumber: true
                             })

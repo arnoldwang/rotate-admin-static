@@ -1,0 +1,64 @@
+<input type="text" class="form-control"/>
+<script>
+var _ = require('lodash');
+var ko = require('knockout');
+
+var unwrapObservable = ko.utils.unwrapObservable;
+var typeaheadKey = "ttTypeahead";
+var $ = require('jquery');
+var Typeahead = $.fn.typeahead;
+
+model = [
+    function(o) {
+        _.extend(this, o);
+    },
+    {
+        placeholder: '',
+        displayKey: 'text',
+        strict: true,
+
+        afterRender: function(element) {
+            var self = this;
+            var $element = $(element);
+
+            $element.typeahead({
+                hint: true,
+                highlight: true,
+                autoselect: true
+            },
+            {
+                displayKey: this.displayKey,
+                source: this.source.bind(this)
+            });
+
+            // 单向绑定
+            ko.computed(function() {
+                $element.val(self.text());
+            });                
+
+            this.onSelect($element);
+            
+            if (this.strict) {
+                $element.bind('blur', function() {
+                    if ($element.val().length) {
+                        $element.val(self.text());
+                    }
+                    // clear selection
+                    else {
+                        self.value(null);
+                        self.text(null);
+                    }                
+                });
+            }              
+        },
+
+        onSelect:function($element){
+            var self = this;
+            $element.bind('typeahead:selected', function(e, item) {
+                self.value(item.value);
+                self.text(item.text)
+            })
+        }
+    }
+]
+</script>

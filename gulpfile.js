@@ -84,9 +84,10 @@ gulp.task('build-jquery-vendors', function() {
     // b.add('./vendor/datepicker/js/bootstrap-datetimepicker.js');
     // b.add('./vendor/datepicker/js/locales/bootstrap-datetimepicker.zh-CN.js');
     
-    b.add('./vendor/jquery.ui/jquery.ui.core.js');
-    b.add('./vendor/jquery.ui/jquery.ui.widget.js');
-    b.add('./vendor/fileupload/jquery.fileupload.js');
+    // b.add('./vendor/jquery.ui/jquery.ui.core.js');
+    // b.add('./vendor/jquery.ui/jquery.ui.widget.js');
+    // b.add('./vendor/fileupload/jquery.fileupload.js');
+    
     // b.add('./vendor/jquery.ui/jquery.ui.mouse.js');
     // b.add('./vendor/jquery.ui/jquery.ui.draggable.js');
     // b.add('./vendor/jquery.ui/jquery.ui.sortable.js');
@@ -95,7 +96,7 @@ gulp.task('build-jquery-vendors', function() {
     b.require('./vendor/toastr/toastr.js', {
         expose: 'toastr'
     });
-    // b.add('./vendor/typeahead.js/typeahead.bundle.js');
+    b.add('./vendor/typeahead.js/typeahead.bundle.js');
 
 
     return b.bundle()

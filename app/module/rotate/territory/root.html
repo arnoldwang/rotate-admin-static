@@ -94,7 +94,8 @@ model = [
                     this.modal({
                         target: require('./modal-create'),
                         data: {
-                            parentTerritoryId: data.id
+                            parentTerritoryId: data.id,
+                            parentTerritoryName: data.territoryName
                         },
                         confirm: callback
                     })
