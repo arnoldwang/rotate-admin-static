@@ -15,6 +15,8 @@ https://github.com/substack/node-browserify/issues/740
 修复的方法如下
 找到node_modules/browserify/index.js
 line 683 改成 
+
+
 ```
 
 if (self.files.indexOf(id) === -1 && !self._bundleExternal && id[0] !== '/' && id[0] !== '.') {
