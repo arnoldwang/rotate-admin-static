@@ -1,9 +1,43 @@
-<div>ancestor-rules</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        继承的规则
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>门店规则名称</th>
+                <th>最后更新时间</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: items">
+            <tr>
+                <td><a href="mailto:#">{{ruleName}}</a></td>
+                <td>{{updateTime}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
 <script>
     model = [
+        function () {
+            this.setData({
+                items: []
+            })
+        },
         {
-            onStateChange: function(query) {
-
+            onStateChange: function (query) {
+                this.fetch({
+                    url: '/territory/queryExtendsTerritoryRule',
+                    data: {
+                        territoryId: query.territoryId
+                    },
+                    success: function(items) {
+                        this.setData({
+                            items: items
+                        })
+                    }
+                });
             }
         }
     ]
