@@ -1,10 +1,37 @@
-<div>breadcrumb</div>
+<h3>
+    <!--ko if:parentTerritorys&&parentTerritorys().length-->
+    {{parentTerritorys()[parentTerritorys().length-1].territoryName}}
+    <!--/ko-->
+</h3>
+
+<ol class="breadcrumb" data-bind="foreach:parentTerritorys">
+    <!--ko if:$index==$parent.parentTerritorys.length-1-->
+   {{territoryName}}
+    <!--/ko-->
+    <!--ko ifnot:$index==$parent.length-1-->
+    <li><a href="/rotate/territory/detail?id={{id}}">{{territoryName}}</a></li>
+    <!--/ko-->
+</ol>
+
 <script>
+
     model = [
+         function(){
+             this.setData({
+                 parentTerritorys:[]
+             })
+         },
         {
             onStateChange: function(query) {
-
+                this.fetch({
+                    url: '/territory/queryTerritoryBreadCrumbs',
+                    data: {
+                        id:query.id
+                    },
+                    success: this.parentTerritorys
+                });
             }
+
         }
     ]
 </script>

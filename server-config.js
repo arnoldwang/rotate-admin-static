@@ -15,13 +15,47 @@ module.exports = {
             "id": 6,
             "bizId": 101,
             "territoryName": "交易平台-普通客户123",
-            "parentTerritoryId": 2,
+            "parentTerritoryId": 2
         }
     },
 
     '/territory/:id': {
         method: 'delete',
         response: "11"
+    },
+
+    '/territory/base-info':{
+        response:{
+            parentTerritoryId: 1,
+            territoryName: "adda",
+            chiefLeaderId: 1,
+            territoryChiefName:"adadad",
+            notOnlineMutGroupCountLimit: 12,
+            notOnlineSingleGroupCountLimit: 33
+        }
+    },
+
+    '/territory/queryTerritoryBreadCrumbs':{
+        response: [
+            {
+                "id": 6,
+                "bizId": 101,
+                "territoryName": "交易平台",
+                "parentTerritoryId": 2
+            },
+            {
+                "id": 7,
+                "bizId": 101,
+                "territoryName": "交易平台-普通客户123",
+                "parentTerritoryId": 2
+            },
+            {
+                "id": 8,
+                "bizId": 101,
+                "territoryName": "常州",
+                "parentTerritoryId": 2
+            }
+        ]
     },
 
     '/common/enums': {
