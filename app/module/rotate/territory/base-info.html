@@ -1,9 +1,73 @@
-<div>base-info</div>
+<div>
+    <div>
+        <a>区域信息</a>
+
+        <a>编辑</a>
+
+        <a>删除</a>
+    </div>
+
+    <div>
+
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">战区ID</label>
+
+                <div class="col-sm-10">
+                    <p class="form-control-static">{{territoryName}}</p>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">战区长官</label>
+
+                <div class="col-sm-10">
+                    <p class="form-control-static">{{territoryChiefName}}</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">单店上限</label>
+
+                <div class="col-sm-10">
+                    <p class="form-control-static">{{notOnlineSingleGroupCountLimit}}</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">连锁店上限</label>
+
+                <div class="col-sm-10">
+                    <p class="form-control-static">{{notOnlineMutGroupCountLimit}}</p>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</div>
 <script>
     model = [
+        function () {
+            this.setData({
+                parentTerritoryId: null,
+                territoryName: null,
+                chiefLeaderId: null,
+                territoryChiefName:null,
+                notOnlineMutGroupCountLimit: null,
+                notOnlineSingleGroupCountLimit: null
+            })
+        },
         {
-            onStateChange: function(query) {
-
+            onStateChange: function (query) {
+                this.fetch({
+                    url: '/territory/base-info',
+                    data: {
+                        id: query.id
+                    },
+                    success: this.setData
+                });
             }
         }
     ]
