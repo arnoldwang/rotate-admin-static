@@ -1,52 +1,57 @@
-<div>
-    <div>
-        <a>区域信息</a>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="clearfix">
+            <span class="pull-left">区域信息</span>
 
-        <a>编辑</a>
-
-        <a>删除</a>
+            <div class="pull-right">
+                <a class="marginRight5">编辑</a>
+                <a>删除</a>
+            </div>
+        </div>
     </div>
+    <div class="panel-body ">
+        <div>
 
-    <div>
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">战区ID</label>
 
-        <form class="form-horizontal" role="form">
-            <div class="form-group">
-                <label class="col-sm-2 control-label">战区ID</label>
-
-                <div class="col-sm-10">
-                    <p class="form-control-static">{{territoryName}}</p>
+                    <div class="col-sm-10">
+                        <p class="form-control-static">{{territoryName}}</p>
+                    </div>
                 </div>
-            </div>
 
 
-            <div class="form-group">
-                <label class="col-sm-2 control-label">战区长官</label>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">战区长官</label>
 
-                <div class="col-sm-10">
-                    <p class="form-control-static">{{territoryChiefName}}</p>
+                    <div class="col-sm-10">
+                        <p class="form-control-static">{{territoryChiefName}}</p>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label class="col-sm-2 control-label">单店上限</label>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">单店上限</label>
 
-                <div class="col-sm-10">
-                    <p class="form-control-static">{{notOnlineSingleGroupCountLimit}}</p>
+                    <div class="col-sm-10">
+                        <p class="form-control-static">{{notOnlineSingleGroupCountLimit}}</p>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label class="col-sm-2 control-label">连锁店上限</label>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">连锁店上限</label>
 
-                <div class="col-sm-10">
-                    <p class="form-control-static">{{notOnlineMutGroupCountLimit}}</p>
+                    <div class="col-sm-10">
+                        <p class="form-control-static">{{notOnlineMutGroupCountLimit}}</p>
+                    </div>
                 </div>
-            </div>
 
 
-        </form>
+            </form>
+        </div>
     </div>
 </div>
+
 <script>
     model = [
         function () {
@@ -54,7 +59,7 @@
                 parentTerritoryId: null,
                 territoryName: null,
                 chiefLeaderId: null,
-                territoryChiefName:null,
+                territoryChiefName: null,
                 notOnlineMutGroupCountLimit: null,
                 notOnlineSingleGroupCountLimit: null
             })
