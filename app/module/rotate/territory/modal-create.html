@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-bind="click: cancel" >×</button>
-                <h4>添加战区11</h4>
+                <h4>添加战区</h4>
             </div>
             <div class="modal-body">
                 <div class="form-horizontal">
@@ -79,21 +79,21 @@
                 this.modules = {
                     territoryName: new FormGroup({
                         content: new TextBox({
-                            value: this.territoryName
+                            value: this.territoryName,
+                            validator: this.validators.territoryName
                         }),
                         label: '战区名称',
-                        required: true,
-                        validator: this.validators.territoryName
+                        required: true
                     }),
 
                     parentTerritory: new FormGroup({
                         content: new (require('module/control/territory-typeahead'))({
                             value: this.parentTerritoryId,
-                            text: this.parentTerritoryName
+                            text: this.parentTerritoryName,
+                            validator: this.validators.parentTerritoryId
                         }),
                         label: '父战区',
-                        required: true,
-                        validator: this.validators.parentTerritoryId
+                        required: true
                     }),
 
                     chiefLeaderId: new FormGroup({

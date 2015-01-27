@@ -1,4 +1,4 @@
-<input type="text" class="form-control"/>
+<input type="text" class="form-control" data-bind="event: event"/>
 <script>
 var _ = require('lodash');
 var ko = require('knockout');
@@ -11,6 +11,15 @@ var Typeahead = $.fn.typeahead;
 model = [
     function(o) {
         _.extend(this, o);
+        this.event = {};
+        var self = this;
+        if (this.validator) {
+            this.event.blur = function() {
+                setTimeout(function() {
+                    self.validator.validate();
+                }, 200);                
+            };
+        }
     },
     {
         placeholder: '',
