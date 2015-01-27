@@ -1,0 +1,10 @@
+{
+    "id": 6,
+    "parentTerritoryId": 1,
+    "parentTerritoryName": "adadaaa",
+    "territoryName": "adda",
+    "chiefLeaderId": 1,
+    "chiefLeaderName": "adadad",
+    "notOnlineMutGroupCountLimit": 12,
+    "notOnlineSingleGroupCountLimit": 33
+}

@@ -142,7 +142,7 @@ model = [
                 },
                 function(data, callback) {
                     this.fetch({
-                        url: '/territory/' + data,
+                        url: '/territory/' + data.id,
                         method: 'delete',
                         success: function() {
                             callback(data);

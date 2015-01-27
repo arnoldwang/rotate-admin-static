@@ -1,0 +1,20 @@
+[
+    {
+        "id": 6,
+        "bizId": 101,
+        "territoryName": "交易平台",
+        "parentTerritoryId": 2
+    },
+    {
+        "id": 7,
+        "bizId": 101,
+        "territoryName": "交易平台-普通客户123",
+        "parentTerritoryId": 2
+    },
+    {
+        "id": 8,
+        "bizId": 101,
+        "territoryName": "常州",
+        "parentTerritoryId": 2
+    }
+]

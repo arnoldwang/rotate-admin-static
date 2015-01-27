@@ -50,6 +50,9 @@ $(document).delegate('a', 'click', function(e) {
     if(this.hasAttribute('external')){
        return;
     }
+    if(!this.href){
+        return
+    }
 
     state.setData(this.getAttribute('href', 2));
     return false;

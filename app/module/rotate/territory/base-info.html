@@ -4,8 +4,8 @@
             <span class="pull-left">区域信息</span>
 
             <div class="pull-right">
-                <a class="marginRight5">编辑</a>
-                <a>删除</a>
+                <a class="marginRight5" data-bind="click:edit">编辑</a>
+                <a data-bind="click:toDelete">删除</a>
             </div>
         </div>
     </div>
@@ -21,12 +21,20 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">父战区</label>
+
+                    <div class="col-sm-10">
+                        <p class="form-control-static">{{parentTerritoryName}}</p>
+                    </div>
+                </div>
+
 
                 <div class="form-group">
                     <label class="col-sm-2 control-label">战区长官</label>
 
                     <div class="col-sm-10">
-                        <p class="form-control-static">{{territoryChiefName}}</p>
+                        <p class="form-control-static">{{chiefLeaderName}}</p>
                     </div>
                 </div>
 
@@ -53,13 +61,16 @@
 </div>
 
 <script>
+    var notification = require('service/notification');
     model = [
         function () {
             this.setData({
+                id:null,
                 parentTerritoryId: null,
+                parentTerritoryName:null,
                 territoryName: null,
                 chiefLeaderId: null,
-                territoryChiefName: null,
+                chiefLeaderName: null,
                 notOnlineMutGroupCountLimit: null,
                 notOnlineSingleGroupCountLimit: null
             })
@@ -73,6 +84,40 @@
                     },
                     success: this.setData
                 });
+            },
+            toDelete: function() {
+                this.pipe([
+                    function(callback) {
+                        if (confirm('您确认要删除战区 [' + this.territoryName() + '] 吗？')) {
+                            callback()
+                        }
+                    },
+                    function(callback) {
+                        this.fetch({
+                            url: '/territory/' + this.id(),
+                            method: 'delete',
+                            success: function() {
+                                callback();
+                            }
+                        })
+                    },
+                    function() {
+                        notification.success('删除战区成功');
+                        app.state.setData({
+                            path: '/rotate/territory/hierarchy'
+                        })
+                    }
+                ])
+            },
+            edit:function(){
+
+                this.modal({
+                    target: require('./modal-edit'),
+                    data: {
+                        id: this.id()
+                    },
+                    confirm: this.onStateChange
+                })
             }
         }
     ]
