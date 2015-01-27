@@ -22,7 +22,7 @@ $.ajaxPrefilter(BUSINESS_DATA_TYPE, function(options) {
 $.ajaxPrefilter(BUSINESS_DATA_TYPE, function(options) {
     var method = options.method ? options.method.toLowerCase() : 'get';
     
-    if (typeof options.data === 'object' && method === 'post') {
+    if (typeof options.data === 'object' && (method === 'post' || method === 'put')) {
         options.contentType = 'application/json; charset=UTF-8';
         options.data = JSON.stringify(options.data);
         return;
