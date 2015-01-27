@@ -4,29 +4,27 @@
     </div>
     <table class="table table-bordered">
         <thead>
-        <tr>
-            <th>门店规则名称</th>
-            <th>最后更新时间</th>
-        </tr>
+            <tr>
+                <th>门店规则名称</th>
+                <th>最后更新时间</th>
+            </tr>
         </thead>
-        <tbody>
-        <tr>
-            <td><a href="mailto:#">{{ruleName}}</a></td>
-            <td>{{updateTime}}</td>
-        </tr>
+        <tbody data-bind="foreach: items">
+            <tr>
+                <td><a href="mailto:#">{{ruleName}}</a></td>
+                <td>{{updateTime}}</td>
+            </tr>
         </tbody>
     </table>
 
 </div>
 <script>
     model = [
-        this.setData({
-            id: 0,
-            rule: null,
-            ruleName: null,
-            territoryId: 0,
-            updateTime: null
-        }),
+        function () {
+            this.setData({
+                items: []
+            })
+        },
         {
             onStateChange: function (query) {
                 this.fetch({
@@ -34,7 +32,11 @@
                     data: {
                         territoryId: query.territoryId
                     },
-                    success: this.setData
+                    success: function(items) {
+                        this.setData({
+                            items: items
+                        })
+                    }
                 });
             }
         }
