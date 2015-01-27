@@ -1,1 +1,36 @@
-<div>11</div>
+<div>
+    <!-- ko module: modules.breadcrumb --><!-- /ko -->
+    <!-- ko module: modules.baseInfo --><!-- /ko -->
+    <!-- ko module: modules.ancestorRules --><!-- /ko -->
+</div>
+<script>
+    var _ = require('lodash');
+
+    model = [
+        function() {
+            this.reset();
+            this.buildModules();
+        },
+        {
+            reset: function() {
+                this.setData({
+                    id: null
+                })
+            },
+
+            buildModules: function() {
+                this.modules = {
+                    breadcrumb: new (require('./breadcrumb'))(),
+                    baseInfo: new (require('./base-info'))(),
+                    ancestorRules: new (require('./ancestor-rules'))()
+                }
+            },
+
+            onStateChange: function(query) {
+                _.forEach(this.modules, function(m) {
+                    m.onStateChange(query);
+                })
+            }
+        }
+    ]
+</script>
