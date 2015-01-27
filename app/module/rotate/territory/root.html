@@ -34,8 +34,6 @@
                 <div class="editable" data-bind="click: collapseAll">
                     全部折叠
                 </div>
-                <div class="seperator"></div>
-                <div class="editable" data-action="toCreate">添加子战区</div>
             </div>
         </div>
         <div class="children" data-bind="visible: __expand, foreach: children">
@@ -56,7 +54,7 @@ model = [
             this.pipe([
                 function(callback) {
                     this.fetch({
-                        url: '/rotate/data/territory/tree',
+                        url: '/territory/tree',
                         success: callback
                     });
                 },                
@@ -86,9 +84,6 @@ model = [
                     return true;
                 }
             });
-            if (!found) {
-                throw new Error('id为' + id + '的战区不存在')
-            }
             return found;
         },
 
@@ -101,15 +96,14 @@ model = [
                         data: {
                             parentTerritoryId: data.id
                         },
-                        confirm: function(o) {
-                            callback(o);
-                        }
+                        confirm: callback
                     })
                 },
                 // 提交新建
                 function(data, callback) {
-                    this.post({
-                        url: '/rotate/data/territory/create',
+                    this.fetch({
+                        method: 'post',
+                        url: '/territory',
                         data: data,
                         success: callback
                     })
@@ -117,10 +111,7 @@ model = [
                 // 获取新建的节点信息
                 function(id, callback) {
                     this.fetch({
-                        url: '/rotate/data/territory/base-info',
-                        data: {
-                            territoryId: id
-                        },
+                        url: '/territory/' + id + '/base-info',
                         success: callback
                     });
                 },
@@ -132,24 +123,58 @@ model = [
             ], node.getData())            
         },
 
-        toEdit: function() {
-            console.log('edit');
+        toEdit: function(node) {
+            app.state.setData({
+                path: '/rotate/territory/detail',
+                query: {
+                    id: node.id()
+                }
+            })
         },
 
-        toDelete: function() {
-            console.log('delete');
+        toDelete: function(node) {
+            this.pipe([
+                function(data) {
+                    if (confirm('您确认要删除战区 [' + data.territoryName + '] 吗？')) {
+                        return data
+                    }
+                },
+                function(data, callback) {
+                    this.fetch({
+                        url: '/territory/' + data,
+                        method: 'delete',
+                        success: function() {
+                            callback(data);
+                        }
+                    })
+                },
+                function(data) {
+                    this.deleteNode(data);
+                    notification.success('删除战区成功');
+                }
+            ], node.getData())            
         },
 
         addNode: function(nodeData) {
-            var node;
-            try {
-                node = this.findNode(nodeData.parentTerritoryId);            
-            } catch (e) {
-                notification.error(e.message);
+            var node = this.findNode(nodeData.parentTerritoryId);            
+            if (!node) {                
+                notification.error('插入子战区失败，id为' + nodeData.parentTerritoryId + '的父战区不存在');
+                return;
             }
-            
             node.children.push(node.createChildNode(nodeData));
             node.expand();
+        },
+
+        deleteNode: function(nodeData) {
+            var node = this.findNode(nodeData.parentTerritoryId);            
+            if (!node) {                
+                notification.error('删除子战区失败，id为' + nodeData.parentTerritoryId + '的父战区不存在');
+                return;
+            }
+            var id = nodeData.id;
+            node.children.remove(function(child) {
+                return child.id() === id;
+            });
         }
     }
 ]

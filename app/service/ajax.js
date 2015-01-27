@@ -14,24 +14,20 @@ var BUSINESS_DATA_TYPE = 'json code-message';
 //         options.url = '/' + ENV.path + '/' + options.url;
 //     });
 // }
+$.ajaxPrefilter(BUSINESS_DATA_TYPE, function(options) {
+    options.url = ENV.ajaxPrefix + options.url;
+});
 
 // evaluate data
 $.ajaxPrefilter(BUSINESS_DATA_TYPE, function(options) {
-    if (typeof options.data === 'string') {
+    var method = options.method ? options.method.toLowerCase() : 'get';
+    
+    if (typeof options.data === 'object' && method === 'post') {
         options.contentType = 'application/json; charset=UTF-8';
+        options.data = JSON.stringify(options.data);
         return;
     }
 
-    if (typeof options.data === 'function') {
-        options.data = options.data.call(options.context);
-    }
-
-    // 若有嵌套对象，则用json序列化
-    _.forEach(options.data, function(value, key) {
-        if (typeof value === 'object') {
-            options.data[key] = JSON.stringify(value);
-        }
-    })
 
     if (options.data &&!(options.data instanceof FormData)) {
         options.data = $.param(options.data);
@@ -46,26 +42,6 @@ $.ajaxSettings.converters[BUSINESS_DATA_TYPE] = function(json) {
     // }
 
     // throw json.msg;
-};
-
-var urlDelayMapping = {
-    'shop/importShop': 4000,
-    'shop/releaseShop': 4000
-};
-var addMockDelay = function(options) {
-    var delay = urlDelayMapping[options.url] || 300;
-    ['success', 'error', 'complete'].forEach(function(name) {
-        var old = options[name];
-        if (old) {
-            options[name] = function() {
-                var args = arguments;
-                var self = this;
-                setTimeout(function() {
-                    old.apply(self, args);
-                }, delay);
-            }
-        }
-    });
 };
 
 var options0 = {
@@ -88,10 +64,6 @@ module.exports = function(options1) {
     finalOptions.success = function(o) {
         success.call(this, o);
     };
-
-    if (ENV.mock) {
-        addMockDelay(finalOptions);
-    }
 
     return $.ajax(finalOptions);
 };

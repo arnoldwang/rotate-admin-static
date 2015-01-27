@@ -5,17 +5,18 @@ var _ = require('lodash');
 var pathUtil = require('path');
 var port = 3000;
 
+var ajaxPrefix = '/rotate/data'
 var services = require('./server-config.js');
 _.forEach(services, function(config, path) {
     if (!config.status) {
         config.status = 200;
     }
-    app[config.method || 'get'](path, function(req, res) {
+    app[config.method || 'get'](ajaxPrefix + path, function(req, res) {
         res.status(config.status).send(typeof config.response === 'function' ? config.response(req, res) : config.response);
     })
 });
 
-app.get('/data/services', function(req, res) {
+app.get(ajaxPrefix + '/services', function(req, res) {
     res.status(200).send(services);
 })
 

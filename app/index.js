@@ -9,7 +9,15 @@ require('./setup-knockout');
 var page = new Page();
 var state = new State.Location();
 
+var titles = {
+    '/rotate/territory/hierarchy': '战区层次结构'
+};
+
 state.onChange(function(data) {
+    if (titles[data.path]) {
+        document.title = titles[data.path];
+    }
+
     page.activate(data.path, function(module) {
         if (module.onStateChange) {
             module.onStateChange(data.query);
@@ -30,6 +38,10 @@ window.vm = function(mixins, html) {
     }
     return vm;
 };
+
+window.app = {
+    state: state
+}
 
 // redirect by state
 var $ = require('jquery');
@@ -53,7 +65,19 @@ ajax.error = function(jqXHR, statusText, error ) {
 };
 
 // start app
-state.start();
-page.render(document.body);
+ajax({
+    url: '/common/enums',
+    success: function(enums) {
+        window.enums = enums;
+        startApp();
+    }
+})
+
+var startApp = function() {    
+    state.start();
+    page.render(document.body);
+};
+
+
 
 

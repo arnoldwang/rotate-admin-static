@@ -9,8 +9,10 @@
 ">
 </select>
 <script>
-    module.exports = [
-        function() {
+    var _ = require('lodash');
+    model = [
+        function(o) {
+            _.extend(this, o);
             this.event = {};
             var self = this;
             if (this.validator) {

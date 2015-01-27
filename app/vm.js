@@ -19,15 +19,6 @@ module.exports = mixin([
             return kom.toJS(this); 
         },
 
-        getAppState: function() {
-            return state.getData();
-        },
-
-        setAppState: function(data) {
-            state.setData(data);
-            return this;
-        },
-
         modal: function(options) {
             modal(_.extend({
                 context: this
@@ -37,16 +28,6 @@ module.exports = mixin([
         fetch: function(options) {
             ajax(_.extend({
                 context: this
-            }, options));
-        },
-
-        post: function(options) {
-            options.data = JSON.stringify(options.data)
-
-            ajax(_.extend({
-                context: this,
-                method: 'post',
-                contentType: 'application/json'
             }, options));
         },
 

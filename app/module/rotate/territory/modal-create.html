@@ -43,6 +43,7 @@
     var FormGroup = require('module/control/form-group');
     var TextBox = require('module/control/text-box');
     var NumberBox = require('module/control/number-box');
+    var Select = require('module/control/select');
 
     // validator
     var Validator = require('service/validator');
@@ -63,13 +64,14 @@
                     chiefLeaderId: null,
                     notOnlineMutGroupCountLimit: null,
                     notOnlineSingleGroupCountLimit: null
-                })
+                });
             },
 
             buildValidators: function() {
                 this.validators = {
                     territoryName: new Validator(this.territoryName, [v.required]),
-                    parentTerritoryId: new Validator(this.parentTerritoryId, [v.required])
+                    parentTerritoryId: new Validator(this.parentTerritoryId, [v.required]),
+                    bizId: new Validator(this.bizId, [v.required])
                 }
             },
 
