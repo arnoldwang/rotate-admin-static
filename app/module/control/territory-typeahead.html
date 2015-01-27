@@ -1,0 +1,28 @@
+<script>
+var ko = require('knockout');
+var ajax = require('service/ajax');
+
+var territories;
+ajax({
+    url: '/territory/all',
+    success: function(items) {
+        territories = items.map(function(item) {
+            return {
+                value: item.id,
+                text: item.territoryName
+            }
+        })
+    }
+})
+
+model = [
+    require('./abstract-typeahead'),
+    {
+        source: function(keyword, callback) {
+            callback(territories.filter(function(item) {
+                return item.text.indexOf(keyword) !== -1
+            }));
+        }
+    }
+]
+</script>

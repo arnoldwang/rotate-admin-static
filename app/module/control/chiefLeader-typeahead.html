@@ -1,0 +1,25 @@
+<script>
+var ko = require('knockout');
+
+model = [
+    require('./abstract-typeahead'),
+    {
+        source: function(keyword, callback) {
+            this.fetch({
+                url: '/common/searchUser',
+                data: {
+                    userName: keyword
+                },
+                success: function(items) {
+                    callback(items.map(function(item) {
+                        return {
+                            value: item.loginId,
+                            text: item.realName + '(' + item.departmentName + ')'
+                        }
+                    }))
+                }
+            });
+        }
+    }
+]
+</script>
