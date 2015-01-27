@@ -64,7 +64,8 @@
                     chiefLeaderId: null,
                     chiefLeaderName: null,
                     notOnlineMutGroupCountLimit: null,
-                    notOnlineSingleGroupCountLimit: null
+                    notOnlineSingleGroupCountLimit: null,
+                    id:null
                 });
             },
 
@@ -144,12 +145,15 @@
             },
 
             confirm: function() {
-
+                var self = this;
                 if (this.validate()) {
                     this.fetch({
                         url: '/territory/updateTerritory',
                         data: this.getData(),
-                        success:  this.callback
+                        success: function(msg){
+                            notification.success("修改成功");
+                            self.callback(self.id())
+                        }
                     });
                 }
                 else {
