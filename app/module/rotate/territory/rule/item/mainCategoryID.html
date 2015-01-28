@@ -1,5 +1,5 @@
 <!--ko foreach:items-->
-<select class="form-control" data-bind="
+<select class="form-control" style="width: auto;display: inline-block" data-bind="
     options: categoryId.categoryEnum,
     optionsCaption: '全部',
     optionsText: 'text',
@@ -81,8 +81,8 @@
                 var items = this.items()
                 var index = items.indexOf(data)
                 this.items.splice(index+1);
-                if(items.categoryId())
-                    this.getChildrenCategoryListByCategoryId(items.categoryId())
+                if(data.categoryId())
+                    this.getChildrenCategoryListByCategoryId(data.categoryId())
             }
         }
     ]

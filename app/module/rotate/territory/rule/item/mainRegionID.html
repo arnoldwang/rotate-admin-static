@@ -1,6 +1,12 @@
-<!-- ko module: cityModule--><!-- /ko -->
-<!-- ko module: regionModule--><!-- /ko -->
-<!-- ko module: mainRegionModule--><!-- /ko -->
+<div style="width: auto;display: inline-block">
+    <!-- ko module: cityModule--><!-- /ko -->
+</div>
+<div style="width: auto;display: inline-block">
+    <!-- ko module: regionModule--><!-- /ko -->
+</div>
+<div style="width: auto;display: inline-block">
+    <!-- ko module: mainRegionModule--><!-- /ko -->
+</div>
 <script>
 
     var ko = require('knockout');
@@ -13,8 +19,8 @@
                 cityName: null,
                 districtId: null,
                 districtName: null,
-                mainRegionId:null,
-                mainRegionName:null
+                mainRegionId: null,
+                mainRegionName: null
             })
             this.setData(data);
             this.cityModule = new Typeahead({
