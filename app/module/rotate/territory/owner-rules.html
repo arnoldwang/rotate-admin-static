@@ -4,7 +4,7 @@
             <span class="pull-left"> 本战区自定义规则</span>
 
             <div class="pull-right">
-                <a href="#" class="marginRight5" data-bind="click:edit">添加规则</a>
+                <a href="#" class="marginRight5" data-bind="click:toRule">添加规则</a>
             </div>
         </div>
     </div>
@@ -19,14 +19,18 @@
         </thead>
         <tbody data-bind="foreach: items">
             <tr>
-                <td><a href="#" data-bind="click:$parent.showTips">{{ruleName}}</a></td>
+                <td>
+                    <a href="#" data-bind="click:function(){
+                            $parent.showTips($data);
+                        }">{{ruleName}}</a>
+                </td>
                 <td>{{updateTime}}</td>
                 <td>
                     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                 </td>
                 <td>
-                    <a class="marginRight5" href="#">编辑</a>
-                    <a class="marginRight5" href="#">删除</a>
+                    <a class="marginRight5" href="#" >编辑</a>
+                    <a class="marginRight5" href="#" >删除</a>
                 </td>
             </tr>
         </tbody>
@@ -35,6 +39,7 @@
 
 
 <script>
+    var moment = require("moment");
     model = [
         function () {
             this.setData({
@@ -46,25 +51,31 @@
                 this.fetch({
                     url: '/territory/queryOwnerTerritoryRule',
                     data: {
-                        territoryId: query.territoryId
+                        territoryId: query.id
                     },
-                    success: function (items) {
+                    success: function (item) {
+                        item.forEach(function(item){
+                            item.updateTime = moment(item.updateTime).format('YYYY-MM-DD HH:mm:ss') ;
+                        })
                         this.setData({
-                            items: items
+                            items: item
                         })
                     }
                 });
             },
-            showTips: function () {
+            showTips: function (data) {
                 this.modal({
                     target: require('./modal-rule-tips'),
                     data: {
-                        id: this.territoryId()
+                        territoryId:data.territoryId()
                     },
                     confirm: function () {
                         this.onStateChange;
                     }
                 })
+            },
+            toRule:function(){
+                alert("to rule!");
             }
         }
     ]

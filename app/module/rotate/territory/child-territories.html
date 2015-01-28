@@ -1,0 +1,59 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="clearfix">
+            <span class="pull-left">子站区</span>
+            <div class="pull-right">
+                <a href="#" class="marginRight5" data-bind="click:function(){
+                    toTerritory(0);
+                }">添加子站区</a>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body ">
+        <ul  class="list-inline">
+            <!-- ko if: items()&&items().length -->
+                <li data-bind="foreach:items">
+                    <a href="#" class="marginRight5" data-bind="click: function(){
+                         $parent.toTerritory($data);
+                     }">{{territoryName}}</a>
+                </li>
+            <!-- /ko -->
+
+            <!-- ko ifnot: items()&&items().length -->
+                暂无子站区
+            <!-- /ko -->
+        </ul>
+    </div>
+</div>
+
+<script>
+    model = [
+        function () {
+            this.setData({
+                items: []
+            })
+        },
+        {
+            onStateChange: function (query) {
+                this.fetch({
+                    url: '/territory/queryChildTerritoriesByTerritoryId',
+                    data: {
+                        territoryId: query.id
+                    },
+                    success: function (items) {
+                        this.setData({
+                            items: items
+                        })
+                    }
+                });
+            },
+            toTerritory:function(data){
+                if(typeof data == "number"){
+                    alert("add new territory");
+                }else{
+                    alert(data.id());
+                }
+            }
+        }
+    ]
+</script>

@@ -32,9 +32,7 @@
             onOpen: function (data, callback) {
                 this.fetch({
                     url: '/territory/queryTerritoryRuleTips',
-                    data: {
-                        id: data.territoryId
-                    },
+                    data: data,
                     success: this.setData
                 });
                 this.callback = callback;

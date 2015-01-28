@@ -11,7 +11,12 @@
         </thead>
         <tbody data-bind="foreach: items">
             <tr>
-                <td><a href="#" class="marginRight5" data-bind="click:$parent.showTips">{{ruleName}}</a>
+                <td>
+                    <a href="#" class="marginRight5" data-bind="click:function(){
+                                $parent.showTips($data);
+                            }">
+                        {{ruleName}}
+                    </a>
                 </td>
                 <td>{{updateTime}}</td>
             </tr>
@@ -20,6 +25,7 @@
 
 </div>
 <script>
+    var moment = require("moment");
     model = [
         function () {
             this.setData({
@@ -31,22 +37,25 @@
                 this.fetch({
                     url: '/territory/queryExtendsTerritoryRule',
                     data: {
-                        territoryId: query.territoryId
+                        territoryId: query.id
                     },
-                    success: function(items) {
+                    success: function (items) {
+                        items.forEach(function(item){
+                            item.updateTime = moment(item.updateTime).format('YYYY-MM-DD HH:mm:ss') ;
+                        })
                         this.setData({
                             items: items
                         })
                     }
                 });
             },
-            showTips:function() {
+            showTips: function (data) {
                 this.modal({
                     target: require('./modal-rule-tips'),
                     data: {
-
+                        territoryId:data.territoryId()
                     },
-                    confirm: function() {
+                    confirm: function () {
                         this.onStateChange;
                     }
                 })
