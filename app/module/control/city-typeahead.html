@@ -1,0 +1,31 @@
+<script>
+    var ko = require('knockout');
+    var ajax = require('service/ajax');
+
+
+    model = [
+        require('./abstract-typeahead'),
+        {
+            source: function (keyword, callback) {
+                this.fetch({
+                    url:"/common/fuzzySearchCitiesByName",
+                    data: function () {
+                        return { cityName: keyword}
+                    },
+                    success: function(data){
+                        if(data&&data.length){
+                            callback(data.map(function(item){
+                                return {
+                                    text:item.cityName,
+                                    value:item.cityId
+                                }
+                            }))
+                        }else{
+                            callback([])
+                        }
+                    }
+                });
+            }
+        }
+    ]
+</script>

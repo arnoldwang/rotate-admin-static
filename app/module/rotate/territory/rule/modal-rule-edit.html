@@ -23,34 +23,13 @@
                                 </tr>
                                 </thead>
                                 <tbody data-bind="foreach:items">
-                                <tr>
-                                    <td>{{$index()+1}}</td>
-                                    <td>
-                                        <select class="form-control" data-bind="
-                                    options: window.enums.territoryRuleProperty,
-                                    optionsText: 'text',
-                                    optionsValue: 'value',
-                                    value: field
-                                ">
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="form-control" data-bind="
-                                    options: window.enums.ruleType,
-                                    optionsText: 'text',
-                                    optionsValue: 'value',
-                                    value: type
-                                ">
-                                        </select>
-                                    </td>
-                                    <td>@mdo</td>
-                                    <td>@mdo</td>
-                                </tr>
-
+                                    <!--ko module:$data --><!--/ko-->
                                 </tbody>
                             </table>
 
-
+                            <button class="btn btn-default" data-bind="click:function(){items.push(createRuleItem())}">
+                                添加规则
+                            </button>
                         </div>
                     </div>
 
@@ -84,8 +63,11 @@
     var Validator = require('service/validator');
     var v = require('service/validate-handlers');
 
+    var ItemModel = require('./item/item-model')
+
     model = [
         function () {
+            this.items = ko.observableArray();
             this.reset();
             this.buildValidators();
             this.buildModules();
@@ -97,14 +79,9 @@
                     id: null,
                     rule: null,
                     ruleName: null,
-                    territoryId: null,
-                    items: [
-                        {
-                            type: 1,
-                            field: "type"
-                        }
-                    ]
+                    territoryId: null
                 });
+                this.items([]);
             },
 
             buildValidators: function () {
@@ -126,7 +103,33 @@
 
             onOpen: function (data, callback) {
                 this.reset();
-
+                var a = {
+                    id: 1,
+                    rule: "1",
+                    ruleName: "123",
+                    territoryId: 1,
+                    items:[
+                        {
+                            "field":"type",
+                            "type":1,
+                            "value":[1]
+                        },
+                        {
+                            "field":"cityID",
+                            "type":1,
+                            "value":[{
+                                cityId:1,
+                                cityName:"上海"
+                            }]
+                        }
+                    ]
+                }
+                this.setData(a);
+                this.items(a.items.map(function(item){
+                    var model = new ItemModel()
+                    model.setData(item);
+                    return model;
+                }))
                 this.callback = callback;
             },
 
@@ -148,6 +151,10 @@
                     }
                 });
                 return isValid;
+            },
+            createRuleItem:function(){
+                var model = new ItemModel()
+                return model;
             }
         }
     ]

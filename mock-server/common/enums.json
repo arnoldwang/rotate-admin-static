@@ -403,6 +403,16 @@
             "value": 106
         }
     ],
+    "apolloShopType":[
+        {
+            "text": "大客户",
+            "value": 1
+        },
+        {
+            "text": "普通客户",
+            "value": 0
+        }
+    ],
     "territoryRuleProperty": [
         {
             "text": "行政区",

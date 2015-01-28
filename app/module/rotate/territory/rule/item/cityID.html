@@ -5,6 +5,10 @@
     var Typeahead = require('module/control/city-typeahead');
     model = [
         function (data) {
+            this.setData({
+                cityId:null,
+                cityName:null
+            })
             this.setData(data);
             this.module  = new Typeahead({
                 value:this.cityId,
