@@ -65,7 +65,13 @@ module.exports = function(options1) {
         success.call(this, o);
     };
 
-    return $.ajax(finalOptions);
+    if(ENV.mock){
+        setTimeout(function(){
+            $.ajax(finalOptions)
+        },200)
+    }else{
+        return $.ajax(finalOptions);
+    }
 };
 
 module.exports.error = function(jqXHR, statusText, error ) {
