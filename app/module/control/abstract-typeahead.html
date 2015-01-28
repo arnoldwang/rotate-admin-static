@@ -42,7 +42,7 @@ model = [
 
             // 单向绑定
             ko.computed(function() {
-                $element.val(self.text());
+                $element.typeahead('val', self.text());
             });                
 
             this.onSelect($element);
