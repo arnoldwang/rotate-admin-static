@@ -1,24 +1,39 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        继承的规则
+        <div class="clearfix">
+            <span class="pull-left"> 本战区自定义规则</span>
+
+            <div class="pull-right">
+                <a href="#" class="marginRight5" data-bind="click:edit">添加规则</a>
+            </div>
+        </div>
     </div>
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>门店规则名称</th>
+                <th>规则名称</th>
                 <th>最后更新时间</th>
+                <th>启用</th>
+                <th>操作</th>
             </tr>
         </thead>
         <tbody data-bind="foreach: items">
             <tr>
-                <td><a href="#" class="marginRight5" data-bind="click:$parent.showTips">{{ruleName}}</a>
-                </td>
+                <td><a href="#" data-bind="click:$parent.showTips">{{ruleName}}</a></td>
                 <td>{{updateTime}}</td>
+                <td>
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                </td>
+                <td>
+                    <a class="marginRight5" href="#">编辑</a>
+                    <a class="marginRight5" href="#">删除</a>
+                </td>
             </tr>
         </tbody>
     </table>
-
 </div>
+
+
 <script>
     model = [
         function () {
@@ -29,28 +44,28 @@
         {
             onStateChange: function (query) {
                 this.fetch({
-                    url: '/territory/queryExtendsTerritoryRule',
+                    url: '/territory/queryOwnerTerritoryRule',
                     data: {
                         territoryId: query.territoryId
                     },
-                    success: function(items) {
+                    success: function (items) {
                         this.setData({
                             items: items
                         })
                     }
                 });
             },
-            showTips:function() {
+            showTips: function () {
                 this.modal({
                     target: require('./modal-rule-tips'),
                     data: {
-
+                        id: this.territoryId()
                     },
-                    confirm: function() {
+                    confirm: function () {
                         this.onStateChange;
                     }
                 })
             }
-        },
+        }
     ]
 </script>

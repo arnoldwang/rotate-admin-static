@@ -1779,4 +1779,4 @@
             return this;
         };
     })();
-})(require('jquery'));
+})(jQuery);
