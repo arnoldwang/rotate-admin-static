@@ -1,5 +1,6 @@
 <!-- ko module: cityModule--><!-- /ko -->
 <!-- ko module: regionModule--><!-- /ko -->
+<!-- ko module: mainRegionModule--><!-- /ko -->
 <script>
 
     var ko = require('knockout');
@@ -11,7 +12,9 @@
                 cityId: null,
                 cityName: null,
                 districtId: null,
-                districtName: null
+                districtName: null,
+                mainRegionId:null,
+                mainRegionName:null
             })
             this.setData(data);
             this.cityModule = new Typeahead({
@@ -21,10 +24,14 @@
 
 
             this.regionEnum = ko.observableArray();
-
+            this.mainRegionEnum = ko.observableArray();
             this.regionModule = new Select({
                 options: this.regionEnum,
                 value: this.districtId
+            });
+            this.mainRegionModule = new Select({
+                options: this.mainRegionEnum,
+                value: this.mainRegionId
             });
 
             if (data) {
@@ -32,6 +39,13 @@
                     {
                         text: data.districtName,
                         value: data.districtId
+                    }
+                ]);
+
+                this.mainRegionEnum([
+                    {
+                        text: data.mainRegionName,
+                        value: data.mainRegionId
                     }
                 ]);
             }
@@ -43,6 +57,15 @@
                 } else {
                     this.regionEnum([])
                 }
+            }, this);
+
+            ko.computed(function () {
+                var districtId = this.districtId();
+                if (districtId) {
+                    this.getMainRegionList(districtId)
+                } else {
+                    this.mainRegionEnum([])
+                }
             }, this)
         }, {
             getRegionList: function (cityId) {
@@ -53,6 +76,22 @@
                     },
                     success: function (data) {
                         this.regionEnum(data.map(function (item) {
+                            return {
+                                text: item.regionName,
+                                value: item.regionId
+                            }
+                        }))
+                    }
+                });
+            },
+            getMainRegionList: function (districtId) {
+                this.fetch({
+                    url: "/common/getMainRegionListByRegionId",
+                    data: function () {
+                        return { districtId: districtId}
+                    },
+                    success: function (data) {
+                        this.mainRegionEnum(data.map(function (item) {
                             return {
                                 text: item.regionName,
                                 value: item.regionId

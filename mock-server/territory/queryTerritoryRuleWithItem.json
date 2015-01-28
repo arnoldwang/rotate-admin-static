@@ -1,0 +1,48 @@
+{
+    "id": 1,
+    "rule": "1",
+    "ruleName": "123",
+    "territoryId": 1,
+    "items": [
+        {
+            "field": "type",
+            "type": 1,
+            "value": [1]
+        },
+        {
+            "field": "cityID",
+            "type": 1,
+            "value": [
+                {
+                    "cityId": 1,
+                    "cityName": "上海"
+                }
+            ]
+        },
+        {
+            "field": "district",
+            "type": 1,
+            "value": [
+                {
+                    "districtId": 1,
+                    "districtName": "上海",
+                    "cityId": 1,
+                    "cityName": "上海"
+                }
+            ]
+        },
+        {
+            "field": "mainRegionID",
+            "type": 1,
+            "value": [
+                {
+                    "districtId": 1,
+                    "districtName": "上海",
+                    "cityId": 1,
+                    "cityName": "上海",
+                    "mainRegionId":1,
+                    "mainRegionName":"上海1"
+                }
+            ]
+        }
+    ]}
