@@ -1,0 +1,145 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        修改战区
+    </div>
+
+    <div class="panel-body">
+        <div class="form-horizontal">
+
+            <!-- ko module: modules.ruleName --><!-- /ko -->
+            <div class="form-group">
+                <label class="col-sm-2 control-label">规则条件</label>
+                <div class="col-sm-10">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>字段</th>
+                            <th>运算符</th>
+                            <th>值</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody data-bind="foreach:items">
+                        <!--ko module:$data --><!--/ko-->
+                        </tbody>
+                    </table>
+
+                    <button class="btn btn-default" data-bind="click:function(){items.push(createRuleItem())}">
+                        添加规则
+                    </button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="panel-footer pull-right">
+        <button type="button" class="btn btn-default" data-bind="click: cancel">取消</button>
+        <button type="button" class="btn btn-primary" data-bind="click: confirm">完成</button>
+    </div>
+
+</div>
+
+
+<script>
+    var _ = require('lodash');
+    var ko = require('knockout');
+    var kom = require('knockout.mapping');
+    var notification = require('service/notification');
+
+    // control
+    var FormGroup = require('module/control/form-group');
+    var TextBox = require('module/control/text-box');
+    var Static = require('module/control/static');
+    var NumberBox = require('module/control/number-box');
+    var Select = require('module/control/select');
+
+    // validator
+    var Validator = require('service/validator');
+    var v = require('service/validate-handlers');
+
+    var ItemModel = require('./item/item-model')
+
+    model = [
+        function () {
+            this.items = ko.observableArray();
+            this.reset();
+            this.buildValidators();
+            this.buildModules();
+        },
+        {
+            reset: function () {
+
+                this.setData({
+                    id: null,
+                    rule: null,
+                    ruleName: null,
+                    territoryId: null
+                });
+                this.items([]);
+            },
+
+            buildValidators: function () {
+                this.validators = {
+                };
+            },
+
+            buildModules: function () {
+                this.modules = {
+                    ruleName: new FormGroup({
+                        content: new Static({
+                            text: this.ruleName
+                        }),
+                        label: '规则名称'
+                    })
+
+                }
+            },
+
+            onStateChange: function (query) {
+                this.reset();
+                this.fetch({
+                    url: "/territory/queryTerritoryRuleWithItem",
+                    data: function () {
+                        return query
+                    },
+                    success: function (data) {
+                        this.setData(data);
+                        this.items(data.items.map(function(item){
+                            var model = new ItemModel()
+                            model.setData(item);
+                            return model;
+                        }))
+                    }
+                });
+
+            },
+
+            cancel: function () {
+                this.callback();
+            },
+
+            confirm: function () {
+                var self = this;
+
+            },
+
+            validate: function () {
+                var isValid = true;
+                _.forEach(this.validators, function (v) {
+                    v.validate();
+                    if (!v.isValid()) {
+                        isValid = false;
+                    }
+                });
+                return isValid;
+            },
+            createRuleItem:function(){
+                var model = new ItemModel()
+                return model;
+            }
+        }
+    ]
+</script>
