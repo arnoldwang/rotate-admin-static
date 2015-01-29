@@ -31,13 +31,11 @@
 
     var highlightActiveNavs = function(children, path) {
         children.forEach(function(child) {
-
             if (path.indexOf(child.path) === -1) {
                 child.active(false);
             }
             else {
                 child.active(true);
-                document.title = child.text;
             }
 
             if (child.children) {
@@ -46,25 +44,26 @@
         })
     };
 
-
     model = mixin(
         function() {
-            highlightActiveNavs(this.navs, '/' + this.__path);
-        },
-        {
-            navs: [
+
+            this.navs = [
                 {
                     text: '战区层次设置',
-                    path: '/rotate/territory/hierarchy'
+                    path: '/rotate/territory',
+                    external: false
                 },
                 {
                     text: '小组管理',
-                    path: '/rotate/team/list'
+                    path: '/rotate/team',
+                    external: false
                 }
             ].map(function(o) {
                 o.active = ko.observable(false);
                 return o;
-            })
+            });
+
+            highlightActiveNavs(this.navs, '/' + this.__path);
         }
     )
 </script>

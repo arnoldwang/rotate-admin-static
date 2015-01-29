@@ -9,13 +9,25 @@ require('./setup-knockout');
 var page = new Page();
 var state = new State.Location();
 
-var titles = {
-    '/rotate/territory/hierarchy': '战区层次结构'
+var redirects = {
+    '/': '/rotate',
+
+    '/rotate': '/rotate/territory',
+    '/rotate/territory': '/rotate/territory/hierarchy',
+
+    '/rotate/team': '/rotate/team/list'
 };
 
 state.onChange(function(data) {
-    if (titles[data.path]) {
-        document.title = titles[data.path];
+    // replace tail slash
+    var path = data.path.replace(/\/$/, '');
+
+    if (redirects[path]) {
+        state.replaceData({
+            path: redirects[path],
+            query: data.query
+        });
+        return;
     }
 
     page.activate(data.path, function(module) {
