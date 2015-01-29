@@ -20,7 +20,7 @@
         <tbody data-bind="foreach: items">
             <tr>
                 <td>
-                    <a href="#" data-bind="click:function(){
+                    <a class="cursorPointer" data-bind="click:function(){
                             $parent.showTips($data);
                         }">{{ruleName}}</a>
                 </td>
@@ -29,8 +29,8 @@
                     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                 </td>
                 <td>
-                    <a class="marginRight5" href="/rotate/territory/rule/rule-edit?territoryId={{territoryId}}" >编辑</a>
-                    <a class="marginRight5" data-bind="click:function(){$parent.deleteRule(territoryId)}" >删除</a>
+                    <a class="marginRight5 cursorPointer" href="/rotate/territory/rule/rule-edit?territoryId={{territoryId}}" >编辑</a>
+                    <a class="marginRight5 cursorPointer" data-bind="click:function(){$parent.deleteRule(territoryId)}" >删除</a>
                 </td>
             </tr>
         </tbody>

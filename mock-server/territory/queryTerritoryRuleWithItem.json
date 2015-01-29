@@ -7,7 +7,7 @@
         {
             "field": "type",
             "type": 1,
-            "value": [1]
+            "value": [{"id":1}]
         },
         {
             "field": "cityID",
