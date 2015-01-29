@@ -3,9 +3,7 @@
         <div class="clearfix">
             <span class="pull-left">子站区</span>
             <div class="pull-right">
-                <a href="#" class="marginRight5" data-bind="click:function(){
-                    toTerritory(0);
-                }">添加子站区</a>
+                <a href="#" class="marginRight5" data-bind="click:addChild">添加子站区</a>
             </div>
         </div>
     </div>
@@ -14,6 +12,7 @@
             <!-- ko if: items()&&items().length -->
                 <li data-bind="foreach:items">
                     <a href="/rotate/territory/detail?id={{id}}" class="marginRight5" >{{territoryName}}</a>
+
                 </li>
             <!-- /ko -->
 
@@ -33,6 +32,7 @@
         },
         {
             onStateChange: function (query) {
+                this.query = query;
                 this.fetch({
                     url: '/territory/queryChildTerritoriesByTerritoryId',
                     data: {
@@ -51,6 +51,56 @@
                 }else{
                     alert(data.id());
                 }
+            },
+            addChild:function(){
+                this.pipe([
+                        function(data,callback){
+                            this.fetch({
+                                url: '/territory/base-info',
+                                data: data,
+                                success: callback
+                            });
+                        },
+
+                    // 打开新建对话框
+                    function(data, callback) {
+                        this.modal({
+                            target: require('./modal-create'),
+                            data: {
+                                parentTerritoryId: data.id,
+                                parentTerritoryName: data.territoryName
+                            },
+                            confirm: callback
+                        })
+                    },
+                    // 提交新建
+                    function(data, callback) {
+                        this.fetch({
+                            method: 'post',
+                            url: '/territory',
+                            data: data,
+                            success: callback
+                        })
+                    },
+                    // 获取新建的节点信息
+                    function(id, callback) {
+                        app.state.setData({
+                            path: '/rotate/territory/detail',
+                            query: {
+                                id: id
+                            }
+                        })
+                    }
+                ], this.query);
+
+                this.modal({
+                    target: require('./modal-create'),
+                    data: {
+                        parentTerritoryId: query.id,
+                        parentTerritoryName: data.territoryName
+                    },
+                    confirm: callback
+                })
             }
         }
     ]

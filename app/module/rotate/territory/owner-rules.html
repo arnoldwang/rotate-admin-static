@@ -4,7 +4,7 @@
             <span class="pull-left"> 本战区自定义规则</span>
 
             <div class="pull-right">
-                <a href="#" class="marginRight5" data-bind="click:toRule">添加规则</a>
+                <a href="/rotate/territory/rule/rule-edit?territoryId={{territoryId}}" class="marginRight5" data-bind="visible:items().length==0">添加规则</a>
             </div>
         </div>
     </div>
@@ -20,7 +20,7 @@
         <tbody data-bind="foreach: items">
             <tr>
                 <td>
-                    <a href="#" data-bind="click:function(){
+                    <a class="cursorPointer" data-bind="click:function(){
                             $parent.showTips($data);
                         }">{{ruleName}}</a>
                 </td>
@@ -29,10 +29,8 @@
                     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                 </td>
                 <td>
-                    <a class="marginRight5" href="#" data-bind="click:function(){
-                    $parent.toRule($data)}" >编辑</a>
-                    <a class="marginRight5" href="#" data-bind="click:function(){
-                    $parent.remove($data)}">删除</a>
+                    <a class="marginRight5 cursorPointer" href="/rotate/territory/rule/rule-edit?territoryId={{territoryId}}" >编辑</a>
+                    <a class="marginRight5 cursorPointer" data-bind="click:function(){$parent.deleteRule(territoryId)}" >删除</a>
                 </td>
             </tr>
         </tbody>
@@ -42,15 +40,18 @@
 
 <script>
     var moment = require("moment");
+    var ko = require('knockout');
     var notification = require('service/notification');
     model = [
         function () {
             this.setData({
                 items: []
             })
+            this.territoryId = ko.observable()
         },
         {
             onStateChange: function (query) {
+                this.territoryId(query.id)
                 this.fetch({
                     url: '/territory/queryOwnerTerritoryRule',
                     data: {
@@ -73,37 +74,21 @@
                         territoryId:data.territoryId()
                     },
                     confirm: function () {
-                        this.onStateChange;
+
                     }
                 })
             },
-            toRule:function(data){
-                console.log(data);
-                alert("edit  rule!");
-            },
-            remove: function (data) {
-                this.pipe([
-                    function(callback) {
-                        if (confirm('您确认要删除该战区规则 [' + data.ruleName() + '] 吗？')) {
-                            callback()
-                        }
+            deleteRule:function(territoryId){
+                this.fetch({
+                    url: '/territory/deleteTerritoryRule',
+                    data: {
+                        territoryId: territoryId()
                     },
-                    function(callback) {
-                        this.fetch({
-                            url: '/territory/deleteTerritoryRule?territoryId=' + data.territoryId(),
-                            success: function() {
-                                callback();
-                            }
-                        })
-                    },
-                    function() {
-                        notification.success('删除战区规则成功');
-                        this.onStateChange;
-//                        app.state.setData({
-//                            path: '/rotate/territory/detail?id='+data.territoryId()
-//                        })
+                    success: function (item) {
+                        notification.success("删除成功");
+                        this.onStateChange({id:territoryId()})
                     }
-                ])
+                });
             }
         }
     ]
