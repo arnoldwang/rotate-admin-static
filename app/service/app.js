@@ -48,6 +48,8 @@ module.exports = function(state, page, config) {
     });
 
     return {
+        state: state,
+
         config: config,
 
         start: function() {

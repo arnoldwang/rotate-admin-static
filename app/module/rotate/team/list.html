@@ -6,8 +6,8 @@
             <button class="btn btn-default" data-bind="click: search">查询</button>
         
             <div class="form-group">
-                <!-- ko module: modules.conditionNoTerritory --><!-- /ko -->
-                <!-- ko module: modules.conditionNoTerritoryChief --><!-- /ko -->    
+                <!-- ko module: modules.filterNoTerritory --><!-- /ko -->
+                <!-- ko module: modules.filterNoTerritoryChief --><!-- /ko -->    
             </div>        
         </div>
     </div>
@@ -55,15 +55,23 @@
 
             this.filteredItems = ko.pureComputed(function() {
                 var items = this.teams();
-                if (this.conditionNoTerritory()) {
+
+                if (this.filterNoTerritory()) {
                     items = items.filter(function(item) {
                         return !item.territoryName;
                     })
                 }
 
-                if (this.conditionNoTerritoryChief()) {
+                if (this.filterNoTerritoryChief()) {
                     items = items.filter(function(item) {
                         return !item.territoryChiefName;
+                    })
+                }
+
+                var cityId = this.filterCityId()
+                if (cityId) {
+                    items = items.filter(function(item) {
+                        return item.cityId === cityId;
                     })
                 }
 
@@ -74,12 +82,13 @@
             reset: function() {
                 this.setData({
                    bizId: null,
-                   cityId: null,
-                   cityName: null,
                    teams: [],
 
-                   conditionNoTerritory: false,
-                   conditionNoTerritoryChief: false
+                   filterCityId: null,
+                   cityName: null,
+
+                   filterNoTerritory: false,
+                   filterNoTerritoryChief: false
                 });
             },
 
@@ -95,19 +104,19 @@
 
                     city: new SimpleFormGroup({
                         content: new (require('module/control/city-typeahead'))({
-                            value: this.cityId,
+                            value: this.filterCityId,
                             text: this.cityName
                         }),
                         label: '城市'
                     }),
 
-                    conditionNoTerritory:  new (require('module/control/checkbox'))({
-                        value: this.conditionNoTerritory,
+                    filterNoTerritory:  new (require('module/control/checkbox'))({
+                        value: this.filterNoTerritory,
                         text: '无战区'
                     }),
 
-                    conditionNoTerritoryChief:  new (require('module/control/checkbox'))({
-                        value: this.conditionNoTerritoryChief,
+                    filterNoTerritoryChief:  new (require('module/control/checkbox'))({
+                        value: this.filterNoTerritoryChief,
                         text: '无战区长官'
                     })
                 }
@@ -121,8 +130,7 @@
                 this.fetch({
                     url: '/team/query',
                     data: {
-                        bizId: this.bizId,
-                        cityId: this.cityId
+                        bizId: this.bizId
                     },
                     success: function(teams) {
                         this.teams(teams);
