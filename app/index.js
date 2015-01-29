@@ -1,46 +1,29 @@
 var _ = require('lodash');
 var ko = require('knockout');
+require('./setup-knockout');
 var mixin = require('mixin-class');
 
+// setup app
 var Page = require('crystal-page');
 var State = require('crystal-state');
-require('./setup-knockout');
+var App = require('service/app');
+var modal = require('service/modal');
 
 var page = new Page();
 var state = new State.Location();
+var app = new App(state, page, require('./app-config'));
+window.app = app;
 
-var redirects = {
-    '/': '/rotate',
+state.onChange(function() {
+    modal.closeAll();
+})
+// end
 
-    '/rotate': '/rotate/territory',
-    '/rotate/territory': '/rotate/territory/hierarchy',
 
-    '/rotate/team': '/rotate/team/list'
-};
-
-state.onChange(function(data) {
-    // replace tail slash
-    var path = data.path.replace(/\/$/, '');
-
-    if (redirects[path]) {
-        state.replaceData({
-            path: redirects[path],
-            query: data.query
-        });
-        return;
-    }
-
-    page.activate(data.path, function(module) {
-        if (module.onStateChange) {
-            module.onStateChange(data.query);
-        }
-    });
-});
-
+// gulpfile里面用到
 // 所有的module都会继承这个类，写在gulpfile里面
 var ViewModel = require('./vm');
 
-// gulpfile里面用到
 window.vm = function(mixins, html) {
     var vm = ViewModel.extend(mixins);
     if (html) {
@@ -50,25 +33,25 @@ window.vm = function(mixins, html) {
     }
     return vm;
 };
+// end
 
-window.app = {
-    state: state
-}
-
-// redirect by state
+// handle click by state
 var $ = require('jquery');
 
 $(document).delegate('a', 'click', function(e) {
     if(this.hasAttribute('external')){
        return;
     }
+
     if(!this.href){
         return
     }
 
     state.setData(this.getAttribute('href', 2));
+
     return false;
 });
+// end
 
 // setup ajax error
 var ajax = require('service/ajax');
@@ -78,20 +61,18 @@ ajax.error = function(jqXHR, statusText, error ) {
         timeOut: 0
     });
 };
+// end
 
 // start app
 ajax({
     url: '/common/enums',
     success: function(enums) {
         window.enums = enums;
-        startApp();
+        app.start();
     }
 })
 
-var startApp = function() {    
-    state.start();
-    page.render(document.body);
-};
+
 
 
 

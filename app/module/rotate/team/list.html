@@ -3,33 +3,56 @@
         <div class="form-inline op">
             <!-- ko module: modules.biz --><!-- /ko -->
             <!-- ko module: modules.city --><!-- /ko -->
-            <button class="btn btn-default" data-bind="click: search">查询</button>
         
             <div class="form-group">
-                <!-- ko module: modules.conditionNoTerritory --><!-- /ko -->
-                <!-- ko module: modules.conditionNoTerritoryChief --><!-- /ko -->    
-            </div>        
+                <!-- ko module: modules.filterNoTerritory --><!-- /ko -->
+                <!-- ko module: modules.filterNoTerritoryChief --><!-- /ko -->    
+            </div>
         </div>
     </div>
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>
-                    小组
+                    小组({{filteredItems().length}})
                 </th>
-                <th>
+                <th style="width: 40%">
                     战区
                 </th>
-                <th>
+                <th style="width: 20%">
                     战区长官
                 </th>
             </tr>
         </thead>
-        <tbody data-bind="foreach: filteredItems">
+        <tbody data-bind="foreach: filteredItems, delegateEvent: {
+            click: {
+                '.editable': function(team) {
+                    toEdit(team);
+                }
+            }
+        }">
             <tr>
-                <td>{{teamName}}</td>
-                <td>{{territoryName}}</td>
-                <td>{{territoryChiefName}}</td>
+                <td>
+                    <span class="editable">
+                        {{teamName}}
+                    </span>                    
+                </td>
+                <td>
+                    {{#if: territoryName}}
+                        {{territoryName}}
+                    {{/}}
+                    {{#ifnot: territoryName}}
+                        <span class="text-danger">[无]</span>
+                    {{/}}
+                </td>
+                <td>
+                    {{#if: territoryChiefName}}
+                        {{territoryChiefName}}
+                    {{/}}
+                    {{#ifnot: territoryChiefName}}
+                        <span class="text-danger">[无]</span>
+                    {{/}}
+                </td>
             </tr>
         </tbody>
     </table>
@@ -41,29 +64,45 @@
     var ko = require('knockout');
     var kom = require('knockout.mapping');
     var notification = require('service/notification');
+    var cache = require('service/cache');
 
     // control
     var SimpleFormGroup = require('module/control/simple-form-group');
     var TextBox = require('module/control/text-box');
     var Select = require('module/control/select');
 
-
     model = [
         function() {
             this.reset();
             this.buildModules();
 
+
+            ko.computed(function() {
+                var bizId = this.bizId();
+                if (bizId) {
+                    this.search();
+                }
+            }, this);
+
             this.filteredItems = ko.pureComputed(function() {
                 var items = this.teams();
-                if (this.conditionNoTerritory()) {
+
+                if (this.filterNoTerritory()) {
                     items = items.filter(function(item) {
                         return !item.territoryName;
                     })
                 }
 
-                if (this.conditionNoTerritoryChief()) {
+                if (this.filterNoTerritoryChief()) {
                     items = items.filter(function(item) {
                         return !item.territoryChiefName;
+                    })
+                }
+
+                var filterText = this.filterText();
+                if (filterText) {
+                    items = items.filter(function(item) {
+                        return item.teamName.indexOf(filterText) !== -1
                     })
                 }
 
@@ -73,13 +112,12 @@
         {
             reset: function() {
                 this.setData({
-                   bizId: null,
-                   cityId: null,
-                   cityName: null,
+                   bizId: 103,
                    teams: [],
 
-                   conditionNoTerritory: false,
-                   conditionNoTerritoryChief: false
+                   filterText: null,
+                   filterNoTerritory: false,
+                   filterNoTerritoryChief: false
                 });
             },
 
@@ -88,47 +126,66 @@
                     biz: new SimpleFormGroup({
                         content: new Select({
                             value: this.bizId,
+                            optionsCaption: '请选择...',
                             options: enums.biz
                         }),
                         label: 'BU'
                     }),
 
                     city: new SimpleFormGroup({
-                        content: new (require('module/control/city-typeahead'))({
-                            value: this.cityId,
-                            text: this.cityName
+                        content: new (require('module/control/text-box'))({
+                            value: this.filterText,
+                            valueUpdate: ['keyup']
                         }),
-                        label: '城市'
+                        label: '关键词'
                     }),
 
-                    conditionNoTerritory:  new (require('module/control/checkbox'))({
-                        value: this.conditionNoTerritory,
+                    filterNoTerritory:  new (require('module/control/checkbox'))({
+                        value: this.filterNoTerritory,
                         text: '无战区'
                     }),
 
-                    conditionNoTerritoryChief:  new (require('module/control/checkbox'))({
-                        value: this.conditionNoTerritoryChief,
+                    filterNoTerritoryChief:  new (require('module/control/checkbox'))({
+                        value: this.filterNoTerritoryChief,
                         text: '无战区长官'
                     })
                 }
             },
 
             search: function() {
-                notification.info('加载中...', {
+                this.teams([]);
+                this.loadBizTeams(this.bizId(), function(teams) {
+                    this.teams(teams);
+                });
+            },
+
+            loadBizTeams: cache(function(data, callback) {
+                var notifier = notification.info('加载中...', null, {
                     timeOut: 0
                 });
 
                 this.fetch({
                     url: '/team/query',
                     data: {
-                        bizId: this.bizId,
-                        cityId: this.cityId
+                        bizId: this.bizId()
                     },
-                    success: function(teams) {
-                        this.teams(teams);
+                    success: function(data) {
+                        callback.call(this, data);
                     },
                     complete: function() {
-                        notification.clear();                        
+                        notifier.remove();                  
+                    }
+                })
+            }),
+
+            toEdit: function(team) {
+                this.modal({
+                    data: team,
+                    target: require('./bind-territory'),
+                    confirm: function() {
+                        // clearCache 是 cache方法添加上去的
+                        this.loadBizTeams.clearCache(this.bizId());
+                        this.search();
                     }
                 })
             }

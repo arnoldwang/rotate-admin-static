@@ -1,15 +1,21 @@
 [
     {
+        "teamId": 1,
+        "teamName": "teamName",        
+        "territoryId": 11,
         "territoryName": "territoryName",
-        "teamName": "teamName",
         "territoryChiefName": "territoryChiefName"
     },
     {
+        "teamId": 1,   
+        "territoryId": 11,
         "territoryName": "territoryName",
         "teamName": "teamName",
         "territoryChiefName": null
     },
     {
+        "teamId": 1,   
+        "territoryId": 11,
         "territoryName": null,
         "teamName": "teamName",
         "territoryChiefName": null

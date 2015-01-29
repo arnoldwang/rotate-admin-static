@@ -112,7 +112,8 @@ model = [
                 // 获取新建的节点信息
                 function(id, callback) {
                     this.fetch({
-                        url: '/territory/' + id + '/base-info',
+                        url: '/territory/base-info',
+                        data:{id:id},
                         success: callback
                     });
                 },

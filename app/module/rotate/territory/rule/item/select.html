@@ -1,0 +1,20 @@
+<div style="width: auto;display: inline-block">
+    <!-- ko module: module--><!-- /ko -->
+</div>
+<script>
+
+    var ko = require('knockout');
+    var Select = require('module/control/select');
+    model = [
+        function (data,idEnum) {
+            this.setData({
+                id:null
+            })
+            this.setData(data)
+            this.module  =  new Select({
+                options:window.enums[idEnum],
+                value:this.id
+            })
+        }
+    ]
+</script>
