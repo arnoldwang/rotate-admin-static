@@ -1,0 +1,14 @@
+ [
+     {
+        "id":"20",
+        "bizId":"6",
+        "territoryName":"恐龙园一区",
+        "parentTerritoryId":"10"
+    },
+    {
+        "id":"35",
+        "bizId":"6",
+        "territoryName":"恐龙园二区",
+        "parentTerritoryId":"10"
+    }
+]

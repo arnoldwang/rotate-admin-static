@@ -1,6 +1,13 @@
-<!-- ko module: cityModule--><!-- /ko -->
-<!-- ko module: regionModule--><!-- /ko -->
-<!-- ko module: mainRegionModule--><!-- /ko -->
+<!--ko foreach:items-->
+<select class="form-control" style="width: auto;display: inline-block" data-bind="
+    options: categoryId.categoryEnum,
+    optionsCaption: '全部',
+    optionsText: 'text',
+    optionsValue: 'value',
+    value: categoryId,
+    event: {change:function(){$parent.change($data)}}
+">
+<!--/ko-->
 <script>
 
     var ko = require('knockout');
@@ -8,97 +15,74 @@
     var Select = require('module/control/select');
     model = [
         function (data) {
+            if (!data) {
+                data = [
+                    {
+                        "categoryId": null,
+                        "categoryName": null
+                    }
+                ]
+            }
             this.setData({
-                cityId: null,
-                cityName: null,
-                districtId: null,
-                districtName: null,
-                mainRegionId:null,
-                mainRegionName:null
-            })
-            this.setData(data);
-            this.cityModule = new Typeahead({
-                value: this.cityId,
-                text: this.cityName
+                items: data
             });
 
-
-            this.regionEnum = ko.observableArray();
-            this.mainRegionEnum = ko.observableArray();
-            this.regionModule = new Select({
-                options: this.regionEnum,
-                value: this.districtId
-            });
-            this.mainRegionModule = new Select({
-                options: this.mainRegionEnum,
-                value: this.mainRegionId
-            });
-
-            if (data) {
-                this.regionEnum([
+            var self = this;
+            this.items().forEach(function(item,index,array){
+                item.categoryId.categoryEnum = ko.observableArray([
                     {
-                        text: data.districtName,
-                        value: data.districtId
+                        text:item.categoryName(),
+                        value:item.categoryId()
                     }
                 ]);
+                if(index==0){
+                    self.getChildrenCategoryListByCategoryId(null,item.categoryId.categoryEnum);
+                }else{
+                    self.getChildrenCategoryListByCategoryId(array[index-1].categoryId(),item.id.categoryEnum);
+                }
+            });
+            var  categoryId = this.items()[this.items().length-1].categoryId();
 
-                this.mainRegionEnum([
-                    {
-                        text: data.mainRegionName,
-                        value: data.mainRegionId
-                    }
-                ]);
+            if(categoryId){
+                this.getChildrenCategoryListByCategoryId(categoryId)
             }
 
-            ko.computed(function () {
-                var cityId = this.cityId();
-                if (cityId) {
-                    this.getRegionList(cityId)
-                } else {
-                    this.regionEnum([])
-                }
-            }, this);
 
-            ko.computed(function () {
-                var districtId = this.districtId();
-                if (districtId) {
-                    this.getMainRegionList(districtId)
-                } else {
-                    this.mainRegionEnum([])
-                }
-            }, this)
         }, {
-            getRegionList: function (cityId) {
+            getChildrenCategoryListByCategoryId: function (categoryId,callback) {
                 this.fetch({
-                    url: "/common/getRegionListByCityId",
+                    url: "/common/getChildrenCategoryListByCategoryId",
                     data: function () {
-                        return { cityId: cityId}
+                        return { categoryId: categoryId}
                     },
                     success: function (data) {
-                        this.regionEnum(data.map(function (item) {
+                        data = data.map(function(item){
                             return {
-                                text: item.regionName,
-                                value: item.regionId
+                                text:item.name,
+                                value:item.id
                             }
-                        }))
+                        })
+                        if(callback){
+                            callback(data)
+                        }else{
+                            if(data&&data.length){
+                                var a = {
+                                    categoryId:ko.observable(),
+                                    categoryName:ko.observable()
+                                }
+                                a.categoryId.categoryEnum = ko.observableArray(data);
+                                this.items.push(a);
+                            }
+                        }
                     }
                 });
             },
-            getMainRegionList: function (districtId) {
-                this.fetch({
-                    url: "/common/getMainRegionListByRegionId",
-                    data: function () {
-                        return { districtId: districtId}
-                    },
-                    success: function (data) {
-                        this.mainRegionEnum(data.map(function (item) {
-                            return {
-                                text: item.regionName,
-                                value: item.regionId
-                            }
-                        }))
-                    }
-                });
+            change:function(data){
+                var items = this.items()
+                var index = items.indexOf(data)
+                this.items.splice(index+1);
+                if(data.categoryId())
+                    this.getChildrenCategoryListByCategoryId(data.categoryId())
             }
         }
     ]

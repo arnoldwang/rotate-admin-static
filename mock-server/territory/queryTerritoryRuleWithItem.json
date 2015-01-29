@@ -44,5 +44,15 @@
                     "mainRegionName":"上海1"
                 }
             ]
+        },
+        {
+            "field": "mainCategoryID",
+            "type": 1,
+            "value": [
+                [{
+                    "categoryId": 1,
+                    "categoryName": "美食"
+                }]
+            ]
         }
     ]}

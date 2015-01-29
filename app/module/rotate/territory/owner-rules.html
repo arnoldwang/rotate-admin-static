@@ -1,29 +1,43 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        继承的规则
+        <div class="clearfix">
+            <span class="pull-left"> 本战区自定义规则</span>
+
+            <div class="pull-right">
+                <a href="#" class="marginRight5" data-bind="click:toRule">添加规则</a>
+            </div>
+        </div>
     </div>
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>门店规则名称</th>
+                <th>规则名称</th>
                 <th>最后更新时间</th>
+                <th>启用</th>
+                <th>操作</th>
             </tr>
         </thead>
         <tbody data-bind="foreach: items">
             <tr>
                 <td>
-                    <a href="#" class="marginRight5" data-bind="click:function(){
-                                $parent.showTips($data);
-                            }">
-                        {{ruleName}}
-                    </a>
+                    <a href="#" data-bind="click:function(){
+                            $parent.showTips($data);
+                        }">{{ruleName}}</a>
                 </td>
                 <td>{{updateTime}}</td>
+                <td>
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                </td>
+                <td>
+                    <a class="marginRight5" href="#" >编辑</a>
+                    <a class="marginRight5" href="#" >删除</a>
+                </td>
             </tr>
         </tbody>
     </table>
-
 </div>
+
+
 <script>
     var moment = require("moment");
     model = [
@@ -35,16 +49,16 @@
         {
             onStateChange: function (query) {
                 this.fetch({
-                    url: '/territory/queryExtendsTerritoryRule',
+                    url: '/territory/queryOwnerTerritoryRule',
                     data: {
                         territoryId: query.id
                     },
-                    success: function (items) {
-                        items.forEach(function(item){
+                    success: function (item) {
+                        item.forEach(function(item){
                             item.updateTime = moment(item.updateTime).format('YYYY-MM-DD HH:mm:ss') ;
                         })
                         this.setData({
-                            items: items
+                            items: item
                         })
                     }
                 });
@@ -59,7 +73,10 @@
                         this.onStateChange;
                     }
                 })
+            },
+            toRule:function(){
+                alert("to rule!");
             }
-        },
+        }
     ]
 </script>
