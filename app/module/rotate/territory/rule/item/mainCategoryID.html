@@ -38,7 +38,7 @@
                 if(index==0){
                     self.getChildrenCategoryListByCategoryId(null,item.categoryId.categoryEnum);
                 }else{
-                    self.getChildrenCategoryListByCategoryId(array[index-1].categoryId(),item.id.categoryEnum);
+                    self.getChildrenCategoryListByCategoryId(array[index-1].categoryId(),item.categoryId.categoryEnum);
                 }
             });
             var  categoryId = this.items()[this.items().length-1].categoryId();
