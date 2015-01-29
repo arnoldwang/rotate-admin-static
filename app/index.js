@@ -7,13 +7,16 @@ var mixin = require('mixin-class');
 var Page = require('crystal-page');
 var State = require('crystal-state');
 var App = require('service/app');
+var modal = require('service/modal');
 
 var page = new Page();
 var state = new State.Location();
-
-
 var app = new App(state, page, require('./app-config'));
 window.app = app;
+
+state.onChange(function() {
+    modal.closeAll();
+})
 // end
 
 
