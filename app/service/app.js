@@ -40,11 +40,10 @@ module.exports = function(state, page, config) {
     };
 
     state.onChange(function(data) {
-        if (applyRedirect(data)) {
-            return;
-        }
-        applyPage(data);
-        applyTitle(data);    
+        if (!applyRedirect(data)) {            
+            applyPage(data);
+            applyTitle(data);  
+        }  
     });
 
     return {
