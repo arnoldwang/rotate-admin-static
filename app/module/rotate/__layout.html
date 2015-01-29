@@ -32,10 +32,10 @@
     var highlightActiveNavs = function(children, path) {
         children.forEach(function(child) {
             if (path.indexOf(child.path) === -1) {
-                child.active(false);
+                child.active = false;
             }
             else {
-                child.active(true);
+                child.active = true;
             }
 
             if (child.children) {
@@ -46,23 +46,7 @@
 
     model = mixin(
         function() {
-
-            this.navs = [
-                {
-                    text: '战区层次设置',
-                    path: '/rotate/territory',
-                    external: false
-                },
-                {
-                    text: '小组管理',
-                    path: '/rotate/team',
-                    external: false
-                }
-            ].map(function(o) {
-                o.active = ko.observable(false);
-                return o;
-            });
-
+            this.navs = _.cloneDeep(app.config.navs);
             highlightActiveNavs(this.navs, '/' + this.__path);
         }
     )
