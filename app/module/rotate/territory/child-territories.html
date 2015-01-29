@@ -3,9 +3,7 @@
         <div class="clearfix">
             <span class="pull-left">子站区</span>
             <div class="pull-right">
-                <a href="#" class="marginRight5" data-bind="click:function(){
-                    toTerritory(0);
-                }">添加子站区</a>
+                <a href="#" class="marginRight5" data-bind="click:addChild">添加子站区</a>
             </div>
         </div>
     </div>
@@ -13,9 +11,7 @@
         <ul  class="list-inline">
             <!-- ko if: items()&&items().length -->
                 <li data-bind="foreach:items">
-                    <a href="#" class="marginRight5" data-bind="click: function(){
-                         $parent.toTerritory($data);
-                     }">{{territoryName}}</a>
+                    <a href="/rotate/territory/detail?id={{id}}" class="marginRight5">{{territoryName}}</a>
                 </li>
             <!-- /ko -->
 
@@ -53,6 +49,9 @@
                 }else{
                     alert(data.id());
                 }
+            },
+            addChild:function(){
+                
             }
         }
     ]

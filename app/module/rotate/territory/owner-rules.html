@@ -4,7 +4,7 @@
             <span class="pull-left"> 本战区自定义规则</span>
 
             <div class="pull-right">
-                <a href="#" class="marginRight5" data-bind="click:toRule">添加规则</a>
+                <a href="/rotate/territory/rule/rule-edit?territoryId={{territoryId}}" class="marginRight5" data-bind="visible:items().length==0">添加规则</a>
             </div>
         </div>
     </div>
@@ -29,8 +29,8 @@
                     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                 </td>
                 <td>
-                    <a class="marginRight5" href="#" >编辑</a>
-                    <a class="marginRight5" href="#" >删除</a>
+                    <a class="marginRight5" href="/rotate/territory/rule/rule-edit?territoryId={{territoryId}}" >编辑</a>
+                    <a class="marginRight5" data-bind="click:function(){$parent.deleteRule(territoryId)}" >删除</a>
                 </td>
             </tr>
         </tbody>
@@ -40,14 +40,18 @@
 
 <script>
     var moment = require("moment");
+    var ko = require('knockout')
+    var notification = require('service/notification');
     model = [
         function () {
             this.setData({
                 items: []
             })
+            this.territoryId = ko.observable()
         },
         {
             onStateChange: function (query) {
+                this.territoryId(query.id)
                 this.fetch({
                     url: '/territory/queryOwnerTerritoryRule',
                     data: {
@@ -70,12 +74,21 @@
                         territoryId:data.territoryId()
                     },
                     confirm: function () {
-                        this.onStateChange;
+
                     }
                 })
             },
-            toRule:function(){
-                alert("to rule!");
+            deleteRule:function(territoryId){
+                this.fetch({
+                    url: '/territory/deleteTerritoryRule',
+                    data: {
+                        territoryId: territoryId()
+                    },
+                    success: function (item) {
+                        notification.success("删除成功");
+                        this.onStateChange({id:territoryId()})
+                    }
+                });
             }
         }
     ]
