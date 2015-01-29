@@ -44,7 +44,13 @@ $(document).on({
     }
 }, '.modal');
 
-        
+var instances = [];  
+var removeFromInstances = function(instance) {
+    var index = instances.indexOf(instance);
+    if (index !== -1) {
+        instances.splice(index, 1);
+    }
+}
 
 /*
 option params
@@ -67,6 +73,8 @@ module.exports = function(options) {
     instance.onOpen(options.data, function(result) {
         this.__modal.hide();
 
+        removeFromInstances(this);
+
         var context = options.context;
 
         if (arguments.length === 0) {
@@ -83,7 +91,16 @@ module.exports = function(options) {
         if (options.complete) {
             options.complete.call(context);
         }
-    })
+    });
 
     instance.__modal.show();
+
+    instances.push(instance);
+};
+
+module.exports.closeAll = function() {
+    instances.forEach(function(instance) {
+        instance.__modal.hide();
+    });
+    instances.length = 0;
 };

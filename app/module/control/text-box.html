@@ -1,4 +1,4 @@
-<input type="text" class="form-control" data-bind="value: value, event: event, enable: editable">
+<input type="text" class="form-control" data-bind="value: value, event: event, enable: editable, valueUpdate: valueUpdate">
 <script>
     var _ = require('lodash');
     model = [
@@ -13,6 +13,7 @@
             }
         },
         {
+            valueUpdate: ['blur'],
             editable: true
         }
     ]
