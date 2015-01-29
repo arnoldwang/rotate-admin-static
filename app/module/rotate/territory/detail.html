@@ -4,6 +4,7 @@
     <!-- ko module: modules.ancestorRules --><!-- /ko -->
     <!-- ko module: modules.ownerRules --><!-- /ko -->
     <!-- ko module: modules.childTerritories --><!-- /ko -->
+    <!-- ko module: modules.ownerTeams --><!-- /ko -->
 </div>
 <script>
     var _ = require('lodash');
@@ -26,7 +27,8 @@
                     baseInfo: new (require('./base-info'))(),
                     ancestorRules: new (require('./ancestor-rules'))(),
                     ownerRules: new (require('./owner-rules'))(),
-                    childTerritories: new (require('./child-territories'))()
+                    childTerritories: new (require('./child-territories'))(),
+                    ownerTeams: new (require('./owner-teams'))()
                 }
             },
 
