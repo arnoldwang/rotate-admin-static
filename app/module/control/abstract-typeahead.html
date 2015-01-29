@@ -50,6 +50,7 @@ model = [
             
             if (this.strict) {
                 $element.bind('blur', function() {
+                    console.log('blur')
                     if ($element.val().length) {
                         $element.val(self.text());
                     }
