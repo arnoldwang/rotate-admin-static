@@ -1,3 +1,4 @@
+@import "navigate.styl"
 @import "node.styl"
 @import "territory.styl"
 @import "services.styl"
@@ -14,6 +15,14 @@
     .editable
         padding 0 0.5em
 
+    > *
+        margin 0 0.5em
+
+.form-inline
+    .control-label
+        margin-right 0.5em
+
+
 .form-group
     .checkbox-inline,
     .radio-inline
@@ -26,11 +35,19 @@
             color red
 
 
+
 // type ahead
 .twitter-typeahead
     width 100%
+    vertical-align middle
 .tt-dropdown-menu
     width 100%
+
+.form-inline
+    .twitter-typeahead
+        width auto
+    .tt-dropdown-menu
+        width auto
 // end type ahead
 
 .modal-dialog

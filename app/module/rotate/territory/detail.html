@@ -3,6 +3,7 @@
     <!-- ko module: modules.baseInfo --><!-- /ko -->
     <!-- ko module: modules.ancestorRules --><!-- /ko -->
     <!-- ko module: modules.ownerRules --><!-- /ko -->
+    <!-- ko module: modules.childTerritories --><!-- /ko -->
 </div>
 <script>
     var _ = require('lodash');
@@ -24,7 +25,8 @@
                     breadcrumb: new (require('./breadcrumb'))(),
                     baseInfo: new (require('./base-info'))(),
                     ancestorRules: new (require('./ancestor-rules'))(),
-                    ownerRules:new  (require('./owner-rules'))()
+                    ownerRules: new (require('./owner-rules'))(),
+                    childTerritories: new (require('./child-territories'))()
                 }
             },
 
