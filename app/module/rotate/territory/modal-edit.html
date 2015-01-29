@@ -149,10 +149,11 @@
                 if (this.validate()) {
                     this.fetch({
                         url: '/territory/updateTerritory',
+                        method:'post',
                         data: this.getData(),
                         success: function(msg){
                             notification.success("修改成功");
-                            self.callback(self.id())
+                            location.reload()
                         }
                     });
                 }
