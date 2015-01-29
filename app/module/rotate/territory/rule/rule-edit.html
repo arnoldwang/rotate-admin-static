@@ -100,11 +100,10 @@
 
             onStateChange: function (query) {
                 this.reset();
+                console.log(query);
                 this.fetch({
                     url: "/territory/queryTerritoryRuleWithItem",
-                    data: function () {
-                        return query
-                    },
+                    data: query,
                     success: function (data) {
                         this.setData(data);
                         this.items(data.items.map(function(item){

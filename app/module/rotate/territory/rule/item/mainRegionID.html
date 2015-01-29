@@ -77,9 +77,7 @@
             getRegionList: function (cityId) {
                 this.fetch({
                     url: "/common/getRegionListByCityId",
-                    data: function () {
-                        return { cityId: cityId}
-                    },
+                    data:  { cityId: cityId},
                     success: function (data) {
                         this.regionEnum(data.map(function (item) {
                             return {
@@ -93,9 +91,7 @@
             getMainRegionList: function (districtId) {
                 this.fetch({
                     url: "/common/getMainRegionListByRegionId",
-                    data: function () {
-                        return { districtId: districtId}
-                    },
+                    data: { districtId: districtId},
                     success: function (data) {
                         this.mainRegionEnum(data.map(function (item) {
                             return {

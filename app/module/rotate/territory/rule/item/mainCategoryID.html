@@ -52,9 +52,7 @@
             getChildrenCategoryListByCategoryId: function (categoryId,callback) {
                 this.fetch({
                     url: "/common/getChildrenCategoryListByCategoryId",
-                    data: function () {
-                        return { categoryId: categoryId}
-                    },
+                    data: { categoryId: categoryId},
                     success: function (data) {
                         data = data.map(function(item){
                             return {

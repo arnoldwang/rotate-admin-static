@@ -444,7 +444,7 @@
             "text": "省份",
             "value": "province",
             "type":1,
-            "type":"province"
+            "enumKey":"province"
         }
     ],
     "ruleType":[

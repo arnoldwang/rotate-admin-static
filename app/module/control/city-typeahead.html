@@ -9,9 +9,7 @@
             source: function (keyword, callback) {
                 this.fetch({
                     url:"/common/fuzzySearchCitiesByName",
-                    data: function () {
-                        return { cityName: keyword}
-                    },
+                    data: { cityName: keyword},
                     success: function(data){
                         if(data&&data.length){
                             callback(data.map(function(item){
