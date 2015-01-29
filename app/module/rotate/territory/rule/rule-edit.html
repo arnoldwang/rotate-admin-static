@@ -35,9 +35,11 @@
         </div>
     </div>
 
-    <div class="panel-footer pull-right">
-        <button type="button" class="btn btn-default" data-bind="click: cancel">取消</button>
-        <button type="button" class="btn btn-primary" data-bind="click: confirm">完成</button>
+    <div class="panel-footer clearfix">
+        <div class="pull-right">
+            <a class="btn btn-default" href="/rotate/territory/detail?id={{territoryId}}">回战区页</a>
+            <button type="button" class="btn btn-primary" data-bind="click: save">保存</button>
+        </div>
     </div>
 
 </div>
@@ -98,9 +100,22 @@
                 }
             },
 
+            save:function(){
+                var result = this.getData()
+                var items = kom.toJS(this.items)
+                result.items = items
+                this.fetch({
+                    url: "/territory/saveTerritoryRule",
+                    data: result,
+                    success: function (data) {
+                        this.onStateChange(this.query);
+                    }
+                });
+            },
+
             onStateChange: function (query) {
+                this.query = query;
                 this.reset();
-                console.log(query);
                 this.fetch({
                     url: "/territory/queryTerritoryRuleWithItem",
                     data: query,

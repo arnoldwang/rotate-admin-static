@@ -5,10 +5,13 @@
 </h3>
 
 <ol class="breadcrumb" data-bind="foreach:parentTerritorys">
-    <!--ko if:$index==$parent.parentTerritorys.length-1-->
+
+    <!--ko if:$index()==$parent.parentTerritorys().length-1-->
+    <li>
    {{territoryName}}
+        </li>
     <!--/ko-->
-    <!--ko ifnot:$index==$parent.length-1-->
+    <!--ko ifnot:$index()==$parent.parentTerritorys().length-1-->
     <li><a href="/rotate/territory/detail?id={{id}}">{{territoryName}}</a></li>
     <!--/ko-->
 </ol>

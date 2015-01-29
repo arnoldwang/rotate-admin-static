@@ -25,11 +25,11 @@
                 <div style="width: 90%;display: inline-block">
                 <!-- ko module: $data --><!-- /ko -->
                 </div>
-                <a data-bind="click:function(){$parent.value.remove($data)}" style="display: inline-block"> 删除</a>
+                <a data-bind="click:function(){$parent.value.remove($data)}" class="cursorPointer" style="display: inline-block"> 删除</a>
             </div>
 
         </div>
-        <a data-bind="click:function(){value.push(createChild())}">添加</a>
+        <a data-bind="click:function(){value.push(createChild())}" class="cursorPointer">添加</a>
     </td>
     <td>
         <div class="btn-group">
@@ -65,10 +65,7 @@
                     return t.value===field
                 })[0];
                 if(a.type===1){
-                    return new Select({
-                        options:window.enums[a.enumKey],
-                        value:ko.observable(child)
-                    })
+                    return new (require('module/rotate/territory/rule/item/select'))(child, a.enumKey);
                 }else{
                     return new (require('module/rotate/territory/rule/item/'+field))(child);
                 }

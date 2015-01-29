@@ -6,9 +6,9 @@
                    <h4>门店规则:{{ruleName}}</h4>
                </span>
                 <div class="pull-right">
-                    <a href="#" class="navbar-link marginRight5" data-bind="click: cancel">编辑</a>
-                    <a href="#" class="navbar-link marginRight5" data-bind="click: cancel">删除</a>
-                    <a href="#" class="navbar-link marginRight5" data-bind="click: cancel">返回</a>
+                    <a  class="navbar-link marginRight5 cursorPointer" href="/rotate/territory/rule/rule-edit?territoryId={{territoryId}}">编辑</a>
+                    <a  class="navbar-link marginRight5 cursorPointer" data-bind="click: deleteRule">删除</a>
+                    <a  class="navbar-link marginRight5 cursorPointer" data-bind="click: cancel">返回</a>
                 </div>
             </div>
             <div class="modal-body clearfix">
@@ -19,6 +19,7 @@
 </div>
 
 <script>
+    var notification = require('service/notification');
     model = [
         function () {
             this.setData({
@@ -40,6 +41,18 @@
 
             cancel: function () {
                 this.callback();
+            },
+            deleteRule:function(territoryId){
+                this.fetch({
+                    url: '/territory/deleteTerritoryRule',
+                    data: {
+                        territoryId: this.territoryId()
+                    },
+                    success: function (item) {
+                        notification.success("删除成功");
+                        location.reload()
+                    }
+                });
             }
 
         }
