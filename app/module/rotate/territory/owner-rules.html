@@ -29,8 +29,10 @@
                     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                 </td>
                 <td>
-                    <a class="marginRight5" href="#" >编辑</a>
-                    <a class="marginRight5" href="#" >删除</a>
+                    <a class="marginRight5" href="#" data-bind="click:function(){
+                    $parent.toRule($data)}" >编辑</a>
+                    <a class="marginRight5" href="#" data-bind="click:function(){
+                    $parent.remove($data)}">删除</a>
                 </td>
             </tr>
         </tbody>
@@ -40,6 +42,7 @@
 
 <script>
     var moment = require("moment");
+    var notification = require('service/notification');
     model = [
         function () {
             this.setData({
@@ -74,8 +77,33 @@
                     }
                 })
             },
-            toRule:function(){
-                alert("to rule!");
+            toRule:function(data){
+                console.log(data);
+                alert("edit  rule!");
+            },
+            remove: function (data) {
+                this.pipe([
+                    function(callback) {
+                        if (confirm('您确认要删除该战区规则 [' + data.ruleName() + '] 吗？')) {
+                            callback()
+                        }
+                    },
+                    function(callback) {
+                        this.fetch({
+                            url: '/territory/deleteTerritoryRule?territoryId=' + data.territoryId(),
+                            success: function() {
+                                callback();
+                            }
+                        })
+                    },
+                    function() {
+                        notification.success('删除战区规则成功');
+                        this.onStateChange;
+//                        app.state.setData({
+//                            path: '/rotate/territory/detail?id='+data.territoryId()
+//                        })
+                    }
+                ])
             }
         }
     ]

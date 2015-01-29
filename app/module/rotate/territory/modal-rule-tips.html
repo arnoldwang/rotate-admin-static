@@ -2,23 +2,25 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header clearfix">
+               <button type="button" class="close" data-bind="click: cancel">×</button>
                <span class="pull-left">
                    <h4>门店规则:{{ruleName}}</h4>
                </span>
-                <div class="pull-right">
-                    <a href="#" class="navbar-link marginRight5" data-bind="click: cancel">编辑</a>
-                    <a href="#" class="navbar-link marginRight5" data-bind="click: cancel">删除</a>
-                    <a href="#" class="navbar-link marginRight5" data-bind="click: cancel">返回</a>
-                </div>
             </div>
             <div class="modal-body clearfix">
                 <p class="navbar-text">{{rule}}</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary" data-bind="click: cancel">编辑</a>
+                <a href="#" class="btn btn-primary" data-bind="click: remove">删除</a>
+                <a href="#" class="btn btn-default" data-bind="click: cancel">返回</a>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+    var notification = require('service/notification');
     model = [
         function () {
             this.setData({
@@ -37,9 +39,29 @@
                 });
                 this.callback = callback;
             },
-
             cancel: function () {
                 this.callback();
+            },
+            remove: function() {
+                this.pipe([
+                    function(callback) {
+                        if (confirm('您确认要删除该战区规则 [' + this.ruleName() + '] 吗？')) {
+                            callback()
+                        }
+                    },
+                    function(callback) {
+                        this.fetch({
+                            url: '/territory/deleteTerritoryRule?territoryId=' + this.id(),
+                            success: function() {
+                                callback();
+                            }
+                        })
+                    },
+                    function() {
+                        notification.success('删除战区规则成功');
+                        this.cancel();
+                    }
+                ])
             }
 
         }
