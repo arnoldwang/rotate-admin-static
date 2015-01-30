@@ -59,7 +59,7 @@
             buildModules: function() {
                 this.modules = {
                     territoryId: new FormGroup({
-                        content: new (require('module/control/territory-typeahead'))({
+                        content: new (require('module/control/territory-leaf-typeahead'))({
                             value: this.territoryId,
                             text: this.territoryName,
                             validator: this.validators.territoryId
