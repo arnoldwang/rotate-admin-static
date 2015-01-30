@@ -1,9 +1,3 @@
-<h1>
-    <!--ko if:parentTerritorys&&parentTerritorys().length-->
-    {{parentTerritorys()[parentTerritorys().length-1].territoryName}}
-    <!--/ko-->
-</h1>
-
 <ol class="breadcrumb" data-bind="foreach:parentTerritorys">
 
     <!--ko if:$index()==$parent.parentTerritorys().length-1-->
