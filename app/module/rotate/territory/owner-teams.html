@@ -1,0 +1,61 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        本战区里的小组
+    </div>
+    <!-- ko if: items()&&items().length -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>小组名</th>
+                <th>城市</th>
+            </tr>
+        </thead>
+
+        <tbody data-bind="foreach: items">
+            <tr>
+                <td>
+                    <a  class="marginRight5 cursorPointer" data-bind="click:function(){
+                                    $parent.toTeam($data);
+                                }">
+                        {{teamName}}
+                    </a>
+                </td>
+                <td>{{cityName}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- /ko -->
+    <!-- ko ifnot: items()&&items().length  -->
+        <div class="panel-body">
+            本战区暂无小组
+        </div>
+    <!-- /ko -->
+</div>
+
+<script>
+    model = [
+        function () {
+            this.setData({
+                items: []
+            })
+        },
+        {
+            onStateChange: function (query) {
+                this.fetch({
+                    url: '/territory/queryTerritoryTeam',
+                    data: {
+                        territoryId: query.id
+                    },
+                    success: function (items) {
+                        this.setData({
+                            items: items
+                        })
+                    }
+                });
+            },
+            toTeam: function (data) {
+               alert("请告诉我要跳到哪里~_~");
+            }
+        }
+    ]
+</script>

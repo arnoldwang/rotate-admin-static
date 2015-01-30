@@ -2,17 +2,18 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header clearfix">
+               <button type="button" class="close" data-bind="click: cancel">×</button>
                <span class="pull-left">
                    <h4>门店规则:{{ruleName}}</h4>
                </span>
-                <div class="pull-right">
-                    <a  class="navbar-link marginRight5 cursorPointer" href="/rotate/territory/rule/rule-edit?territoryId={{territoryId}}">编辑</a>
-                    <a  class="navbar-link marginRight5 cursorPointer" data-bind="click: deleteRule">删除</a>
-                    <a  class="navbar-link marginRight5 cursorPointer" data-bind="click: cancel">返回</a>
-                </div>
             </div>
             <div class="modal-body clearfix">
                 <p class="navbar-text">{{rule}}</p>
+            </div>
+            <div class="modal-footer">
+                <a  class="btn btn-primary marginRight5 cursorPointer" href="/rotate/territory/rule/rule-edit?territoryId={{territoryId}}">编辑</a>
+                <a  class="btn btn-primary marginRight5 cursorPointer" data-bind="click: deleteRule">删除</a>
+                <a  class="btn btn-default marginRight5 cursorPointer" data-bind="click: cancel">返回</a>
             </div>
         </div>
     </div>
@@ -38,7 +39,6 @@
                 });
                 this.callback = callback;
             },
-
             cancel: function () {
                 this.callback();
             },
