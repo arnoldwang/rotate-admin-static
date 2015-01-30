@@ -21,13 +21,12 @@
     </td>
     <td>
         <div  data-bind="foreach:value">
-            <div>
+            <div style="margin-bottom: 0.5em">
                 <div style="width: 90%;display: inline-block">
                 <!-- ko module: $data --><!-- /ko -->
                 </div>
                 <a data-bind="click:function(){$parent.value.remove($data)}" class="editable" style="display: inline-block"> 删除</a>
             </div>
-
         </div>
         <a data-bind="click:function(){value.push(createChild())}" class="editable">添加</a>
     </td>
