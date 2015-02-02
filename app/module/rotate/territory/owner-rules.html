@@ -30,6 +30,7 @@
                 </td>
                 <td class="op">
                     <a class="editable" href="/rotate/territory/rule/rule-edit?territoryId={{territoryId}}" >编辑</a>
+                    <a class="editable" data-bind="click:function(){$parent.runRule(territoryId)}">运行</a>
                     <a class="editable" data-bind="click:function(){$parent.deleteRule(territoryId)}" >删除</a>
                 </td>
             </tr>
@@ -87,6 +88,17 @@
                     success: function (item) {
                         notification.success("删除成功");
                         this.onStateChange({id:territoryId()})
+                    }
+                });
+            },
+            runRule:function(territoryId){
+                this.fetch({
+                    url: '/territory/runTerritory',
+                    data: {
+                        territoryId: territoryId()
+                    },
+                    success: function (item) {
+                        notification.success("提交运行成功");
                     }
                 });
             }
