@@ -3,7 +3,7 @@
         <div class="clearfix">
             <span class="pull-left">子站区</span>
             <div class="pull-right op">
-                <a  data-bind="click:addChild" class="editable">添加子站区</a>
+                <a  data-bind="click:addChild,visible:$parent.modules.baseInfo.parentTerritoryId" class="editable">添加子站区</a>
             </div>
         </div>
     </div>
