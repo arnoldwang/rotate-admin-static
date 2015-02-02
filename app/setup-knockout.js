@@ -40,6 +40,18 @@ ko.filters.json = function(o) {
     return JSON.stringify(ko.unwrap(o), null, 4);
 };
 
+ko.filters.enums = function(id,key) {
+    id = ko.unwrap(id);
+    var enums = window.enums[key]
+    var list = enums.filter(function(item){
+        return item.value===id
+    })
+    if(list&&list.length){
+        return list[0].text
+    }
+    return '';
+};
+
 (function(config) {    
     var addBinding = function(key, value) {
         bindingHandlers[key] = value;
