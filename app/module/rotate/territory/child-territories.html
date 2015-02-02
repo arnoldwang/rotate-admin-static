@@ -2,24 +2,21 @@
     <div class="panel-heading">
         <div class="clearfix">
             <span class="pull-left">子站区</span>
-            <div class="pull-right">
-                <a  class="marginRight5" data-bind="click:addChild">添加子站区</a>
+            <div class="pull-right op">
+                <a  data-bind="click:addChild" class="editable">添加子站区</a>
             </div>
         </div>
     </div>
     <div class="panel-body ">
-        <ul  class="list-inline">
-            <!-- ko if: items()&&items().length -->
-                <li data-bind="foreach:items">
-                    <a href="/rotate/territory/detail?id={{id}}" class="marginRight5" >{{territoryName}}</a>
-
-                </li>
-            <!-- /ko -->
-
-            <!-- ko ifnot: items()&&items().length -->
-                暂无子站区
-            <!-- /ko -->
+        <ul  class="list-inline op" data-bind="foreach:items">
+            <li>
+                <a href="/rotate/territory/detail?id={{id}}">{{territoryName}}</a>
+            </li>
         </ul>
+
+        <!-- ko ifnot: items()&&items().length -->
+            暂无子站区
+        <!-- /ko -->
     </div>
 </div>
 

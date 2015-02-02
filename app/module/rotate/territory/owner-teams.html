@@ -14,7 +14,7 @@
         <tbody data-bind="foreach: items">
             <tr>
                 <td>
-                    <a  class="marginRight5 cursorPointer" data-bind="click:function(){
+                    <a  class="editable" data-bind="click:function(){
                                     $parent.toTeam($data);
                                 }">
                         {{teamName}}
@@ -27,7 +27,7 @@
     <!-- /ko -->
     <!-- ko ifnot: items()&&items().length  -->
         <div class="panel-body">
-            本战区暂无小组
+            暂无小组
         </div>
     <!-- /ko -->
 </div>
@@ -54,7 +54,7 @@
                 });
             },
             toTeam: function (data) {
-               console.log(data);
+               alert("请告诉我要跳到哪里~_~");
             }
         }
     ]
