@@ -1,0 +1,78 @@
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header clearfix">
+               <button type="button" class="close" data-bind="click: cancel">×</button>
+                <h4>{{territoryName}} - 子战区运行状态</h4>
+            </div>
+            <div class="modal-body">
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            战区名称
+                        </th>
+                        <th style="width: 20%">
+                            开始时间
+                        </th>
+                        <th style="width: 20%">
+                            结束时间
+                        </th>
+                        <th style="width: 20%">
+                            运行状态
+                        </th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: items">
+                    <tr>
+                        <td>
+                           {{territoryName}}                    
+                        </td>
+                        <td>
+                            {{beginDate}}
+                        </td>
+                        <td>
+                            {{endDate}}
+                        </td>
+                        <td>
+                            {{runStatus}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    var notification = require('service/notification');
+
+    model = [
+        function () {
+            this.setData({
+                territoryName: null,
+                items: []
+            })
+        },
+        {
+            onOpen: function (data, callback) {
+                this.setData(data);
+                this.fetch({
+                    url: '/territory/leafHistoryList',
+                    data: data,
+                    success: function (items) {
+                        this.setData({
+                            items: items
+                        })
+                    }
+                });
+                this.callback = callback;
+            },
+
+            cancel: function() {
+                this.callback();
+            }
+        }
+    ]
+</script>
