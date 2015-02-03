@@ -22,9 +22,18 @@
                         <th style="width: 20%">
                             运行状态
                         </th>
+                        <th style="width: 20%">
+                            操作
+                        </th>
                     </tr>
                 </thead>
-                <tbody data-bind="foreach: items">
+                <tbody data-bind="foreach: items,items,delegateEvent: {
+                    click: {
+                         '.editable': function(item) {
+                         reRun(item);
+                            }
+                        }
+                    }">
                     <tr>
                         <td>
                            {{territoryName}}                    
@@ -36,7 +45,12 @@
                             {{endDate}}
                         </td>
                         <td>
-                            {{runStatus}}
+                            {{runStatus|enums:'runStatus'}}
+                        </td>
+                        <td>
+                        <span class="editable">
+                        重试
+                        </span> 
                         </td>
                     </tr>
                 </tbody>
@@ -60,7 +74,9 @@
                 this.setData(data);
                 this.fetch({
                     url: '/territory/leafHistoryList',
-                    data: data,
+                    data: {
+                        runHistoryId: data.runHistoryId
+                    },
                     success: function (items) {
                         this.setData({
                             items: items
@@ -69,9 +85,18 @@
                 });
                 this.callback = callback;
             },
-
             cancel: function() {
                 this.callback();
+            },
+            reRun: function(item) {
+                console.log(item)
+                this.modal({
+                    data: kom.toJS(item),
+                    target: require('./leaf-territory-history'),
+                    confirm: function() {
+                        
+                    }
+                })
             }
         }
     ]
