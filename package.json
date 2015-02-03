@@ -14,7 +14,7 @@
     "license": "ISC",
     "dependencies": {
         "events": "*",
-        "crystal-page": "^3.0.0",
+        "crystal-page": "^4.0.0",
         "crystal-state": "^1.0.0",
         "jquery": "^2.1.1",
         "knockout-commonjs": "0.0.3",

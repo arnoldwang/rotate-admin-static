@@ -23,11 +23,11 @@ module.exports = function(state, page, config) {
     };
 
     var applyPage = function(data) {
-        page.activate(data.path, function(module) {
-            if (module.onStateChange) {
-                module.onStateChange(data.query);
-            }
-        });
+        var module = page.activate(data.path);
+        
+        if (module.onStateChange) {
+            module.onStateChange(data.query);
+        }
     };
 
     var applyTitle = function(data) {
@@ -52,8 +52,7 @@ module.exports = function(state, page, config) {
         config: config,
 
         start: function() {
-            state.start();
-            page.render();            
+            state.start();          
         }
     }
 }
