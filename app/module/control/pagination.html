@@ -1,4 +1,4 @@
-<div class="pagination-right">
+<div class="pagination-container">
     <div class="text">
         共 <strong data-bind="text: total"></strong> 条记录
     </div>
@@ -41,10 +41,7 @@
             options: sizes,
             value: size,
             event: {
-                change: function() {
-                    index(1);
-                    onChange();
-                }
+                change: handleSizeChange
             }
         " style="width: auto">
         </select>
@@ -68,8 +65,10 @@
         e.preventDefault();
     };
 
-    module.exports = require('mixin-class')(
-        function () {
+    model = [
+        function (options) {
+            _.assign(this, options);
+
             var halfDisplayPageCount = this.displayPageCount / 2;
 
             var pageCount = ko.computed(function () {
@@ -139,7 +138,12 @@
             handleIndexClick: function (index, e) {
                 stop(e);
                 this.tryChangeIndex(index, e);
+            },
+
+            handleSizeChange: function() {
+                 this.index(1);
+                 this.onChange();
             }
         }
-    )
+    ]
 </script>
