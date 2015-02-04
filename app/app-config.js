@@ -5,7 +5,8 @@ module.exports = {
         '/rotate': '/rotate/territory',
         '/rotate/territory': '/rotate/territory/hierarchy',
 
-        '/rotate/team': '/rotate/team/list'
+        '/rotate/team': '/rotate/team/list',
+        '/rotate/history':'/rotate/history/list'
     },
 
     navs: [
@@ -18,6 +19,12 @@ module.exports = {
             text: '小组管理',
             path: '/rotate/team',
             external: false
+        },
+        {
+            text: '规则运行历史查询',
+            path: '/rotate/history',
+            external: false
         }
+
     ]
 }

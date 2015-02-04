@@ -5,8 +5,8 @@
             "runHistoryId":1,
             "territoryId": 1,
             "territoryName": "territoryName",        
-            "beginDate": "2015-01-20",
-            "endDate": "2015-01-20",
+            "startTime": "2015-01-20",
+            "endTime": "2015-01-20",
             "runStatus": "runStatus",
             "operateType": "运行战区"
         },
@@ -14,8 +14,8 @@
             "runHistoryId":2,
             "territoryId": 2,
             "territoryName": "territoryName2",        
-            "beginDate": "2015-01-21",
-            "endDate": "2015-01-20",
+            "startTime": "2015-01-21",
+            "endTime": "2015-01-20",
             "runStatus": "runStatus",
             "operateType": "运行战区"
         },
@@ -23,8 +23,8 @@
             "runHistoryId":3,
             "territoryId": 3,
             "territoryName": "territoryName",        
-            "beginDate": "2015-01-20",
-            "endDate": "2015-01-20",
+            "startTime": "2015-01-20",
+            "endTime": "2015-01-20",
             "runStatus": "runStatus",
             "operateType": "运行战区"
         }

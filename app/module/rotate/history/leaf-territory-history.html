@@ -66,41 +66,48 @@
         function () {
             this.setData({
                 territoryName: null,
-                items: []
+                items: [],
+                id:null
             })
         },
         {
             onOpen: function (data, callback) {
+
                 this.setData(data);
+                this.query()
+                this.callback = callback;
+            },
+
+
+            query:function() {
                 this.fetch({
                     url: '/territory/leafHistoryList',
                     data: {
-                        runHistoryId: data.id
+                        runHistoryId: this.id()
                     },
                     success: function (items) {
                         this.setData({
                             items: items
                         })
                     }
-                });
-                this.callback = callback;
+                })
             },
             cancel: function() {
                 this.callback();
             },
             reRun: function(item) {
-                console.log(item)
-                this.fetch({
-                    url: '/territory/reRunTerritoryRule',
-                    data: {
-                        runHistoryId: item.runHistoryId
-                    },
-                    success: function (items) {
-                        this.setData({
-                            items: items
-                        })
-                    }
-                });
+                if(confirm("确定重新运行嘛?")){
+                    this.fetch({
+                        url: '/territory/reRunTerritoryRule',
+                        data: {
+                            id: item.id
+                        },
+                        success: function () {
+
+                            this.query()
+                        }
+                    });
+                }
             }
         }
     ]
