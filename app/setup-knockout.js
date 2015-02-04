@@ -6,6 +6,7 @@ ko.setTemplateEngine(require('ko-string-template'));
 require('knockout.punches');
 ko.punches.enableAll();
 ko.punches.attributeInterpolationMarkup.enable();
+var moment = require("moment");
 
 _.extend(ko.extenders, {
     ensureNumber: function(target) {
@@ -48,6 +49,17 @@ ko.filters.enums = function(id,key) {
     })
     if(list&&list.length){
         return list[0].text
+    }
+    return '';
+};
+
+ko.filters.time = function(time,format) {
+    if(!format){
+        format = 'YYYY-MM-DD HH:mm:ss';
+    }
+    time = ko.unwrap(time);
+    if(time){
+        return moment(time).format(format)
     }
     return '';
 };

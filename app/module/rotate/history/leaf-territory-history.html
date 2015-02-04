@@ -13,16 +13,16 @@
                         <th>
                             战区名称
                         </th>
-                        <th style="width: 20%">
+                        <th style="width: 25%">
                             开始时间
                         </th>
-                        <th style="width: 20%">
+                        <th style="width: 25%">
                             结束时间
                         </th>
                         <th style="width: 20%">
                             运行状态
                         </th>
-                        <th style="width: 20%">
+                        <th style="width: 10%">
                             操作
                         </th>
                     </tr>
@@ -39,13 +39,13 @@
                            {{territoryName}}                    
                         </td>
                         <td>
-                            {{beginDate}}
+                            {{createTime| time}}
                         </td>
                         <td>
-                            {{endDate}}
+                            {{updateTime | time}}
                         </td>
                         <td>
-                            {{runStatus|enums:'runStatus'}}
+                            {{runStatus}}
                         </td>
                         <td>
                         <span class="editable">
@@ -90,13 +90,17 @@
             },
             reRun: function(item) {
                 console.log(item)
-                this.modal({
-                    data: kom.toJS(item),
-                    target: require('./leaf-territory-history'),
-                    confirm: function() {
-                        
+                this.fetch({
+                    url: '/territory/reRunTerritoryRule',
+                    data: {
+                        runHistoryId: item.runHistoryId
+                    },
+                    success: function (items) {
+                        this.setData({
+                            items: items
+                        })
                     }
-                })
+                });
             }
         }
     ]
