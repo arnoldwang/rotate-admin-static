@@ -44,10 +44,10 @@
                                 {{updateTime | time}}
                             </td>
                             <td>
-                                {{runStatus}}
+                                {{runStatus|enums:'runStatus'}}
                             </td>
                             <td>
-                            <span class="editable">
+                            <span class="editable" data-bind="visible:runStatus()===4">
                             重试
                             </span> 
                             </td>
@@ -75,7 +75,7 @@
                 this.fetch({
                     url: '/territory/leafHistoryList',
                     data: {
-                        runHistoryId: data.runHistoryId
+                        runHistoryId: data.id
                     },
                     success: function (items) {
                         this.setData({

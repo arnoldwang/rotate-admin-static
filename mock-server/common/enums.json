@@ -456,5 +456,38 @@
             "text": "包含",
             "value": 2
         }
+    ],
+    "runStatus":[
+      {
+        "text": "待运行",
+        "value": 1
+      },
+      {
+        "text": "正在运行",
+        "value": 2
+      },
+      {
+        "text": "运行成功",
+        "value": 3
+      },
+      {
+        "text": "运行失败",
+        "value": 4
+      }
+    ],
+    "operateType": [
+      {
+        "text": "NEW",
+        "value": 0
+      },
+      {
+        "text": "RUN",
+        "value": 1
+      },
+      {
+        "text": "DELETE",
+        "value": 2
+      }
     ]
+
 }

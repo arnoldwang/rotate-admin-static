@@ -34,16 +34,16 @@
                    {{territoryName}}                    
                 </td>
                 <td>
-                    {{beginDate | time}}
+                    {{startTime|time}}
                 </td>
                 <td>
-                    {{endDate | time}}
+                    {{endTime|time}}
                 </td>
                 <td>
-                    {{runStatus}}
+                    {{runStatus|enums:'runStatus'}}
                 </td>
                 <td>
-                    {{operateType}}
+                    {{operateType|enums:'operateType'}}
                 </td>
                 <td>
                 <span class="editable">
