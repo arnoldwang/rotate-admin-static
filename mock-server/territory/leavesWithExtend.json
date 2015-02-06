@@ -1,0 +1,361 @@
+[{
+    "id": 10,
+    "bizId": 101,
+    "territoryName": "宝山",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 11,
+    "bizId": 101,
+    "territoryName": "崇明",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": "宋亚飞",
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 12,
+    "bizId": 101,
+    "territoryName": "环上海郊区一",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 13,
+    "bizId": 101,
+    "territoryName": "环上海郊区二",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 14,
+    "bizId": 101,
+    "territoryName": "普陀/闸北",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 15,
+    "bizId": 101,
+    "territoryName": "浦东新区",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 16,
+    "bizId": 101,
+    "territoryName": "市中心",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": 5,
+    "notOnlineSingleGroupCountLimit": 30
+}, {
+    "id": 17,
+    "bizId": 101,
+    "territoryName": "徐闵区",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": 30
+}, {
+    "id": 18,
+    "bizId": 101,
+    "territoryName": "杨浦/虹口",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 9,
+    "bizId": 101,
+    "territoryName": "普通客户-南京",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 62,
+    "bizId": 101,
+    "territoryName": "测试2",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 90,
+    "bizId": 101,
+    "territoryName": "9090909",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 79,
+    "bizId": 101,
+    "territoryName": "费鹏1",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": "费鹏",
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 81,
+    "bizId": 101,
+    "territoryName": "123123",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": "沈友俊",
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 88,
+    "bizId": 101,
+    "territoryName": "dadafsdfd",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 89,
+    "bizId": 101,
+    "territoryName": "87878787",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 91,
+    "bizId": 101,
+    "territoryName": "adafdsfd",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 72,
+    "bizId": 105,
+    "territoryName": "结婚普通客户-上海",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 92,
+    "bizId": 105,
+    "territoryName": "2放3放3发",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 7,
+    "bizId": 104,
+    "territoryName": "推广-普通客户",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 22,
+    "bizId": 104,
+    "territoryName": "上海推广餐饮-1-1",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 23,
+    "bizId": 104,
+    "territoryName": "上海推广餐饮-1-2",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 24,
+    "bizId": 104,
+    "territoryName": "上海推广餐饮-1-3",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 26,
+    "bizId": 104,
+    "territoryName": "上海推广餐饮-2-1",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 27,
+    "bizId": 104,
+    "territoryName": "上海推广餐饮-2-2",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 28,
+    "bizId": 104,
+    "territoryName": "上海推广餐饮-2-3",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 29,
+    "bizId": 104,
+    "territoryName": "上海推广餐饮-2-4",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 30,
+    "bizId": 104,
+    "territoryName": "上海推广餐饮-3",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 34,
+    "bizId": 0,
+    "territoryName": "上海推广餐饮-5-1",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 73,
+    "bizId": 104,
+    "territoryName": "推广-大客户",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 82,
+    "bizId": 104,
+    "territoryName": "推广品牌上海组",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 5,
+    "bizId": 106,
+    "territoryName": "预订",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 66,
+    "bizId": 103,
+    "territoryName": "测试战区2",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 69,
+    "bizId": 103,
+    "territoryName": "测试战区3",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 83,
+    "bizId": 103,
+    "territoryName": "111",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 84,
+    "bizId": 103,
+    "territoryName": "3333",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 85,
+    "bizId": 103,
+    "territoryName": "444",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 86,
+    "bizId": 103,
+    "territoryName": "444444",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 87,
+    "bizId": 103,
+    "territoryName": "6666",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}, {
+    "id": 70,
+    "bizId": 101,
+    "territoryName": "ceshi1",
+    "parentTerritoryId": null,
+    "territoryChiefId": null,
+    "territoryChiefName": null,
+    "notOnlineMutGroupCountLimit": null,
+    "notOnlineSingleGroupCountLimit": null
+}]
