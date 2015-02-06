@@ -5,7 +5,7 @@
                 <legend class="small">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" data-bind="checked: taskValue">  未处理
+                            <input type="checkbox" data-bind="checked: taskValue,event:{change:query}">  未处理
                         </label>
                     </div>
                 </legend>
@@ -63,10 +63,7 @@
         function () {
             this.reset();
 
-            ko.computed(function() {
-                this.taskValue();
-                this.query();
-            }, this);
+
 
 
             this.resetQuery();
@@ -94,7 +91,7 @@
                 this.setData({
                     items: [],
                     total: 0,
-                    taskValue:false
+                    taskValue:true
                 });
             },
             resetQuery: function() {
@@ -137,7 +134,7 @@
                     data: {
                         pageSize: this.pageSize,
                         pageIndex: this.pageIndex,
-                        taskTag :0
+                        taskValue :this.taskValue
                     },
                     success: function (data) {
                         this.setData(data)
