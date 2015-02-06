@@ -5,42 +5,46 @@
             <!-- ko module: modules.filterText --><!-- /ko -->
         
             <div class="form-group">
-                <!-- ko module: modules.filterNoTerritory --><!-- /ko -->
                 <!-- ko module: modules.filterNoTerritoryChief --><!-- /ko -->    
+                <!-- ko module: modules.filterNoNotOnlineSingleGroupCountLimit --><!-- /ko -->
+                <!-- ko module: modules.filterNoNotOnlineMutGroupCountLimit --><!-- /ko -->  
             </div>
         </div>
     </div>
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>
-                    小组({{filteredItems().length}})
-                </th>
                 <th style="width: 40%">
-                    战区
+                    战区({{filteredItems().length}})
                 </th>
                 <th style="width: 20%">
                     战区长官
+                </th>
+                <th >
+                    单店上限
+                </th>
+                <th >
+                    连锁店上限
                 </th>
             </tr>
         </thead>
         <tbody data-bind="foreach: filteredItems, delegateEvent: {
             click: {
-                '.editable': function(team) {
-                    toEdit(team);
+                '.editable': function(items) {
                 }
             }
         }">
             <tr>
                 <td>
                     <span class="editable">
-                        {{teamName}}
+                        {{territoryName}}
                     </span>                    
                 </td>
-                <td data-bind="html: territoryName | highlightNull">         
-                </td>
                 <td data-bind="html: territoryChiefName | highlightNull">
-                </td>
+                </td>  
+                <td data-bind="html: notOnlineSingleGroupCountLimit | highlightNull">  
+                <td data-bind="html: notOnlineMutGroupCountLimit | highlightNull">  
+                </td>                
             </tr>
         </tbody>
     </table>
@@ -52,7 +56,6 @@
     var ko = require('knockout');
     var kom = require('knockout.mapping');
     var notification = require('service/notification');
-    var cache = require('service/cache');
 
     // control
     var SimpleFormGroup = require('module/control/simple-form-group');
@@ -64,21 +67,18 @@
             this.reset();
             this.buildModules();
 
+            this.filteredItems = ko.pureComputed(function() {
+                var items = this.items();    
 
-            ko.computed(function() {
+                
                 var bizId = this.bizId();
                 if (bizId) {
-                    this.search();
-                }
-            }, this);
-
-            this.filteredItems = ko.pureComputed(function() {
-                var items = this.teams();
-
-                if (this.filterNoTerritory()) {
                     items = items.filter(function(item) {
-                        return !item.territoryName;
+                        return item.bizId == bizId;
                     })
+                } else {
+                    // 表现和小组管理一样，没有写bizid就不显示小组
+                    return [];
                 }
 
                 if (this.filterNoTerritoryChief()) {
@@ -87,10 +87,22 @@
                     })
                 }
 
+                if (this.filterNoNotOnlineMutGroupCountLimit()) {
+                    items = items.filter(function(item) {
+                        return !item.notOnlineMutGroupCountLimit;
+                    })
+                }
+
+                if (this.filterNoNotOnlineSingleGroupCountLimit()) {
+                    items = items.filter(function(item) {
+                        return !item.notOnlineSingleGroupCountLimit;
+                    })
+                }
+
                 var filterText = this.filterText();
                 if (filterText) {
                     items = items.filter(function(item) {
-                        return item.teamName.indexOf(filterText) !== -1
+                        return item.territoryName.indexOf(filterText) !== -1
                     })
                 }
 
@@ -100,11 +112,12 @@
         {
             reset: function() {
                 this.setData({
-                   bizId: null,
-                   teams: [],
+                   items: [],
 
+                   bizId: null,
                    filterText: null,
-                   filterNoTerritory: false,
+                   filterNoNotOnlineMutGroupCountLimit: false,
+                   filterNoNotOnlineSingleGroupCountLimit: false,
                    filterNoTerritoryChief: false
                 });
             },
@@ -128,54 +141,43 @@
                         label: '关键词'
                     }),
 
-                    filterNoTerritory:  new (require('module/control/checkbox'))({
-                        value: this.filterNoTerritory,
-                        text: '无战区'
-                    }),
-
                     filterNoTerritoryChief:  new (require('module/control/checkbox'))({
                         value: this.filterNoTerritoryChief,
                         text: '无战区长官'
+                    }),
+
+                    filterNoNotOnlineMutGroupCountLimit:  new (require('module/control/checkbox'))({
+                        value: this.filterNoNotOnlineMutGroupCountLimit,
+                        text: '无连锁店上限'
+                    }),
+
+                    filterNoNotOnlineSingleGroupCountLimit:  new (require('module/control/checkbox'))({
+                        value: this.filterNoNotOnlineSingleGroupCountLimit,
+                        text: '无单店上限'
                     })
                 }
             },
 
-            search: function() {
-                this.teams([]);
-                this.loadBizTeams(this.bizId(), function(teams) {
-                    this.teams(teams);
-                });
+            onStateChange: function() {
+                this.fetch({
+                    url: '/territory/leavesWithExtend',
+                    success: function(data) {
+                        this.items(data);
+                    }
+                })
             },
 
-            loadBizTeams: cache(function(data, callback) {
-                // var notifier = notification.info('加载中...', null, {
-                //     timeOut: 0
-                // });
-
-                this.fetch({
-                    url: '/team/query',
-                    data: {
-                        bizId: this.bizId()
-                    },
-                    success: function(data) {
-                        callback.call(this, data);
-                    },
-                    complete: function() {
-                        // notifier.remove();                  
-                    }
-                })
-            }),
 
             toEdit: function(team) {
-                this.modal({
-                    data: team,
-                    target: require('./bind-territory'),
-                    confirm: function() {
-                        // clearCache 是 cache方法添加上去的
-                        this.loadBizTeams.clearCache(this.bizId());
-                        this.search();
-                    }
-                })
+                // this.modal({
+                //     data: team,
+                //     target: require('./bind-territory'),
+                //     confirm: function() {
+                //         // clearCache 是 cache方法添加上去的
+                //         this.loadBizTeams.clearCache(this.bizId());
+                //         this.search();
+                //     }
+                // })
             }
         }
     ]

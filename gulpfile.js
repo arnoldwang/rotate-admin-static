@@ -201,7 +201,7 @@ gulp.task('alpha', function() {
         }))
 });
 
-gulp.task('beta', function() {
+gulp.task('beta', ['compress'], function() {
     return gulp.src(DIST + '**/*.*')
         .pipe(ftp({
             host: '10.1.2.121',
@@ -211,6 +211,7 @@ gulp.task('beta', function() {
             remotePath: pkg.name + '/' + increaseVersion()
         }))
 });
+
 
 var stylus = require('gulp-stylus');
 gulp.task('stylus', function() {

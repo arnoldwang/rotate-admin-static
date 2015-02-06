@@ -13,12 +13,17 @@ module.exports = {
     navs: [
         {
             text: '战区层次设置',
-            path: '/rotate/territory',
+            path: '/rotate/territory/hierarchy',
             external: false
         },
         {
             text: '小组管理',
             path: '/rotate/team',
+            external: false
+        },
+        {
+            text: '战区管理',
+            path: '/rotate/territory/list',
             external: false
         },
         {

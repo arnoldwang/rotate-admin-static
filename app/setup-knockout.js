@@ -64,6 +64,17 @@ ko.filters.time = function(time,format) {
     return '';
 };
 
+ko.filters.highlightNull = function(value) {
+    value = ko.unwrap(value);
+    if (value == null) {
+        return '<span class="text-danger">[无]</span>'
+    } else {
+        return value;
+    }    
+};
+
+
+
 (function(config) {    
     var addBinding = function(key, value) {
         bindingHandlers[key] = value;
