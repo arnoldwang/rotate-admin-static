@@ -2,7 +2,7 @@
     <div class="panel-body">
         <div class="form-inline op">
             <!-- ko module: modules.biz --><!-- /ko -->
-            <!-- ko module: modules.city --><!-- /ko -->
+            <!-- ko module: modules.filterText --><!-- /ko -->
         
             <div class="form-group">
                 <!-- ko module: modules.filterNoTerritoryChief --><!-- /ko -->    
@@ -102,7 +102,7 @@
                 var filterText = this.filterText();
                 if (filterText) {
                     items = items.filter(function(item) {
-                        return item.teamName.indexOf(filterText) !== -1
+                        return item.territoryName.indexOf(filterText) !== -1
                     })
                 }
 
@@ -133,7 +133,7 @@
                         label: 'BU'
                     }),
 
-                    city: new SimpleFormGroup({
+                    filterText: new SimpleFormGroup({
                         content: new (require('module/control/text-box'))({
                             value: this.filterText,
                             valueUpdate: ['keyup']
