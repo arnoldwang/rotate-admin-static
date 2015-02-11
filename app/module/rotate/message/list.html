@@ -62,22 +62,7 @@
     model = [
         function () {
             this.reset();
-
-
-
-
             this.resetQuery();
-
-            // 确保传入的是数字
-            this.inputPageIndex = this.pageIndex.extend({
-                ensureNumber: true
-            });
-
-            // 确保传入的是数字
-            this.inputPageSize = this.pageSize.extend({
-                ensureNumber: true
-            });
-
             // module
             this.pagination = new (require('module/control/pagination'))({
                 size: this.pageSize,
@@ -101,8 +86,8 @@
                 })
             },
             onStateChange: function (query) {
-                this.inputPageIndex(query.pageIndex || 1)
-                this.inputPageSize(query.pageSize || 10)
+                this.pageIndex(parseInt(query.pageIndex) || 1)
+                this.pageSize(parseInt(query.pageSize) || 10)
                 this.query()
             },
             updateList: function() {
