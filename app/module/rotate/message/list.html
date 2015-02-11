@@ -5,7 +5,7 @@
                 <legend class="small">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" data-bind="checked: taskValue,event:{change:query}">  未处理
+                            <input type="checkbox" data-bind="checked: taskValue,event:{change:function(){setTimeout(function(){query()},0)}}">  未处理
                         </label>
                     </div>
                 </legend>
@@ -129,7 +129,7 @@
                 }
             },
             query:function(){
-                this.setData();
+
                 this.fetch({
                     url: '/task/taskList',
                     data: {
