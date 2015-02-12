@@ -91,7 +91,7 @@
 
                 if (this.filterVirtualTeam()) {
                     items = items.filter(function(item) {
-                        return !item.teamType;
+                        return item.teamType;
                     })
                 }
 
@@ -132,7 +132,7 @@
                             value: this.filterText,
                             valueUpdate: ['keyup']
                         }),
-                        label: '城市'
+                        label: '关键字'
                     }),
 
                     filterNoTerritory:  new (require('module/control/checkbox'))({

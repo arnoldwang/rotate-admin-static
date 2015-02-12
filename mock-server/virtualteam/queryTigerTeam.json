@@ -1,5 +1,4 @@
-[
-  {
+{
     "id": 1,
     "teamName": "虚拟组",
     "parentTeamId": 1,
@@ -11,4 +10,3 @@
     "territoryName":"交易平台-普通客户",
     "members": []
   }
-]
