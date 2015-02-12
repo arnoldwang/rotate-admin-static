@@ -8,7 +8,7 @@
                 <!-- ko module: modules.filterNoTerritory --><!-- /ko -->
                 <!-- ko module: modules.filterVirtualTeam --><!-- /ko -->
             </div>
-            <button type="button" class="btn btn-primary" data-bind="click:create">新建虚拟组</button>
+            <button type="button" class="btn btn-primary" data-bind="click:toCreate">新建虚拟组</button>
         </div>
     </div>
 
@@ -36,14 +36,14 @@
                 <td>
                     <span class="editable">
                         {{teamName}}
-                    </span>                    
+                    </span>
                 </td>
                 <td>
                     <!-- ko if:teamType===1 -->
                         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                     <!-- /ko -->
                 </td>
-                <td data-bind="html: territoryName | highlightNull">         
+                <td data-bind="html: territoryName | highlightNull">
                 </td>
                 <td>
                     {{updateTime}}
@@ -171,12 +171,14 @@
                         callback.call(this, data);
                     },
                     complete: function() {
-                        // notifier.remove();                  
+                        // notifier.remove();
                     }
                 })
             }),
 
             toEdit: function(team) {
+
+                console.log(team);
                 var targetUrl = require('./bind-territory');
                 if(team.teamType === 1){
                     targetUrl=require('./vteam-create');
@@ -192,7 +194,8 @@
                 })
             },
 
-            toCreate:function(){
+            toCreate:function(team){
+                console.log(team);
                 this.modal({
                     data: team,
                     target: require('./vteam-create'),

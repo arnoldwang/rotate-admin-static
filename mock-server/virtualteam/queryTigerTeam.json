@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "teamName": "虚拟组",
+    "parentTeamId": 1,
+    "parentTeamName": "飞虎队",
+    "teamLeaderId": 1,
+    "teamLeaderName": "苍老师",
+    "status": 1,
+    "territoryId":6,
+    "territoryName":"交易平台-普通客户",
+    "members": []
+  }
+]
