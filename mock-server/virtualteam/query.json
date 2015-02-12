@@ -1,0 +1,29 @@
+[
+  {
+    "teamId": 1,
+    "teamName": "team1",
+    "territoryId": 11,
+    "teamType":0,
+    "territoryName": "territoryName",
+    "territoryChiefName": "territoryChiefName",
+    "updateTime":"2015-01-12"
+  },
+  {
+    "teamId": 2,
+    "territoryId": 11,
+    "territoryName": "territoryName",
+    "teamType":"0",
+    "teamName": "team2",
+    "territoryChiefName": null,
+    "updateTime":"2015-01-13"
+  },
+  {
+    "teamId": 3,
+    "territoryId": 11,
+    "territoryName": null,
+    "teamType":1,
+    "teamName": "team3",
+    "territoryChiefName": null,
+    "updateTime":"2015-01-11 00:00:00"
+  }
+]
