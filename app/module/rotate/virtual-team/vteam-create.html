@@ -77,7 +77,7 @@
                     }),
 
                     parentTeam: new FormGroup({
-                        content: new (require('module/control/territory-typeahead'))({
+                        content: new TextBox({
                             value: this.parentTeamId,
                             text: this.parentTeamName
                         }),
@@ -123,20 +123,25 @@
                     status: 0,
                     territoryId:0,
                     territoryName:null,
+                    bizId:0,
                     members:[]
                 });
             },
 
             onOpen: function (data, callback) {
                 this.reset();
-                this.fetch({
-                    url: '/virtual-team/queryTigerTeam',
-                    //method: 'get',
-                    data: {
-                        id: data.teamId
-                    },
-                    success: this.setData
-                });
+                if(!data.teamId){//NEW
+                    this.setData(data);
+                }else {
+                    this.fetch({
+                        url: '/virtual-team/queryTigerTeam',
+                        method: 'get',
+                        data: {
+                            id: data.teamId
+                        },
+                        success: this.setData
+                    });
+                }
                 this.callback=callback;
             },
             cancel: function () {
