@@ -86,7 +86,7 @@
                     }),
 
                     teamLeader: new FormGroup({
-                        content: new (require('module/control/chief-leader-typeahead'))({
+                        content: new (require('module/control/user-typeahead'))({
                             value: this.teamLeaderId,
                             text: this.teamLeaderName
                         }),
@@ -103,7 +103,7 @@
                     }),
 
                     territory:  new FormGroup({
-                        content: new TextBox({
+                        content: new (require('module/control/territory-leaf-typeahead'))({
                             value: this.territoryId,
                             text: this.territoryName
                         }),
