@@ -1,0 +1,29 @@
+[
+  {
+    "teamId": 1,
+    "teamName": "上海杀马特",
+    "territoryId": 11,
+    "teamType":0,
+    "territoryName": "上海团购9-1组",
+    "territoryChiefName": "territoryChiefName",
+    "updateTime":"2015-01-12"
+  },
+  {
+    "teamId": 2,
+    "territoryId": 11,
+    "territoryName": "北京团购3-8组",
+    "teamType":0,
+    "teamName": "北京刷羊肉",
+    "territoryChiefName": null,
+    "updateTime":"2015-01-13"
+  },
+  {
+    "teamId": 3,
+    "territoryId": 11,
+    "territoryName": null,
+    "teamType":1,
+    "teamName": "广州马杀鸡",
+    "territoryChiefName": null,
+    "updateTime":"2015-01-11 00:00:00"
+  }
+]

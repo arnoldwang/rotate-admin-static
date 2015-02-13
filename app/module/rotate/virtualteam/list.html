@@ -1,0 +1,211 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="form-inline op">
+            <!-- ko module: modules.biz --><!-- /ko -->
+            <!-- ko module: modules.filterText --><!-- /ko -->
+
+            <div class="form-group">
+                <!-- ko module: modules.filterNoTerritory --><!-- /ko -->
+                <!-- ko module: modules.filterVirtualTeam --><!-- /ko -->
+            </div>
+            <button type="button" class="btn btn-primary" data-bind="click:toCreate">新建虚拟组</button>
+        </div>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    小组({{filteredItems().length}})
+                </th>
+                <th>是否虚拟</th>
+                <th style="width: 40%">
+                    战区
+                </th>
+                <th>最近修改时间</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: filteredItems, delegateEvent: {
+            click: {
+                '.editable': function(team) {
+                    toEdit(team);
+                }
+            }
+        }">
+            <tr>
+                <td>
+                    <span class="editable">
+                        {{teamName}}
+                    </span>
+                </td>
+                <td>
+                    <!-- ko if:teamType===1 -->
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    <!-- /ko -->
+                </td>
+                <td data-bind="html: territoryName | highlightNull">
+                </td>
+                <td>
+                    {{updateTime}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+    var _ = require('lodash');
+    var ko = require('knockout');
+    var kom = require('knockout.mapping');
+    var notification = require('service/notification');
+    var cache = require('service/cache');
+    var moment = require("moment");
+
+    // control
+    var SimpleFormGroup = require('module/control/simple-form-group');
+    var TextBox = require('module/control/text-box');
+    var Select = require('module/control/select');
+
+    model = [
+        function() {
+            this.reset();
+            this.buildModules();
+
+
+            ko.computed(function() {
+                var bizId = this.bizId();
+                if (bizId) {
+                    this.search();
+                }
+            }, this);
+
+            this.filteredItems = ko.pureComputed(function() {
+                var items = this.teams();
+
+                if (this.filterNoTerritory()) {
+                    items = items.filter(function(item) {
+                        return !item.territoryName;
+                    })
+                }
+
+                if (this.filterVirtualTeam()) {
+                    items = items.filter(function(item) {
+                        return item.teamType;
+                    })
+                }
+
+                var filterText = this.filterText();
+                if (filterText) {
+                    items = items.filter(function(item) {
+                        return item.teamName.indexOf(filterText) !== -1
+                    })
+                }
+
+                return items;
+            }, this);
+        },
+        {
+            reset: function() {
+                this.setData({
+                   bizId: null,
+                   teams: [],
+                   filterText: null,
+                   filterNoTerritory: false,
+                   filterVirtualTeam: false
+                });
+            },
+
+            buildModules: function() {
+                this.modules = {
+                    biz: new SimpleFormGroup({
+                        content: new Select({
+                            value: this.bizId,
+                            optionsCaption: '请选择...',
+                            options: enums.biz
+                        }),
+                        label: 'BU'
+                    }),
+
+                    filterText: new SimpleFormGroup({
+                        content: new (require('module/control/text-box'))({
+                            value: this.filterText,
+                            valueUpdate: ['keyup']
+                        }),
+                        label: '关键字'
+                    }),
+
+                    filterNoTerritory:  new (require('module/control/checkbox'))({
+                        value: this.filterNoTerritory,
+                        text: '无战区'
+                    }),
+
+                    filterVirtualTeam:  new (require('module/control/checkbox'))({
+                        value: this.filterVirtualTeam,
+                        text: '虚拟小组'
+                    })
+                }
+            },
+
+            search: function() {
+                this.teams([]);
+                this.loadBizTeams(this.bizId(), function(teams) {
+                    teams.forEach(function(item){
+                        item.updateTime = moment(item.updateTime).format('YYYY-MM-DD HH:mm:ss') ;
+                    });
+                    this.teams(teams);
+                });
+            },
+
+            loadBizTeams: cache(function(data, callback) {
+                // var notifier = notification.info('加载中...', null, {
+                //     timeOut: 0
+                // });
+
+                this.fetch({
+                    url: '/virtualteam/query',
+                    data: {
+                        bizId: this.bizId()
+                    },
+                    success: function(data) {
+                        callback.call(this, data);
+                    },
+                    complete: function() {
+                        // notifier.remove();
+                    }
+                })
+            }),
+
+            toEdit: function(team) {
+
+                console.log(team);
+                var targetUrl = require('./bind-territory');
+                if(team.teamType === 1){
+                    targetUrl=require('./vteam-create');
+                }
+                this.modal({
+                    data: team,
+                    target: targetUrl,
+                    confirm: function() {
+                        // clearCache 是 cache方法添加上去的
+                        this.loadBizTeams.clearCache(this.bizId());
+                        this.search();
+                    }
+                })
+            },
+
+            toCreate:function(team){
+                console.log(team);
+                this.modal({
+                    data: team,
+                    target: require('./vteam-create'),
+                    confirm: function() {
+                        // clearCache 是 cache方法添加上去的
+                        this.loadBizTeams.clearCache(this.bizId());
+                        this.search();
+                    }
+                })
+            }
+        }
+    ]
+</script>

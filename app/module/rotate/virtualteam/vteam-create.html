@@ -1,0 +1,118 @@
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header clearfix">
+                <button type="button" class="close" data-bind="click: cancel">×</button>
+               <span class="pull-left">
+                   <h4>
+                       设置虚拟组
+                   </h4>
+               </span>
+            </div>
+            <div class="modal-body clearfix">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label for="teamName" class="col-sm-2 control-label">小组名称</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="teamName" placeholder="如：xx团购x-x组(虚拟)" data-bind="value:teamName">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">类型</label>
+
+                        <div class="col-sm-10">
+                            <p class="form-control-static">apollo虚拟组</p>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="parentTeam" class="col-sm-2 control-label">父节点</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="parentTeam" placeholder="如：xx团购x-x组(虚拟)" data-bind="value:parentTeamName">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="teamLeaderName" class="col-sm-2 control-label">组长</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="teamLeaderName" placeholder="如：王五" data-bind="value:teamLeaderName">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="teamMember" class="col-sm-2 control-label">小组成员</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="teamMember" placeholder="如：张三，李四" data-bind="value:members">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="territoryName" class="col-sm-2 control-label">匹配战区</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="territoryName" data-bind="value:territoryName">
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer op">
+                <button type="button" class="btn btn-primary" data-bind="click: save">保存</button>
+                <button type="button" class="btn btn-default" data-bind="click: cancel">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var notification = require('service/notification');
+    model = [
+
+        function () {
+            this.reset();
+        },
+        {
+
+            reset: function () {
+                this.setData({
+                    id: 0,
+                    teamName: null,
+                    parentTeamId: 0,
+                    parentTeamName: null,
+                    teamLeaderId:0,
+                    teamLeaderName:null,
+                    status: 0,
+                    territoryId:0,
+                    territoryName:null,
+                    members:[]
+                });
+            },
+            onOpen: function (data, callback) {
+                this.reset();
+                this.fetch({
+                    url: '/virtualteam/queryTigerTeam',
+                    //method: 'get',
+                    data: {
+                        id: data.teamId
+                    },
+                    success: this.setData
+                });
+                this.callback=callback;
+            },
+            cancel: function () {
+                this.callback();
+            },
+            save: function (teamId) {
+                alert("保存..........未实现!");
+            }
+
+        }
+    ]
+</script>
