@@ -66,7 +66,7 @@
                         }),
                         label: '战区',
                         required: true
-                    }),
+                    })
                 }
             },
             
@@ -83,7 +83,7 @@
             confirm: function() {
                 if (this.validate()) {
                     this.fetch({
-                        url: '/team/bindTerritory',
+                        url: '/virtual-team/bindTerritory',
                         method: 'post',
                         data: {
                             teamId: this.teamId(),

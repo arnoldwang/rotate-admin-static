@@ -35,6 +35,11 @@ module.exports = {
             text: '消息中心',
             path: '/rotate/message',
             external: false
+        },
+        {
+            text: '虚拟小组管理',
+            path: '/rotate/virtual-team/list',
+            external: false
         }
 
     ]
