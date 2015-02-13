@@ -1,29 +1,39 @@
 [
   {
-    "teamId": 1,
+    "teamId": 2,
     "teamName": "上海杀马特",
-    "territoryId": 11,
     "teamType":0,
+    "territoryId": 11,
     "territoryName": "上海团购9-1组",
-    "territoryChiefName": "territoryChiefName",
+    "parentTeamId": 1,
+    "parentTeamName":"小虎队",
+    "teamLeaderId":1,
+    "teamLeaderName":"王二麻子",
+    "bizId":2,
     "updateTime":"2015-01-12"
   },
   {
-    "teamId": 2,
+    "teamId": 4,
+    "teamName": "北京刷羊肉",
+    "teamType":0,
     "territoryId": 11,
     "territoryName": "北京团购3-8组",
-    "teamType":0,
-    "teamName": "北京刷羊肉",
-    "territoryChiefName": null,
+    "parentTeamId": 1,
+    "parentTeamName":"beyond",
+    "teamLeaderId":1,
+    "teamLeaderName":"小仓优子",
     "updateTime":"2015-01-13"
   },
   {
     "teamId": 3,
-    "territoryId": 11,
-    "territoryName": null,
-    "teamType":1,
     "teamName": "广州马杀鸡",
-    "territoryChiefName": null,
+    "teamType":1,
+    "territoryId": 0,
+    "territoryName": null,
+    "parentTeamId": 1,
+    "parentTeamName":"S.H.E",
+    "teamLeaderId":1,
+    "teamLeaderName":"小泽玛利亚",
     "updateTime":"2015-01-11 00:00:00"
   }
 ]
