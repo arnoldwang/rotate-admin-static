@@ -43,6 +43,7 @@
         {
             reset: function() {
                 this.setData({
+                    bizId: null,
                     "teamId": null,
                     "teamName": null,        
                     "territoryId": null,
@@ -62,7 +63,8 @@
                         content: new (require('module/control/territory-leaf-typeahead'))({
                             value: this.territoryId,
                             text: this.territoryName,
-                            validator: this.validators.territoryId
+                            validator: this.validators.territoryId,
+                            bizId: this.bizId
                         }),
                         label: '战区',
                         required: true

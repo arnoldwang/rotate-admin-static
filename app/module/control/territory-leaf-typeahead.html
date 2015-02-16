@@ -9,7 +9,8 @@ ajax({
         territories = items.map(function(item) {
             return {
                 value: item.id,
-                text: item.territoryName
+                text: item.territoryName,
+                bizId: item.bizId
             }
         })
     }
@@ -18,9 +19,12 @@ ajax({
 model = [
     require('./abstract-typeahead'),
     {
+        bizId: function() {},
+
         source: function(keyword, callback) {
+            var bizId = this.bizId();
             callback(territories.filter(function(item) {
-                return item.text.indexOf(keyword) !== -1
+                return item.text.indexOf(keyword) !== -1 && (!bizId || bizId == item.bizId);
             }));
         }
     }

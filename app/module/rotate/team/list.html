@@ -167,6 +167,8 @@
             }),
 
             toEdit: function(team) {
+                team.bizId = this.bizId();
+
                 this.modal({
                     data: team,
                     target: require('./bind-territory'),
