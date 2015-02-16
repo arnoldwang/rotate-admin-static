@@ -39,7 +39,7 @@
     var TextBox = require('module/control/text-box');
     var NumberBox = require('module/control/number-box');
     var Select = require('module/control/select');
-    var Static =  require('module/control/static');
+    var Static = require('module/control/static');
 
     // validator
     var Validator = require('service/validator');
@@ -52,13 +52,13 @@
             this.buildModules();
         },
         {
-            buildValidators: function() {
+            buildValidators: function () {
                 this.validators = {
                     teamName: new Validator(this.teamName, [v.required])
                 };
             },
 
-            buildModules:function(){
+            buildModules: function () {
                 this.modules = {
                     teamName: new FormGroup({
                         content: new TextBox({
@@ -102,7 +102,7 @@
                         required: false
                     }),
 
-                    territory:  new FormGroup({
+                    territory: new FormGroup({
                         content: new (require('module/control/territory-leaf-typeahead'))({
                             value: this.territoryId,
                             text: this.territoryName
@@ -118,21 +118,21 @@
                     teamName: null,
                     parentTeamId: 0,
                     parentTeamName: null,
-                    teamLeaderId:0,
-                    teamLeaderName:null,
+                    teamLeaderId: 0,
+                    teamLeaderName: null,
                     status: 0,
-                    territoryId:0,
-                    territoryName:null,
-                    bizId:0,
-                    members:[]
+                    territoryId: 0,
+                    territoryName: null,
+                    bizId: 0,
+                    members: []
                 });
             },
 
             onOpen: function (data, callback) {
                 this.reset();
-                if(!data.teamId){//NEW
+                if (!data.teamId) {//NEW
                     this.setData(data);
-                }else {
+                } else {
                     this.fetch({
                         url: '/virtual-team/queryTigerTeam',
                         method: 'get',
@@ -142,14 +142,23 @@
                         success: this.setData
                     });
                 }
-                this.callback=callback;
+                this.callback = callback;
             },
             cancel: function () {
                 this.callback();
             },
-            save: function (teamId) {
-                alert("保存..........未实现!");
-            }
+            save: function () {
+                           var pageData = this.getData();
+    this.fetch({
+        url: "/virtual-team/save",
+        method: 'post',
+        data: pageData,
+        success: function (data) {
+            notification.success("保存成功");
+            this.callback(true, data.id);
+        }
+    });
+    }
 
         }
     ]
