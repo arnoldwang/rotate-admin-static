@@ -73,6 +73,7 @@
             },
             
             onOpen: function(data, callback) {
+                this.clearValidatorErrors();
                 this.reset();
                 this.setData(data);
                 this.callback = callback;
@@ -111,6 +112,12 @@
                     }
                 });     
                 return isValid;           
+            },
+
+            clearValidatorErrors: function() {
+                _.forEach(this.validators, function(v) {
+                    v.clear();
+                }); 
             }
         }
     ]
