@@ -79,7 +79,8 @@
                     parentTeam: new FormGroup({
                         content: new (require('module/control/team-typeahead'))({
                             value: this.parentTeamId,
-                            text: this.parentTeamName
+                            text: this.parentTeamName,
+                            bizId:this.bizId
                         }),
                         label: '父节点',
                         required: true
