@@ -77,7 +77,7 @@
                     }),
 
                     parentTeam: new FormGroup({
-                        content: new TextBox({
+                        content: new (require('module/control/team-typeahead'))({
                             value: this.parentTeamId,
                             text: this.parentTeamName
                         }),
