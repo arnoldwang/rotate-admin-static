@@ -1,0 +1,62 @@
+<div class="display-item-list form-inline">
+    <!-- ko foreach: items-->
+        <div class="display-item bg-info">
+            <span data-bind="text: $data[$parent.itemTextKey]"></span>
+            <button type="button" class="close" data-bind="on.click: $parent.items.remove($data)">&times;</button>
+        </div>
+    <!--/ko-->
+    
+    <!-- ko module: typeahead --><!-- /ko -->
+</div>
+
+<script>
+var ko = require('knockout');
+var _ = require('lodash');
+var UserTypeahead = require('./user-typeahead');
+
+model = [
+    function(o) {
+        _.extend(this, o);
+
+        var self = this;
+
+        this.resetCurrent();        
+
+        this.typeahead = new UserTypeahead({
+            value: this.value,
+            text: this.text
+        });
+
+        this.typeahead.onSelect = function() {
+            if (!self.contains(self.value())) {
+                var o = {};
+                o[self.itemValueKey] = ko.observable(self.value());
+                o[self.itemTextKey] = ko.observable(self.text());
+
+                self.items.push(o);
+            }
+
+            self.resetCurrent()
+        }
+    },
+    {
+        itemValueKey: 'value',
+        itemTextKey: 'text',
+
+        resetCurrent: function() {
+            this.setData({
+                value: null,
+                text: null
+            })
+        },
+
+        contains: function(value) {
+            value = ko.unwrap(value);
+            var itemValueKey = this.itemValueKey;
+            return this.items().some(function(item) {
+                return ko.unwrap(item[itemValueKey]) === value;
+            });
+        }
+    }
+]
+</script>

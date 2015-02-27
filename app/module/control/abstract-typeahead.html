@@ -9,6 +9,10 @@ var $ = require('jquery');
 var Typeahead = $.fn.typeahead;
 
 model = [
+    /*
+      o.text
+      o.value is required   
+    */
     function(o) {
         _.extend(this, o);
         this.event = {};
@@ -46,7 +50,11 @@ model = [
                 $element.typeahead('val', self.text());
             });                
 
-            this.onSelect($element);
+            $element.bind('typeahead:selected', function(e, item) {
+                self.value(item.value);
+                self.text(item.text);
+                self.onSelect();
+            })
             
             if (this.strict) {
                 $element.bind('blur', function() {
@@ -62,12 +70,8 @@ model = [
             }              
         },
 
-        onSelect:function($element){
-            var self = this;
-            $element.bind('typeahead:selected', function(e, item) {
-                self.value(item.value);
-                self.text(item.text)
-            })
+        // to be implement
+        onSelect:function(){
         }
     }
 ]

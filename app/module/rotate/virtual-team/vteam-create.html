@@ -48,6 +48,7 @@
 
         function () {
             this.reset();
+
             this.buildValidators();
             this.buildModules();
         },
@@ -95,8 +96,10 @@
                     }),
 
                     teamMembers: new FormGroup({
-                        content: new TextBox({
-                            value: this.members
+                        content: new (require('module/control/user-typeahead-list'))({
+                            items: this.members,
+                            itemValueKey: 'memberId',
+                            itemTextKey: 'memberName'
                         }),
                         label: '小组成员',
                         required: false
