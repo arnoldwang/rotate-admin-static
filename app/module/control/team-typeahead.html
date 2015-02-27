@@ -22,7 +22,7 @@
                         });
 
                         callback(teams.filter(function(item) {
-                            return item.text.indexOf(keyword) !== -1 && (!bizId || bizId == item.bizId);
+                            return item.text.indexOf(keyword) !== -1 && bizId;
                         }));
                     }
                 });
