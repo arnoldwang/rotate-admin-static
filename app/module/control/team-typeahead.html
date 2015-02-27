@@ -1,31 +1,32 @@
 <script>
     var ko = require('knockout');
     var ajax = require('service/ajax');
-
     var teams;
-    ajax({
-        url: '/team/query',
-        success: function(items) {
-            teams = items.map(function(item) {
-                return {
-                    value: item.teamId,
-                    text: item.teamName,
-                    territoryId: item.territoryId
-                }
-            })
-        }
-    })
-
     model = [
         require('./abstract-typeahead'),
         {
-            territoryId: function() {},
+            bizId: function() {},
 
             source: function(keyword, callback) {
-                var territoryId = this.territoryId();
-                callback(teams.filter(function(item) {
-                    return item.text.indexOf(keyword) !== -1 && (!territoryId || territoryId == item.territoryId);
-                }));
+                var bizId = this.bizId();
+                ajax({
+                    url: '/team/query',
+                    data:{bizId:bizId},
+                    success: function(items) {
+                        teams = items.map(function(item) {
+                            return {
+                                value: item.teamId,
+                                text: item.teamName,
+                                territoryId: item.territoryId
+                            }
+                        });
+
+                        callback(teams.filter(function(item) {
+                            return item.text.indexOf(keyword) !== -1 && (!bizId || bizId == item.bizId);
+                        }));
+                    }
+                });
+
             }
         }
     ]
