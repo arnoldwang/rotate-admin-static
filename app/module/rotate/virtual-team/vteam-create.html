@@ -105,7 +105,8 @@
                     territory: new FormGroup({
                         content: new (require('module/control/territory-leaf-typeahead'))({
                             value: this.territoryId,
-                            text: this.territoryName
+                            text: this.territoryName,
+                            bizId:this.bizId
                         }),
                         label: '匹配战区',
                         required: false
@@ -148,17 +149,17 @@
                 this.callback();
             },
             save: function () {
-                           var pageData = this.getData();
-    this.fetch({
-        url: "/virtual-team/save",
-        method: 'post',
-        data: pageData,
-        success: function (data) {
-            notification.success("保存成功");
-            this.callback(true, data.id);
-        }
-    });
-    }
+                var pageData = this.getData();
+                this.fetch({
+                    url: "/virtual-team/save",
+                    method: 'post',
+                    data: pageData,
+                    success: function (data) {
+                        notification.success("保存成功");
+                        this.callback(true, data.id);
+                    }
+                });
+            }
 
         }
     ]

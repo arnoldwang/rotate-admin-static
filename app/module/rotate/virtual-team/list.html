@@ -183,8 +183,6 @@
             }),
 
             toEdit: function(team) {
-
-                console.log(team);
                 var targetUrl = require('./bind-territory');
                 if(team.teamType === 1){
                     targetUrl=require('./vteam-create');
@@ -200,10 +198,11 @@
                 })
             },
 
-            toCreate:function(team){
-                console.log(team);
+            toCreate:function(){
                 this.modal({
-                    data: team,
+                    data: {
+                        bizId: this.bizId()
+                    },
                     target: require('./vteam-create'),
                     confirm: function() {
                         // clearCache 是 cache方法添加上去的
