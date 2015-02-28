@@ -14,47 +14,56 @@
 
     <table class="table table-striped">
         <thead>
-            <tr>
-                <th>
-                    小组({{filteredItems().length}})
-                </th>
-                <th>组长</th>
-                <th>是否虚拟</th>
-                <th style="width: 40%">
-                    战区
-                </th>
-                <th>父节点</th>
-                <th>最近修改时间</th>
-            </tr>
+        <tr>
+            <th>
+                小组({{filteredItems().length}})
+            </th>
+            <th>组长</th>
+            <th>是否虚拟</th>
+            <th style="width: 40%">
+                战区
+            </th>
+            <th>父节点</th>
+            <th>最近修改时间</th>
+            <th>操作</th>
+        </tr>
         </thead>
         <tbody data-bind="foreach: filteredItems, delegateEvent: {
             click: {
-                '.editable': function(team) {
+                '.edit': function(team) {
                     toEdit(team);
+                },
+                '.delete': function(team) {
+                    toDelete(team);
                 }
             }
         }">
-            <tr>
-                <td>
-                    <span class="editable">
+        <tr>
+            <td>
+                    <span class="editable edit">
                         {{teamName}}
                     </span>
-                </td>
-                <td>
-                    {{teamLeaderName}}
-                </td>
-                <td>
-                    <!-- ko if:teamType===1 -->
-                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                    <!-- /ko -->
-                </td>
-                <td data-bind="html: territoryName | highlightNull">
-                </td>
-                <td>{{parentTeamName}}</td>
-                <td>
-                    {{updateTime}}
-                </td>
-            </tr>
+            </td>
+            <td>
+                {{teamLeaderName}}
+            </td>
+            <td>
+                <!-- ko if:teamType===1 -->
+                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                <!-- /ko -->
+            </td>
+            <td data-bind="html: territoryName | highlightNull">
+            </td>
+            <td>{{parentTeamName}}</td>
+            <td>
+                {{updateTime}}
+            </td>
+            <td>
+                    <span class="editable delete">
+                   删除 </span>
+            </td>
+            </td>
+        </tr>
         </tbody>
     </table>
 </div>
@@ -74,36 +83,36 @@
     var Select = require('module/control/select');
 
     model = [
-        function() {
+        function () {
             this.reset();
             this.buildModules();
 
 
-            ko.computed(function() {
+            ko.computed(function () {
                 var bizId = this.bizId();
                 if (bizId) {
                     this.search();
                 }
             }, this);
 
-            this.filteredItems = ko.pureComputed(function() {
+            this.filteredItems = ko.pureComputed(function () {
                 var items = this.teams();
 
                 if (this.filterNoTerritory()) {
-                    items = items.filter(function(item) {
+                    items = items.filter(function (item) {
                         return !item.territoryName;
                     })
                 }
 
                 if (this.filterVirtualTeam()) {
-                    items = items.filter(function(item) {
+                    items = items.filter(function (item) {
                         return item.teamType;
                     })
                 }
 
                 var filterText = this.filterText();
                 if (filterText) {
-                    items = items.filter(function(item) {
+                    items = items.filter(function (item) {
                         return item.teamName.indexOf(filterText) !== -1
                     })
                 }
@@ -112,17 +121,17 @@
             }, this);
         },
         {
-            reset: function() {
+            reset: function () {
                 this.setData({
-                   bizId: null,
-                   teams: [],
-                   filterText: null,
-                   filterNoTerritory: false,
-                   filterVirtualTeam: false
+                    bizId: null,
+                    teams: [],
+                    filterText: null,
+                    filterNoTerritory: false,
+                    filterVirtualTeam: false
                 });
             },
 
-            buildModules: function() {
+            buildModules: function () {
                 this.modules = {
                     biz: new SimpleFormGroup({
                         content: new Select({
@@ -141,30 +150,30 @@
                         label: '关键字'
                     }),
 
-                    filterNoTerritory:  new (require('module/control/checkbox'))({
+                    filterNoTerritory: new (require('module/control/checkbox'))({
                         value: this.filterNoTerritory,
                         text: '无战区'
                     }),
 
-                    filterVirtualTeam:  new (require('module/control/checkbox'))({
+                    filterVirtualTeam: new (require('module/control/checkbox'))({
                         value: this.filterVirtualTeam,
                         text: '虚拟小组'
                     })
                 }
             },
 
-            search: function() {
+            search: function () {
                 this.teams([]);
-                this.loadBizTeams(this.bizId(), function(teams) {
-                    teams.forEach(function(item){
-                        item.updateTime = moment(item.updateTime).format('YYYY-MM-DD HH:mm:ss') ;
-                        item.createTime = moment(item.createTime).format('YYYY-MM-DD HH:mm:ss') ;
+                this.loadBizTeams(this.bizId(), function (teams) {
+                    teams.forEach(function (item) {
+                        item.updateTime = moment(item.updateTime).format('YYYY-MM-DD HH:mm:ss');
+                        item.createTime = moment(item.createTime).format('YYYY-MM-DD HH:mm:ss');
                     });
                     this.teams(teams);
                 });
             },
 
-            loadBizTeams: cache(function(data, callback) {
+            loadBizTeams: cache(function (data, callback) {
                 // var notifier = notification.info('加载中...', null, {
                 //     timeOut: 0
                 // });
@@ -174,28 +183,28 @@
                     data: {
                         bizId: this.bizId()
                     },
-                    success: function(data) {
+                    success: function (data) {
                         callback.call(this, data);
                     },
-                    complete: function() {
+                    complete: function () {
                         // notifier.remove();
                     }
                 })
             }),
 
-            toEdit: function(team) {
+            toEdit: function (team) {
 
                 var team = _.clone(team)
                 delete team.createTime
                 delete team.updateTime
                 var targetUrl = require('./bind-territory');
-                if(team.teamType === 1){
-                    targetUrl=require('./vteam-create');
+                if (team.teamType === 1) {
+                    targetUrl = require('./vteam-create');
                 }
                 this.modal({
                     data: team,
                     target: targetUrl,
-                    confirm: function() {
+                    confirm: function () {
                         // clearCache 是 cache方法添加上去的
                         this.loadBizTeams.clearCache(this.bizId());
                         this.search();
@@ -203,18 +212,31 @@
                 })
             },
 
-            toCreate:function(){
+            toCreate: function () {
                 this.modal({
                     data: {
                         bizId: this.bizId()
                     },
                     target: require('./vteam-create'),
-                    confirm: function() {
+                    confirm: function () {
                         // clearCache 是 cache方法添加上去的
                         this.loadBizTeams.clearCache(this.bizId());
                         this.search();
                     }
                 })
+            },
+
+            toDelete: function () {
+                var teamId = this.getData().teamId;
+                this.fetch({
+                    url: "/virtual-team/delete",
+                    method: 'post',
+                    data: {teamId: teamId},
+                    success: function (data) {
+                        notification.success("删除成功");
+                        this.search();
+                    }
+                });
             }
         }
     ]

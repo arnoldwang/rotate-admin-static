@@ -10,7 +10,7 @@
             source: function(keyword, callback) {
                 var bizId = this.bizId();
                 ajax({
-                    url: '/team/query',
+                    url: '/team/queryAll',
                     data:{bizId:bizId},
                     success: function(items) {
                         teams = items.map(function(item) {
