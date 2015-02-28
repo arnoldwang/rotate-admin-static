@@ -8,7 +8,7 @@
                 <!-- ko module: modules.filterNoTerritory --><!-- /ko -->
                 <!-- ko module: modules.filterVirtualTeam --><!-- /ko -->
             </div>
-            <button type="button" class="btn btn-primary" data-bind="click:toCreate">新建虚拟组</button>
+            <button type="button" class="btn btn-primary" data-bind="click:toCreate,visible:bizId">新建虚拟组</button>
         </div>
     </div>
 
@@ -158,6 +158,7 @@
                 this.loadBizTeams(this.bizId(), function(teams) {
                     teams.forEach(function(item){
                         item.updateTime = moment(item.updateTime).format('YYYY-MM-DD HH:mm:ss') ;
+                        item.createTime = moment(item.createTime).format('YYYY-MM-DD HH:mm:ss') ;
                     });
                     this.teams(teams);
                 });
@@ -183,6 +184,10 @@
             }),
 
             toEdit: function(team) {
+
+                var team = _.clone(team)
+                delete team.createTime
+                delete team.updateTime
                 var targetUrl = require('./bind-territory');
                 if(team.teamType === 1){
                     targetUrl=require('./vteam-create');
