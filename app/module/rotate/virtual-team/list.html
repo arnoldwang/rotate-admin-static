@@ -174,10 +174,6 @@
             },
 
             loadBizTeams: cache(function (data, callback) {
-                // var notifier = notification.info('加载中...', null, {
-                //     timeOut: 0
-                // });
-
                 this.fetch({
                     url: '/virtual-team/query',
                     data: {
@@ -226,11 +222,11 @@
                 })
             },
 
-            toDelete: function () {
-                var teamId = this.getData().teamId;
+            toDelete: function (team) {
+                var teamId = team.id;
                 this.fetch({
                     url: "/virtual-team/delete",
-                    method: 'post',
+                    method: 'get',
                     data: {teamId: teamId},
                     success: function (data) {
                         notification.success("删除成功");
