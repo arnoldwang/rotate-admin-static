@@ -6,7 +6,7 @@
 
             <div class="form-group">
                 <!-- ko module: modules.filterNoTerritory --><!-- /ko -->
-                <!-- ko module: modules.filterVirtualTeam --><!-- /ko -->
+                 <!-- module: modules.filterVirtualTeam  /ko -->
             </div>
             <button type="button" class="btn btn-primary" data-bind="click:toCreate,visible:bizId">新建虚拟组</button>
         </div>
@@ -173,7 +173,7 @@
                 });
             },
 
-            loadBizTeams: cache(function (data, callback) {
+            loadBizTeams: function (data, callback) {
                 this.fetch({
                     url: '/virtual-team/query',
                     data: {
@@ -186,7 +186,7 @@
                         // notifier.remove();
                     }
                 })
-            }),
+            },
 
             toEdit: function (team) {
 
@@ -202,7 +202,7 @@
                     target: targetUrl,
                     confirm: function () {
                         // clearCache 是 cache方法添加上去的
-                        this.loadBizTeams.clearCache(this.bizId());
+                        //this.loadBizTeams.clearCache(this.bizId());
                         this.search();
                     }
                 })
