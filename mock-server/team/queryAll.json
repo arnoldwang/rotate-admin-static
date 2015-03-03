@@ -1,0 +1,23 @@
+[
+  {
+    "teamId": 1,
+    "teamName": "组1",
+    "territoryId": 11,
+    "territoryName": "territoryName",
+    "territoryChiefName": "territoryChiefName"
+  },
+  {
+    "teamId": 2,
+    "territoryId": 11,
+    "territoryName": "territoryName",
+    "teamName": "组2",
+    "territoryChiefName": null
+  },
+  {
+    "teamId": 3,
+    "territoryId": 11,
+    "territoryName": null,
+    "teamName": "组3",
+    "territoryChiefName": null
+  }
+]

@@ -1,0 +1,19 @@
+<div style="width: auto;display: inline-block;" >
+    <p class="form-control-static alert-danger" style="padding-left: 5px;padding-right: 5px">
+    {{id}}({{desc}})</p>
+</div>
+<script>
+
+    var ko = require('knockout');
+    var Typeahead = require('module/control/city-typeahead');
+    model = [
+        function (data) {
+            this.setData({
+                id:null,
+                notFound:true,
+                desc:null
+            })
+            this.setData(data);
+        }
+    ]
+</script>

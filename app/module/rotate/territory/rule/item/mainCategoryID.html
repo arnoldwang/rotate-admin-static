@@ -1,87 +1,21 @@
-<!--ko foreach:items-->
-<select class="form-control" style="width: auto;display: inline-block" data-bind="
-    options: categoryId.categoryEnum,
-    optionsCaption: '全部',
-    optionsText: 'text',
-    optionsValue: 'value',
-    value: categoryId,
-    event: {change:function(){$parent.change($data)}}
-">
-<!--/ko-->
+<div style="width: auto;display: inline-block">
+    <!-- ko module: module--><!-- /ko -->
+</div>
 <script>
 
     var ko = require('knockout');
-    var Typeahead = require('module/control/city-typeahead');
-    var Select = require('module/control/select');
+    var Typeahead = require('module/control/category-typeahead');
     model = [
         function (data) {
-            if (!data) {
-                data = [
-                    {
-                        "categoryId": null,
-                        "categoryName": null
-                    }
-                ]
-            }
             this.setData({
-                items: data
-            });
-
-            var self = this;
-            this.items().forEach(function(item,index,array){
-                item.categoryId.categoryEnum = ko.observableArray([
-                    {
-                        text:item.categoryName(),
-                        value:item.categoryId()
-                    }
-                ]);
-                if(index==0){
-                    self.getChildrenCategoryListByCategoryId(null,item.categoryId.categoryEnum);
-                }else{
-                    self.getChildrenCategoryListByCategoryId(array[index-1].categoryId(),item.categoryId.categoryEnum);
-                }
-            });
-            var  categoryId = this.items()[this.items().length-1].categoryId();
-
-            if(categoryId){
-                this.getChildrenCategoryListByCategoryId(categoryId)
-            }
-
-
-        }, {
-            getChildrenCategoryListByCategoryId: function (categoryId,callback) {
-                this.fetch({
-                    url: "/common/getChildrenCategoryListByCategoryId",
-                    data: { categoryId: categoryId},
-                    success: function (data) {
-                        data = data.map(function(item){
-                            return {
-                                text:item.name,
-                                value:item.id
-                            }
-                        })
-                        if(callback){
-                            callback(data)
-                        }else{
-                            if(data&&data.length){
-                                var a = {
-                                    categoryId:ko.observable(),
-                                    categoryName:ko.observable()
-                                }
-                                a.categoryId.categoryEnum = ko.observableArray(data);
-                                this.items.push(a);
-                            }
-                        }
-                    }
-                });
-            },
-            change:function(data){
-                var items = this.items()
-                var index = items.indexOf(data)
-                this.items.splice(index+1);
-                if(data.categoryId())
-                    this.getChildrenCategoryListByCategoryId(data.categoryId())
-            }
+                categoryId:null,
+                categoryName:null
+            })
+            this.setData(data);
+            this.module  = new Typeahead({
+                value:this.categoryId,
+                text:this.categoryName
+            })
         }
     ]
 </script>

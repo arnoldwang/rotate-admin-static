@@ -1,0 +1,15 @@
+<script>
+var ko = require('knockout');
+
+model = [
+    require('./abstract-typeahead'),
+    {
+        source: function(keyword, callback) {
+            callback(window.enums.categoryList.filter(function(item){
+                return item.text.indexOf(keyword) !== -1
+            }))
+
+        }
+    }
+]
+</script>

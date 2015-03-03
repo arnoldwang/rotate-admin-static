@@ -42,6 +42,10 @@
                     "cityName": "上海",
                     "mainRegionId":1,
                     "mainRegionName":"上海1"
+                },{
+                    "id":1,
+                    "notFound":true,
+                    "desc":"找不到111"
                 }
             ]
         },
@@ -49,10 +53,10 @@
             "field": "mainCategoryID",
             "type": 1,
             "value": [
-                [{
+                {
                     "categoryId": 1,
                     "categoryName": "美食"
-                }]
+                }
             ]
         }
     ]}

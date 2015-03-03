@@ -39,6 +39,7 @@
 <script>
     var Select = require('module/control/select');
     var ko = require('knockout');
+    var NotFoundModule = require('module/rotate/territory/rule/item/notFound');
     model = [
         function () {
             this.setData({
@@ -59,10 +60,17 @@
 
         },{
             createChild:function(child){
+                if(child&&child.notFound){
+                    return new NotFoundModule(child);
+                }
                 var field  = this.field();
+
+
                 var a = window.enums.territoryRuleProperty.filter(function(t){
                     return t.value===field
                 })[0];
+
+
                 if(a.type===1){
                     return new (require('module/rotate/territory/rule/item/select'))(child, a.enumKey);
                 }else{
