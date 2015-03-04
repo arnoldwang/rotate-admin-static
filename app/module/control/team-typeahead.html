@@ -1,7 +1,24 @@
 <script>
     var ko = require('knockout');
     var ajax = require('service/ajax');
-    var teams;
+    var cache = require('service/cache');
+
+    var queryAllTeamsByBizId = cache(function(bizId, callback) {
+        ajax({
+            url: '/team/queryAll',
+            data:{bizId:bizId},
+            success: function(items) {
+                callback(items.map(function(item) {
+                    return {
+                        value: item.teamID,
+                        text: item.teamName,
+                        territoryId: item.territoryId
+                    }
+                }));
+            }
+        });
+    })
+
     model = [
         require('./abstract-typeahead'),
         {
@@ -9,24 +26,11 @@
 
             source: function(keyword, callback) {
                 var bizId = this.bizId();
-                ajax({
-                    url: '/team/queryAll',
-                    data:{bizId:bizId},
-                    success: function(items) {
-                        teams = items.map(function(item) {
-                            return {
-                                value: item.teamID,
-                                text: item.teamName,
-                                territoryId: item.territoryId
-                            }
-                        });
-
-                        callback(teams.filter(function(item) {
-                            return item.text.indexOf(keyword) !== -1 && bizId;
-                        }));
-                    }
-                });
-
+                queryAllTeamsByBizId(bizId, function(items) {
+                    callback(items.filter(function(item) {
+                        return item.text.indexOf(keyword) !== -1;
+                    }));
+                })
             }
         }
     ]
