@@ -217,14 +217,15 @@
                     return item.checked();
                 })
             },
-
             setVIP: function() {
-                console.log(this.getSelectedItems())
-            },
-
-            allChoose : function(items){
-                items.forEach(function(item){
-                    item.checked = true;
+                this.fetch({
+                    url:'/shop-handle/setVIP',
+                    data:{
+                       selectItems:this.getSelectedItems()
+                    },
+                    success: function () {
+                        this.updateList();
+                    }
                 })
             }
 
