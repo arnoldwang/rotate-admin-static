@@ -105,14 +105,12 @@
                     var items = this.items();
                     if (this.filterSuccess()) {
                         items = items.filter(function (item) {
-                            console.log(item)
                             return item.runStatus()===3;
                         })
                     }
 
                     if (this.filterFailure()) {
                         items = items.filter(function (item) {
-                            console.log(item)
                             return item.runStatus()===4;
                         })
                     }
