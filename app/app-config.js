@@ -40,6 +40,11 @@ module.exports = {
             text: '虚拟小组管理',
             path: '/rotate/virtual-team/list',
             external: false
+        },
+        {
+            text: '门店标记和转移',
+            path: '/rotate/shop-handle/list',
+            external : false
         }
 
     ]
