@@ -4,20 +4,20 @@
         "territoryName": "territoryName1212",        
         "createTime": "2015-01-20",
         "updateTime": "2015-01-20",
-        "runStatus": "runStatus"
+        "runStatus": "1"
     },
     {
         "territoryId": 2,
         "territoryName": "territoryName21212",        
         "createTime": "2015-01-21",
         "updateTime": "2015-01-20",
-        "runStatus": "runStatus"
+        "runStatus": "4"
     },
     {
         "territoryId": 3,
         "territoryName": "territoryNamejjjj",        
         "createTime": "2015-01-20",
         "updateTime": "2015-01-20",
-        "runStatus": "runStatus"
+        "runStatus": "3"
     }
 ]
