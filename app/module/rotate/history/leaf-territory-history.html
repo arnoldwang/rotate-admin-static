@@ -90,34 +90,37 @@
             this.buildFilter();
         },
         {
-            reset:function(){
+            reset: function () {
                 this.setData({
                     territoryName: null,
                     items: [],
                     id: null,
-                    filterSuccess:false,
-                    filterFailure:false,
-                    filterText:null
+                    filterSuccess: false,
+                    filterFailure: false,
+                    filterText: null
                 });
             },
-            buildFilter:function(){
+            buildFilter: function () {
                 this.filteredItems = ko.pureComputed(function () {
                     var items = this.items();
                     if (this.filterSuccess()) {
                         items = items.filter(function (item) {
-                            return item.runStatus()===3;
+                            return item.runStatus() === 3;
                         })
                     }
 
                     if (this.filterFailure()) {
                         items = items.filter(function (item) {
-                            return item.runStatus()===4;
+                            return item.runStatus() === 4;
                         })
                     }
 
                     var filterText = this.filterText();
                     if (filterText) {
                         items = items.filter(function (item) {
+                            if (item==null || item.territoryName() == null || item.territoryName() == ''){
+                                return false;
+                            }
                             return item.territoryName().indexOf(filterText) !== -1
                         })
                     }
