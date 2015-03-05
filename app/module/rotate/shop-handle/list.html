@@ -45,7 +45,7 @@
         <thead>
         <tr>
             <th>
-                全选
+                <input type="checkbox" data-bind="allChoose:model.items">
             </th>
             <th>门店名</th>
             <th>shopId</th>
@@ -220,6 +220,12 @@
 
             setVIP: function() {
                 console.log(this.getSelectedItems())
+            },
+
+            allChoose : function(items){
+                items.forEach(function(item){
+                    item.checked = true;
+                })
             }
 
         }
