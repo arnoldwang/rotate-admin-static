@@ -224,6 +224,32 @@
                        selectItems:this.getSelectedItems()
                     },
                     success: function () {
+                        this.getSelectedItems().forEach(function(item){
+                            item.isVIP(1)
+                        })
+                    }
+                })
+            },
+            cancelVIP: function() {
+                this.fetch({
+                    url:'/shop-handle/cancelVIP',
+                    data:{
+                        selectItems:this.getSelectedItems()
+                    },
+                    success: function () {
+                        this.getSelectedItems().forEach(function(item){
+                            item.isVIP(0)
+                        })
+                    }
+                })
+            },
+            release: function() {
+                this.fetch({
+                    url:'/shop-handle/release',
+                    data:{
+                        selectItems:this.getSelectedItems()
+                    },
+                    success: function () {
                         this.updateList();
                     }
                 })
