@@ -1,6 +1,10 @@
 {
     "name": "rotate-admin-static",
+<<<<<<< HEAD
     "version": "0.0.12",
+=======
+    "version": "0.0.13",
+>>>>>>> 0ae581493c0ce44b1c2fad3c87e21b8e3adf965f
     "description": "",
     "main": "index.js",
     "scripts": {
