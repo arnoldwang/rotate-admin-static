@@ -35,10 +35,10 @@
     </div>
 
     <div class="op">
-        <button type="button" class="btn btn-default btn-sm" data-bind="click:search">批量设为大客户</button>
-        <button type="button" class="btn btn-default btn-sm" data-bind="click:search">批量取消设为大客户</button>
-        <button type="button" class="btn btn-default btn-sm" data-bind="click:search">批量释放到公海</button>
-        <button type="button" class="btn btn-default btn-sm" data-bind="click:search">批量转移</button>
+        <button type="button" class="btn btn-default btn-sm" data-bind="click:setVIP">批量设为大客户</button>
+        <button type="button" class="btn btn-default btn-sm" data-bind="click:cancelVIP">批量取消设为大客户</button>
+        <button type="button" class="btn btn-default btn-sm" data-bind="click:release">批量释放到公海</button>
+        <button type="button" class="btn btn-default btn-sm" data-bind="click:change">批量转移</button>
     </div>
 
     <table class="table table-striped">
@@ -61,7 +61,7 @@
         <tbody data-bind="foreach:items">
         <tr>
             <td>
-                <input type="checkbox">
+                <input type="checkbox" data-bind="checked: checked">
             </td>
             <td>
                 {{shopName}}
@@ -72,12 +72,12 @@
             <td>
                 {{rotateId}}
             </td>
-            <td>{{isVIP}}</td>
+            <td>{{isVIP |enums:'apolloShopType'}}</td>
             <td>
                 {{territoryName}}
             </td>
             <td>
-                {{cityName}}
+                {{cityId | enums:'province'}}
             </td>
             <td>
                 {{salesName}}
@@ -174,34 +174,52 @@
             },
 
             onStateChange: function (query) {
-                this.pageIndex(parseInt(query.pageIndex) || 1)
-                this.pageSize(parseInt(query.pageSize) || 10)
+                this.reset();
+            },
+
+            updateList: function() {
+                this.resetResults();
 
                 this.fetch({
                     url: '/shop-handle/shopList',
                     data: {
-                        pageSize: this.pageSize(),
-                        pageIndex: this.pageIndex()
+                        pageSize: this.pageSize,
+                        pageIndex: this.pageIndex,
+                        taskValue :this.taskValue
                     },
                     success: function (data) {
-                        this.setData(data)
+                        data.items.forEach(function(item) {
+                            item.checked = false;
+                        });
+
+                        this.setData(data);
                     }
                 });
+
             },
-            updateList: function() {
-                app.state.setData({
-                    path: app.state.getData().path,
-                    query: {
-                        pageSize: this.pageSize(),
-                        pageIndex: this.pageIndex()
-                    }
+
+            search:function(){
+                this.pageIndex(1);
+                this.pageSize(10);
+                this.updateList();
+            },
+
+            resetResults: function() {
+                this.items([]);
+            },
+
+            getSelectedItems: function() {
+                return this.items().filter(function(item) {
+                    return item.checked();
                 })
             },
-            search: function () {
 
+            setVIP: function() {
+                console.log(this.getSelectedItems())
             }
 
         }
     ]
 
 </script>
+

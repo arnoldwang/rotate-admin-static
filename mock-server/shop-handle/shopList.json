@@ -7,7 +7,16 @@
       "rotateId": 1123,
       "isVIP":1,
       "territoryName":"上海公海一",
-      "cityName":"上海",
+      "cityId":2,
+      "salesName":"宋亚飞"
+    },
+    {
+      "shopName": "南京大排档（五角场店）",
+      "shopId": 1929292,
+      "rotateId": 1123,
+      "isVIP":0,
+      "territoryName":"上海公海一",
+      "cityId":2,
       "salesName":"宋亚飞"
     },
     {
@@ -16,16 +25,7 @@
       "rotateId": 1123,
       "isVIP":1,
       "territoryName":"上海公海一",
-      "cityName":"上海",
-      "salesName":"宋亚飞"
-    },
-    {
-      "shopName": "南京大排档（五角场店）",
-      "shopId": 1929292,
-      "rotateId": 1123,
-      "isVIP":1,
-      "territoryName":"上海公海一",
-      "cityName":"上海",
+      "cityId":1,
       "salesName":"宋亚飞"
     }
   ]
