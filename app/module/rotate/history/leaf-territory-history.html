@@ -2,12 +2,23 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header clearfix">
-               <button type="button" class="close" data-bind="click: cancel">×</button>
+                <button type="button" class="close" data-bind="click: cancel">×</button>
                 <h4>{{territoryName}} - 子战区运行状态</h4>
             </div>
             <div class="modal-body">
-                <table class="table table-striped table-bordered">
-                    <thead>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="form-inline op">
+                            <!-- ko module: modules.filterText --><!-- /ko -->
+
+                            <div class="form-group">
+                                <!-- ko module: modules.filterSuccess --><!-- /ko -->
+                                <!-- ko module: modules.filterFailure  --><!-- /ko -->
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-striped table-bordered">
+                        <thead>
                         <tr>
                             <th>
                                 战区名称
@@ -25,8 +36,8 @@
                                 操作
                             </th>
                         </tr>
-                    </thead>
-                    <tbody data-bind="foreach: items,items,delegateEvent: {
+                        </thead>
+                        <tbody data-bind="foreach: filteredItems,filteredItems,delegateEvent: {
                         click: {
                              '.editable': function(item) {
                              reRun(item);
@@ -35,7 +46,7 @@
                         }">
                         <tr>
                             <td>
-                               {{territoryName}}                    
+                                {{territoryName}}
                             </td>
                             <td>
                                 {{createTime| time}}
@@ -49,37 +60,103 @@
                             <td>
                             <span class="editable" data-bind="visible:runStatus()===4">
                             重试
-                            </span> 
+                            </span>
                             </td>
                         </tr>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+
+    var _ = require('lodash');
     var notification = require('service/notification');
+    var ko = require('knockout');
+    var kom = require('knockout.mapping');
+
+    // control
+    var SimpleFormGroup = require('module/control/simple-form-group');
+    var TextBox = require('module/control/text-box');
 
     model = [
         function () {
-            this.setData({
-                territoryName: null,
-                items: [],
-                id:null
-            })
+            this.reset();
+            this.buildModules();
+
+            this.buildFilter();
         },
         {
-            onOpen: function (data, callback) {
+            reset:function(){
+                this.setData({
+                    territoryName: null,
+                    items: [],
+                    id: null,
+                    filterSuccess:false,
+                    filterFailure:false,
+                    filterText:null
+                });
+            },
+            buildFilter:function(){
+                this.filteredItems = ko.pureComputed(function () {
+                    var items = this.items();
+                    if (this.filterSuccess()) {
+                        items = items.filter(function (item) {
+                            console.log(item)
+                            return item.runStatus()===3;
+                        })
+                    }
 
+                    if (this.filterFailure()) {
+                        items = items.filter(function (item) {
+                            console.log(item)
+                            return item.runStatus()===4;
+                        })
+                    }
+
+                    var filterText = this.filterText();
+                    if (filterText) {
+                        items = items.filter(function (item) {
+                            return item.territoryName().indexOf(filterText) !== -1
+                        })
+                    }
+
+                    return items;
+                }, this);
+            },
+
+            buildModules: function () {
+                this.modules = {
+                    filterText: new SimpleFormGroup({
+                        content: new (require('module/control/text-box'))({
+                            value: this.filterText,
+                            valueUpdate: ['keyup']
+                        }),
+                        label: '战区'
+                    }),
+                    filterSuccess: new (require('module/control/checkbox'))({
+                        value: this.filterSuccess,
+                        text: '运行成功'
+                    }),
+                    filterFailure: new (require('module/control/checkbox'))({
+                        value: this.filterFailure,
+                        text: '运行失败'
+                    })
+                }
+            }
+            ,
+            onOpen: function (data, callback) {
+                this.reset();
                 this.setData(data);
-                this.query()
+                this.query();
                 this.callback = callback;
             },
 
 
-            query:function() {
+            query: function () {
                 this.fetch({
                     url: '/territory/leafHistoryList',
                     data: {
@@ -92,11 +169,11 @@
                     }
                 })
             },
-            cancel: function() {
+            cancel: function () {
                 this.callback();
             },
-            reRun: function(item) {
-                if(confirm("确定重新运行嘛?")){
+            reRun: function (item) {
+                if (confirm("确定重新运行嘛?")) {
                     this.fetch({
                         url: '/territory/reRunTerritoryRule',
                         data: {
