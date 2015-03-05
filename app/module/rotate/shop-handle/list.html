@@ -143,8 +143,8 @@
 
                     sales: new FormGroup({
                         content: new (require('module/control/user-typeahead'))({
-                            text: this.salesId,
-                            value: this.salesName
+                            text: this.salesName,
+                            value: this.salesId
                         }),
                         cols: [4, 8],
                         label: '责任销售'
@@ -185,7 +185,11 @@
                     data: {
                         pageSize: this.pageSize,
                         pageIndex: this.pageIndex,
-                        taskValue :this.taskValue
+                        bizId: this.bizId,
+                        shopId: this.shopId,
+                        salesId: this.salesId,
+                        shopName: this.shopName,
+                        rotateId: this.rotateId
                     },
                     success: function (data) {
                         data.items.forEach(function(item) {
