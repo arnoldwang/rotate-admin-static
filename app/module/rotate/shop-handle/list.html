@@ -1,0 +1,207 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="form-horizontal">
+            <!-- ko module: modules.biz --><!-- /ko -->
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-horizontal">
+                    <!-- ko module: modules.sales --><!-- /ko -->
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-horizontal">
+                    <!-- ko module: modules.shopId --><!-- /ko -->
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-horizontal">
+                    <!-- ko module: modules.shopName --><!-- /ko -->
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-horizontal">
+                    <!-- ko module: modules.rotateId --><!-- /ko -->
+                </div>
+            </div>
+        </div>
+
+        <div class="row col-md-offset-1">
+            <button type="button" class="btn btn-primary" data-bind="click:search">查询</button>
+        </div>
+    </div>
+
+    <div class="op">
+        <button type="button" class="btn btn-default btn-sm" data-bind="click:search">批量设为大客户</button>
+        <button type="button" class="btn btn-default btn-sm" data-bind="click:search">批量取消设为大客户</button>
+        <button type="button" class="btn btn-default btn-sm" data-bind="click:search">批量释放到公海</button>
+        <button type="button" class="btn btn-default btn-sm" data-bind="click:search">批量转移</button>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>
+                全选
+            </th>
+            <th>门店名</th>
+            <th>shopId</th>
+            <th>
+                rotateId
+            </th>
+            <th>是否大客户</th>
+            <th>所属战区</th>
+            <th>门店所在城市</th>
+            <th>责任销售</th>
+        </tr>
+        </thead>
+        <tbody data-bind="foreach:items">
+        <tr>
+            <td>
+                <input type="checkbox">
+            </td>
+            <td>
+                {{shopName}}
+            </td>
+            <td>
+                {{shopId}}
+            </td>
+            <td>
+                {{rotateId}}
+            </td>
+            <td>{{isVIP}}</td>
+            <td>
+                {{territoryName}}
+            </td>
+            <td>
+                {{cityName}}
+            </td>
+            <td>
+                {{salesName}}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="panel-footer">
+        <!-- ko module: pagination --><!-- /ko -->
+    </div>
+
+</div>
+
+<script>
+    var _ = require('lodash');
+    var ko = require('knockout');
+    var kom = require('knockout.mapping');
+    var notification = require('service/notification');
+
+    // control
+    var FormGroup = require('module/control/form-group');
+    var TextBox = require('module/control/text-box');
+    var Select = require('module/control/select');
+
+    model = [
+        function () {
+            this.reset();
+            this.buildModules();
+            this.pagination = new (require('module/control/pagination'))({
+                size: this.pageSize,
+                index: this.pageIndex,
+                total: this.total,
+                onChange: this.updateList.bind(this)
+            });
+        },
+        {
+            reset: function () {
+                this.setData({
+                    items: [],
+                    total: 0,
+                    bizId: null,
+                    shopId: null,
+                    salesId: null,
+                    salesName: null,
+                    shopName: null,
+                    rotateId: null,
+                    pageIndex: 1,
+                    pageSize: 10
+                });
+            },
+
+            buildModules: function () {
+                this.modules = {
+                    biz: new FormGroup({
+                        content: new Select({
+                            value: this.bizId,
+                            optionsCaption: '请选择...',
+                            options: enums.biz
+                        }),
+                        cols: [2, 4],
+                        label: 'BU'
+                    }),
+
+                    sales: new FormGroup({
+                        content: new (require('module/control/user-typeahead'))({
+                            text: this.salesId,
+                            value: this.salesName
+                        }),
+                        cols: [4, 8],
+                        label: '责任销售'
+                    }),
+                    shopId: new FormGroup({
+                        content: new TextBox({
+                            value: this.shopId
+                        }),
+                        cols: [2, 8],
+                        label: 'shopId'
+                    }),
+                    shopName: new FormGroup({
+                        content: new TextBox({
+                            value: this.shopName
+                        }),
+                        cols: [4, 8],
+                        label: '门店名称'
+                    }),
+                    rotateId: new FormGroup({
+                        content: new TextBox({
+                            value: this.rotateId
+                        }),
+                        cols: [2, 8],
+                        label: 'rotateId'
+                    })
+                }
+            },
+
+            onStateChange: function (query) {
+                this.pageIndex(parseInt(query.pageIndex) || 1)
+                this.pageSize(parseInt(query.pageSize) || 10)
+
+                this.fetch({
+                    url: '/shop-handle/shopList',
+                    data: {
+                        pageSize: this.pageSize(),
+                        pageIndex: this.pageIndex()
+                    },
+                    success: function (data) {
+                        this.setData(data)
+                    }
+                });
+            },
+            updateList: function() {
+                app.state.setData({
+                    path: app.state.getData().path,
+                    query: {
+                        pageSize: this.pageSize(),
+                        pageIndex: this.pageIndex()
+                    }
+                })
+            },
+            search: function () {
+
+            }
+
+        }
+    ]
+
+</script>
