@@ -92,6 +92,8 @@
                 var bizId = this.bizId();
                 if (bizId) {
                     this.search();
+                }else{
+                    this.setData({teams:[]});
                 }
             }, this);
 
