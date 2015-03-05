@@ -1,0 +1,91 @@
+<div class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header clearfix">
+                <button type="button" class="close" data-bind="click: cancel">×</button>
+                <h4>门店转移</h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-default">
+                    <div class="panel-body"></div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-horizontal">
+                                <!-- ko module: modules.changeSales --><!-- /ko -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="op col-sm-offset-2">
+                        <button type="button" class="btn btn-default" data-bind="click:transform">确定</button>
+                        <button type="button" class="btn btn-default" data-bind="click:cancel">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var _ = require('lodash');
+    var notification = require('service/notification');
+    var ko = require('knockout');
+    var kom = require('knockout.mapping');
+
+    // control
+    var FormGroup = require('module/control/form-group');
+
+
+    model = [
+        function () {
+            this.reset();
+            this.buildModules();
+        },
+        {
+            reset: function () {
+                this.setData({
+                    shopIds: [],
+                    salesName: null,
+                    salesId: null
+                });
+            },
+            buildModules: function () {
+                this.modules = {
+                    changeSales: new FormGroup({
+                        content: new (require('module/control/user-typeahead'))({
+                            text: this.salesName,
+                            value: this.salesId
+                        }),
+                        cols: [4, 8],
+                        label: '转移给:'
+                    })
+                }
+            }
+            ,
+            onOpen: function (data, callback) {
+                this.reset();
+                this.getShopIds(data);
+                this.callback = callback;
+            },
+            cancel: function () {
+                this.callback();
+            },
+            getShopIds :function(data){
+                this.shopIds( data.map(function(item){ return item.shopId}))
+            },
+            transform: function(){
+                this.fetch({
+                    url:'/shop-handle/transform',
+                    data :{
+                        shopIds:this.shopIds(),
+                        salesId:this.salesId()
+                    },
+                    success: function () {
+                        this.callback(true)
+                    }
+                })
+            }
+
+        }
+    ]
+</script>

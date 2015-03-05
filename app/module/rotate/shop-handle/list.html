@@ -253,6 +253,15 @@
                         this.updateList();
                     }
                 })
+            },
+            change: function() {
+                this.modal({
+                    data: kom.toJS(this.getSelectedItems()),
+                    target: require('./change-sales'),
+                    confirm: function() {
+                        this.updateList();
+                    }
+                })
             }
 
         }
