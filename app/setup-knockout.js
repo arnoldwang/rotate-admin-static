@@ -95,5 +95,6 @@ ko.filters.highlightNull = function(value) {
     });
 })({
     module: require('./binding-handler/module'),
+    checkAll: require('./binding-handler/check-all'),
     delegateEvent: require('./binding-handler/delegate-event')
 });
