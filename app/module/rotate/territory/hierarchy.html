@@ -14,8 +14,13 @@
 model = [
     function() {
         this.tree = new (require('./root'))();
-        this.tree.expand();
-        this.tree.load();
+    },
+    {
+        onStateChange: function() {
+            this.tree.reset();
+            this.tree.load();
+            this.tree.expand();
+        }
     }
 ]
 </script>
