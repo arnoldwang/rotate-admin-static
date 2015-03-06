@@ -72,7 +72,11 @@
             <td>
                 {{rotateId}}
             </td>
-            <td>{{bigCustomer}}</td>
+            <td>
+                <!-- ko if:bigCustomer -->
+                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                <!-- /ko -->
+            </td>
             <td>
                 {{territoryName}}
             </td>
