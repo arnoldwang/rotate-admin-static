@@ -43,15 +43,14 @@ module.exports = {
             external: false
         },
         {
-<<<<<<< HEAD
             text: '轮转组运营',
             path: '/rotate/group/list',
             external: false
-=======
+        },
+        {
             text: '门店标记和转移',
             path: '/rotate/shop-handle/list',
             external : false
->>>>>>> 4b6c148eecab2e44c82168111b2372d1b09c9254
         }
 
     ]

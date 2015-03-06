@@ -117,6 +117,7 @@
                     bizId: null,
                     items: [],
                     shopId: null,
+                    cityId: null,
                     cityName: null,
                     total: 0
                 });
@@ -141,10 +142,12 @@
                     }),
 
                     city: new SimpleFormGroup({
-                        content: new(require('module/control/text-box'))({
-                            value: this.cityName
+                        content: new(require('module/control/city-typeahead'))({
+                            text: this.cityName,
+                            value: this.cityId
                         }),
-                        label: 'city'
+                        label: 'city(需选中)',
+                        required: false
                     })
                 }
             },
@@ -157,25 +160,27 @@
             },
 
             updateList: function() {
-                this.pipe([
-                    function(callback) {
-                        this.fetch({
-                            method: 'post',
-                            url: '/rotate/queryShopInfo',
-                            data: {
-                                bizID: this.bizId(),
-                                shopID: this.shopId(),
-                                cityName: this.cityName(),
-                                pageSize: this.pageSize(),
-                                pageIndex: this.pageIndex()
-                            },
-                            success: callback
-                        })
-                    },
-                    function(data) {
-                        this.setData(data);
-                    }
-                ])
+                if(this.bizId() && this.shopId() && this.cityName()){
+                    this.pipe([
+                        function(callback) {
+                            this.fetch({
+                                method: 'post',
+                                url: '/rotate/queryShopInfo',
+                                data: {
+                                    bizID: this.bizId(),
+                                    shopID: this.shopId(),
+                                    cityID: this.cityId(),
+                                    pageSize: this.pageSize(),
+                                    pageIndex: this.pageIndex()
+                                },
+                                success: callback
+                            })
+                        },
+                        function(data) {
+                            this.setData(data);
+                        }
+                    ])
+                }
             },
 
             toEdit: function(item) {
