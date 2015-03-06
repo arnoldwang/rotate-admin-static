@@ -72,7 +72,11 @@
             <td>
                 {{rotateId}}
             </td>
-            <td>{{bigCustomer}}</td>
+            <td>
+                <!-- ko if:bigCustomer -->
+                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                <!-- /ko -->
+            </td>
             <td>
                 {{territoryName}}
             </td>
@@ -245,35 +249,35 @@
             },
             setVIP: function () {
                 this.fetch({
-                    url: '/shop-handle/setVIP',
+                    url: '/shop/setVIP',
                     data: {
                         selectItems: this.getSelectedItems(),
                         bizId: this.bizId
                     },
                     success: function () {
                         this.getSelectedItems().forEach(function (item) {
-                            item.isVIP(1)
+                            item.bigCustomer(true)
                         })
                     }
                 })
             },
             cancelVIP: function () {
                 this.fetch({
-                    url: '/shop-handle/cancelVIP',
+                    url: '/shop/cancelVIP',
                     data: {
                         selectItems: this.getSelectedItems(),
                         bizId: this.bizId
                     },
                     success: function () {
                         this.getSelectedItems().forEach(function (item) {
-                            item.isVIP(0)
+                            item.bigCustomer(false)
                         })
                     }
                 })
             },
             release: function () {
                 this.fetch({
-                    url: '/shop-handle/release',
+                    url: '/shop/release',
                     data: {
                         selectItems: this.getSelectedItems(),
                         bizId: this.bizId
