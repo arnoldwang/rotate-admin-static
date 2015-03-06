@@ -72,7 +72,7 @@
             <td>
                 {{rotateId}}
             </td>
-            <td>{{isVIP |enums:'apolloShopType'}}</td>
+            <td>{{bigCustomer}}</td>
             <td>
                 {{territoryName}}
             </td>
@@ -202,15 +202,15 @@
                 this.resetResults();
 
                 this.fetch({
-                    url: '/shop-handle/shopList',
+                    url: '/shop/search',
                     data: {
-                        pageSize: this.pageSize,
-                        pageIndex: this.pageIndex,
-                        bizId: this.bizId,
-                        shopId: this.shopId,
-                        salesId: this.salesId,
-                        shopName: this.shopName,
-                        rotateId: this.rotateId
+                        pageSize: this.pageSize(),
+                        pageIndex: this.pageIndex(),
+                        bizId: this.bizId(),
+                        shopId: this.shopId(),
+                        salesId: this.salesId(),
+                        shopName: this.shopName(),
+                        rotateId: this.rotateId()
                     },
                     success: function (data) {
                         data.items.forEach(function (item) {
