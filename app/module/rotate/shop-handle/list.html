@@ -258,6 +258,7 @@
                         this.getSelectedItems().forEach(function (item) {
                             item.bigCustomer(true)
                         })
+                        notification.success("批量设置大客户成功")
                     }
                 })
             },
@@ -272,6 +273,7 @@
                         this.getSelectedItems().forEach(function (item) {
                             item.bigCustomer(false)
                         })
+                        notification.success("批量取消大客户成功")
                     }
                 })
             },
@@ -284,7 +286,9 @@
                     },
                     success: function () {
                         this.updateList();
+                        notification.success("批量释放客户成功")
                     }
+
                 })
             },
             change: function () {
