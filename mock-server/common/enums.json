@@ -403,7 +403,7 @@
             "value": 106
         }
     ],
-    "apolloShopType":[
+    "apolloShopType": [
         {
             "text": "大客户",
             "value": 1
@@ -417,37 +417,37 @@
         {
             "text": "行政区",
             "value": "district",
-            "type":2
+            "type": 2
         },
         {
             "text": "客户类型",
             "value": "type",
-            "type":1,
-            "enumKey":"apolloShopType"
+            "type": 1,
+            "enumKey": "apolloShopType"
         },
         {
             "text": "城市",
             "value": "cityID",
-            "type":2
+            "type": 2
         },
         {
             "text": "主区域",
             "value": "mainRegionID",
-            "type":2
+            "type": 2
         },
         {
             "text": "主分类",
             "value": "mainCategoryID",
-            "type":2
+            "type": 2
         },
         {
             "text": "省份",
             "value": "province",
-            "type":1,
-            "enumKey":"province"
+            "type": 1,
+            "enumKey": "province"
         }
     ],
-    "ruleType":[
+    "ruleType": [
         {
             "text": "等于",
             "value": 1
@@ -457,37 +457,51 @@
             "value": 2
         }
     ],
-    "runStatus":[
-      {
-        "text": "待运行",
-        "value": 1
-      },
-      {
-        "text": "正在运行",
-        "value": 2
-      },
-      {
-        "text": "运行成功",
-        "value": 3
-      },
-      {
-        "text": "运行失败",
-        "value": 4
-      }
+    "runStatus": [
+        {
+            "text": "待运行",
+            "value": 1
+        },
+        {
+            "text": "正在运行",
+            "value": 2
+        },
+        {
+            "text": "运行成功",
+            "value": 3
+        },
+        {
+            "text": "运行失败",
+            "value": 4
+        }
     ],
     "operateType": [
-      {
-        "text": "NEW",
-        "value": 0
-      },
-      {
-        "text": "RUN",
-        "value": 1
-      },
-      {
-        "text": "DELETE",
-        "value": 2
-      }
-    ]
+        {
+            "text": "NEW",
+            "value": 0
+        },
+        {
+            "text": "RUN",
+            "value": 1
+        },
+        {
+            "text": "DELETE",
+            "value": 2
+        }
+    ],
 
+    "categoryList": [
+        {
+            "text": "蛋糕甜点",
+            "value": 101
+        },
+        {
+            "text": "自助餐",
+            "value": 102
+        },
+        {
+            "text": "普通美食",
+            "value": 103
+        }
+    ]
 }

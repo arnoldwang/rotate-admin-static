@@ -1,58 +1,65 @@
 {
-    "id": 1,
-    "rule": "1",
-    "ruleName": "123",
-    "territoryId": 1,
-    "items": [
+  "id": 1,
+  "rule": "1",
+  "ruleName": "123",
+  "description": "123测试规则",
+  "territoryId": 1,
+  "items": [
         {
-            "field": "type",
-            "type": 1,
-            "value": [{"id":1}]
+          "field": "type",
+          "type": 1,
+          "value": [{"id": 1}]
         },
         {
-            "field": "cityID",
-            "type": 1,
-            "value": [
-                {
-                    "cityId": 1,
-                    "cityName": "上海"
-                }
-            ]
+          "field": "cityID",
+          "type": 1,
+          "value": [
+            {
+              "cityId": 1,
+              "cityName": "上海"
+            }
+          ]
         },
         {
-            "field": "district",
-            "type": 1,
-            "value": [
-                {
-                    "districtId": 1,
-                    "districtName": "上海",
-                    "cityId": 1,
-                    "cityName": "上海"
-                }
-            ]
+          "field": "district",
+          "type": 1,
+          "value": [
+            {
+              "districtId": 1,
+              "districtName": "上海",
+              "cityId": 1,
+              "cityName": "上海"
+            }
+          ]
         },
         {
-            "field": "mainRegionID",
-            "type": 1,
-            "value": [
-                {
-                    "districtId": 1,
-                    "districtName": "上海",
-                    "cityId": 1,
-                    "cityName": "上海",
-                    "mainRegionId":1,
-                    "mainRegionName":"上海1"
-                }
-            ]
+          "field": "mainRegionID",
+          "type": 1,
+          "value": [
+            {
+              "districtId": 1,
+              "districtName": "上海",
+              "cityId": 1,
+              "cityName": "上海",
+              "mainRegionId": 1,
+              "mainRegionName": "上海1"
+            },
+            {
+              "id": 1,
+              "notFound": true,
+              "desc": "找不到111"
+            }
+          ]
         },
         {
-            "field": "mainCategoryID",
-            "type": 1,
-            "value": [
-                [{
-                    "categoryId": 1,
-                    "categoryName": "美食"
-                }]
-            ]
+          "field": "mainCategoryID",
+          "type": 1,
+          "value": [
+            {
+              "categoryId": 1,
+              "categoryName": "美食"
+            }
+          ]
         }
-    ]}
+  ]
+}

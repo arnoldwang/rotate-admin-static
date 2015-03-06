@@ -1,0 +1,127 @@
+<div class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header clearfix">
+                <button type="button" class="close" data-bind="click: cancel">×</button>
+                <h4>门店转移</h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-default">
+                    <div class="panel-body"></div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-horizontal">
+                                <!-- ko module: modules.changeSales --><!-- /ko -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="op col-sm-offset-2">
+                        <button type="button" class="btn btn-default" data-bind="click:transform">确定</button>
+                        <button type="button" class="btn btn-default" data-bind="click:cancel">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var _ = require('lodash');
+    var notification = require('service/notification');
+    var ko = require('knockout');
+    var kom = require('knockout.mapping');
+
+    // control
+    var FormGroup = require('module/control/form-group');
+
+    var Validator = require('service/validator');
+    var v = require('service/validate-handlers');
+
+
+    model = [
+        function () {
+            this.reset();
+            this.buildValidators();
+            this.buildModules();
+        },
+        {
+            reset: function () {
+                this.setData({
+                    shopIds: [],
+                    salesName: null,
+                    salesId: null,
+                    bizId:null
+                });
+            },
+
+            buildValidators: function () {
+                this.validators = {
+                    salesId: new Validator(this.salesId, [v.required])
+
+                };
+            },
+
+            buildModules: function () {
+                this.modules = {
+                    changeSales: new FormGroup({
+                        content: new (require('module/control/user-typeahead'))({
+                            text: this.salesName,
+                            value: this.salesId,
+                            validator: this.validators.salesId
+
+                        }),
+                        cols: [4, 8],
+                        label: '转移给:'
+                    })
+                }
+            }
+            ,
+            onOpen: function (data, callback) {
+                this.reset();
+                this.getShopIds(data.items);
+                this.bizId(data.bizId);
+                this.callback = callback;
+            },
+            cancel: function () {
+                this.callback();
+            },
+            getShopIds: function (items) {
+                this.shopIds(items.map(function (item) {
+                    return item.shopId
+                }))
+            },
+
+            validate: function () {
+                var isValid = true;
+                _.forEach(this.validators, function (v) {
+                    v.validate();
+                    if (!v.isValid()) {
+                        isValid = false;
+                    }
+                });
+                return isValid;
+            },
+            transform: function () {
+                if (this.validate()) {
+                    this.fetch({
+                        url: '/shop/transform',
+                        data: {
+                            shopIds: this.shopIds(),
+                            salesId: this.salesId(),
+                            bizId:this.bizId()
+                        },
+                        success: function () {
+                            this.callback(true)
+                        }
+                    })
+                } else {
+                    notification.warning('有部分字段填写错误，请改正后重新提交');
+                }
+
+
+            }
+
+        }
+    ]
+</script>

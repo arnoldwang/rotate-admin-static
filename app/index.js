@@ -9,7 +9,9 @@ var State = require('crystal-state');
 var App = require('service/app');
 var modal = require('service/modal');
 
-var page = new Page();
+var page = new Page({
+    container: document.getElementById('content')
+});
 var state = new State.Location();
 var app = new App(state, page, require('./app-config'));
 window.app = app;
