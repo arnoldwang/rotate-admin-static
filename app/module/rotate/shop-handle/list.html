@@ -285,7 +285,10 @@
             },
             change: function () {
                 this.modal({
-                    data: kom.toJS(this.getSelectedItems()),
+                    data: {
+                        bizId: this.bizId(),
+                        items: kom.toJS(this.getSelectedItems())
+                    },
                     target: require('./change-sales'),
                     confirm: function () {
                         this.updateList();
