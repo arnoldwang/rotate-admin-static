@@ -35,10 +35,14 @@
     // control
     var FormGroup = require('module/control/form-group');
 
+    var Validator = require('service/validator');
+    var v = require('service/validate-handlers');
+
 
     model = [
         function () {
             this.reset();
+            this.buildValidators();
             this.buildModules();
         },
         {
@@ -49,12 +53,22 @@
                     salesId: null
                 });
             },
+
+            buildValidators: function () {
+                this.validators = {
+                    salesId: new Validator(this.salesId, [v.required])
+
+                };
+            },
+
             buildModules: function () {
                 this.modules = {
                     changeSales: new FormGroup({
                         content: new (require('module/control/user-typeahead'))({
                             text: this.salesName,
-                            value: this.salesId
+                            value: this.salesId,
+                            validator: this.validators.salesId
+
                         }),
                         cols: [4, 8],
                         label: '转移给:'
@@ -70,20 +84,39 @@
             cancel: function () {
                 this.callback();
             },
-            getShopIds :function(data){
-                this.shopIds( data.map(function(item){ return item.shopId}))
+            getShopIds: function (data) {
+                this.shopIds(data.map(function (item) {
+                    return item.shopId
+                }))
             },
-            transform: function(){
-                this.fetch({
-                    url:'/shop-handle/transform',
-                    data :{
-                        shopIds:this.shopIds(),
-                        salesId:this.salesId()
-                    },
-                    success: function () {
-                        this.callback(true)
+
+            validate: function () {
+                var isValid = true;
+                _.forEach(this.validators, function (v) {
+                    v.validate();
+                    if (!v.isValid()) {
+                        isValid = false;
                     }
-                })
+                });
+                return isValid;
+            },
+            transform: function () {
+                if (this.validate()) {
+                    this.fetch({
+                        url: '/shop-handle/transform',
+                        data: {
+                            shopIds: this.shopIds(),
+                            salesId: this.salesId()
+                        },
+                        success: function () {
+                            this.callback(true)
+                        }
+                    })
+                } else {
+                    notification.warning('有部分字段填写错误，请改正后重新提交');
+                }
+
+
             }
 
         }
