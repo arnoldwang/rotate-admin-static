@@ -101,11 +101,16 @@
     var FormGroup = require('module/control/form-group');
     var TextBox = require('module/control/text-box');
     var Select = require('module/control/select');
+    var Validator = require('service/validator');
+    var v = require('service/validate-handlers');
+
 
     model = [
         function () {
             this.reset();
+            this.buildValidators();
             this.buildModules();
+
             this.pagination = new (require('module/control/pagination'))({
                 size: this.pageSize,
                 index: this.pageIndex,
@@ -129,16 +134,25 @@
                 });
             },
 
+            buildValidators: function() {
+                this.validators = {
+                    bizId: new Validator(this.bizId, [v.required])
+                };
+            },
+
+
             buildModules: function () {
                 this.modules = {
                     biz: new FormGroup({
                         content: new Select({
                             value: this.bizId,
+                            validator: this.validators.bizId,
                             optionsCaption: '请选择...',
                             options: enums.biz
                         }),
                         cols: [2, 4],
-                        label: 'BU'
+                        label: 'BU',
+                        required: true
                     }),
 
                     sales: new FormGroup({
@@ -147,28 +161,35 @@
                             value: this.salesId
                         }),
                         cols: [4, 8],
-                        label: '责任销售'
+                        label: '责任销售',
+                        required: false
                     }),
                     shopId: new FormGroup({
                         content: new TextBox({
                             value: this.shopId
                         }),
                         cols: [2, 8],
-                        label: 'shopId'
+                        label: 'shopId',
+                        required: false
+
                     }),
                     shopName: new FormGroup({
                         content: new TextBox({
                             value: this.shopName
                         }),
                         cols: [4, 8],
-                        label: '门店名称'
+                        label: '门店名称',
+                        required: false
+
                     }),
                     rotateId: new FormGroup({
                         content: new TextBox({
                             value: this.rotateId
                         }),
                         cols: [2, 8],
-                        label: 'rotateId'
+                        label: 'rotateId',
+                        required: false
+
                     })
                 }
             },
@@ -203,9 +224,14 @@
             },
 
             search:function(){
-                this.pageIndex(1);
-                this.pageSize(10);
-                this.updateList();
+                if(this.validate()){
+                    this.pageIndex(1);
+                    this.pageSize(10);
+                    this.updateList();
+                }else {
+                    notification.warning('有部分字段填写错误，请改正后重新提交');
+                }
+
             },
 
             resetResults: function() {
@@ -262,8 +288,17 @@
                         this.updateList();
                     }
                 })
+            },
+            validate: function() {
+                var isValid = true;
+                _.forEach(this.validators, function(v) {
+                    v.validate();
+                    if (!v.isValid()) {
+                        isValid = false;
+                    }
+                });
+                return isValid;
             }
-
         }
     ]
 
