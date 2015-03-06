@@ -134,7 +134,7 @@
                 });
             },
 
-            buildValidators: function() {
+            buildValidators: function () {
                 this.validators = {
                     bizId: new Validator(this.bizId, [v.required])
                 };
@@ -198,7 +198,7 @@
                 this.reset();
             },
 
-            updateList: function() {
+            updateList: function () {
                 this.resetResults();
 
                 this.fetch({
@@ -213,7 +213,7 @@
                         rotateId: this.rotateId
                     },
                     success: function (data) {
-                        data.items.forEach(function(item) {
+                        data.items.forEach(function (item) {
                             item.checked = false;
                         });
 
@@ -223,75 +223,78 @@
 
             },
 
-            search:function(){
-                if(this.validate()){
+            search: function () {
+                if (this.validate()) {
                     this.pageIndex(1);
                     this.pageSize(10);
                     this.updateList();
-                }else {
+                } else {
                     notification.warning('有部分字段填写错误，请改正后重新提交');
                 }
 
             },
 
-            resetResults: function() {
+            resetResults: function () {
                 this.items([]);
             },
 
-            getSelectedItems: function() {
-                return this.items().filter(function(item) {
+            getSelectedItems: function () {
+                return this.items().filter(function (item) {
                     return item.checked();
                 })
             },
-            setVIP: function() {
+            setVIP: function () {
                 this.fetch({
-                    url:'/shop-handle/setVIP',
-                    data:{
-                       selectItems:this.getSelectedItems()
+                    url: '/shop-handle/setVIP',
+                    data: {
+                        selectItems: this.getSelectedItems(),
+                        bizId: this.bizId
                     },
                     success: function () {
-                        this.getSelectedItems().forEach(function(item){
+                        this.getSelectedItems().forEach(function (item) {
                             item.isVIP(1)
                         })
                     }
                 })
             },
-            cancelVIP: function() {
+            cancelVIP: function () {
                 this.fetch({
-                    url:'/shop-handle/cancelVIP',
-                    data:{
-                        selectItems:this.getSelectedItems()
+                    url: '/shop-handle/cancelVIP',
+                    data: {
+                        selectItems: this.getSelectedItems(),
+                        bizId: this.bizId
                     },
                     success: function () {
-                        this.getSelectedItems().forEach(function(item){
+                        this.getSelectedItems().forEach(function (item) {
                             item.isVIP(0)
                         })
                     }
                 })
             },
-            release: function() {
+            release: function () {
                 this.fetch({
-                    url:'/shop-handle/release',
-                    data:{
-                        selectItems:this.getSelectedItems()
+                    url: '/shop-handle/release',
+                    data: {
+                        selectItems: this.getSelectedItems(),
+                        bizId: this.bizId
                     },
                     success: function () {
                         this.updateList();
                     }
                 })
             },
-            change: function() {
+            change: function () {
                 this.modal({
                     data: kom.toJS(this.getSelectedItems()),
                     target: require('./change-sales'),
-                    confirm: function() {
+                    confirm: function () {
                         this.updateList();
                     }
                 })
             },
-            validate: function() {
+            validate: function () {
                 var isValid = true;
-                _.forEach(this.validators, function(v) {
+                _.forEach(this.validators, function (v) {
                     v.validate();
                     if (!v.isValid()) {
                         isValid = false;
