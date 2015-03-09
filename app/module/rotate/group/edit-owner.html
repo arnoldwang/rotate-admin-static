@@ -1,0 +1,139 @@
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-bind="click: cancel" >×</button>
+                <h4>更改责任销售</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <!-- ko module: modules.owner --><!-- /ko -->
+                </div>  
+            </div>
+            <div class="modal-footer" >
+                <button type="button" class="btn btn-default" data-bind="click: cancel">取消</button>
+                <button type="button" class="btn btn-primary" data-bind="click: confirm, enable: !isRunning()">完成</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var _ = require('lodash');
+    var ko = require('knockout');
+    var kom = require('knockout.mapping');
+    var notification = require('service/notification');
+
+    // control
+    var FormGroup = require('module/control/form-group');
+    var TextBox = require('module/control/text-box');
+    var NumberBox = require('module/control/number-box');
+    var Select = require('module/control/select');
+
+    // validator
+    var Validator = require('service/validator');
+    var v = require('service/validate-handlers');
+
+    model = [
+        function() {
+            this.reset();
+            this.buildValidators();
+            this.buildModules();
+        },
+        {
+            reset: function() {
+                this.setData({
+                    bizId: null,
+                    cityId: null,
+                    pageIndex: null,
+                    pageSize: null,
+                    salesName: null,
+                    salesId: null,
+                    rotateGroupShopId: null,
+                    shopId: null,
+                    shopGroupId: null,
+                    rotateGroupId: null,
+
+                    isRunning: false
+                });
+            },
+
+            buildValidators: function() {
+                this.validators = {
+                    salesId: new Validator(this.salesId, [v.required])
+                };
+            },
+
+            buildModules: function() {
+                this.modules = {
+                    owner: new FormGroup({
+                        content: new (require('module/control/user-typeahead'))({
+                            text: this.salesName,
+                            value: this.salesId,
+                            validator: this.validators.salesId
+                        }),
+                        label: '责任销售',
+                        required: true
+                    }),
+                }
+            },
+            
+            onOpen: function(data, callback) {
+                this.clearValidatorErrors();
+                this.reset();
+                this.setData(data);
+                this.callback = callback;
+            },
+
+            cancel: function() {
+                this.callback();
+            },
+
+            confirm: function() {
+                if (this.validate()) {
+                    this.isRunning(true);
+                    this.fetch({
+                        url: '/rotate/changeOwner',
+                        method: 'post',
+                        data: {
+                            bizID: this.bizId(),
+                            cityID: this.cityId(),
+                            pageSize: this.pageSize(),
+                            pageIndex: this.pageIndex(),
+                            salesID: this.salesId(),
+                            rotateGroupShopID: this.rotateGroupShopId(),
+                            rotateGroupID: this.rotateGroupId(),
+                            shopID: this.shopId(),
+                            shopGroupID: this.shopGroupId()
+                        },
+                        success: function(data) {
+                            console.log(data);
+                            notification.success('修改责任销售成功');
+                            this.callback(data);
+                        }
+                    })
+                }
+                else {
+                    notification.warning('有部分字段填写错误，请改正后重新提交');
+                }                
+            },
+
+            validate: function() {
+                var isValid = true;
+                _.forEach(this.validators, function(v) {
+                    v.validate();
+                    if (!v.isValid()) {
+                        isValid = false;
+                    }
+                });     
+                return isValid;           
+            },
+
+            clearValidatorErrors: function() {
+                _.forEach(this.validators, function(v) {
+                    v.clear();
+                }); 
+            }
+        }
+    ]
+</script>

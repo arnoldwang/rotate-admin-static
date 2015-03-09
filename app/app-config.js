@@ -7,7 +7,8 @@ module.exports = {
 
         '/rotate/team': '/rotate/team/list',
         '/rotate/history':'/rotate/history/list',
-        '/rotate/message':'/rotate/message/list'
+        '/rotate/message':'/rotate/message/list',
+        '/rotate/group':'rotate/group/list'
     },
 
     navs: [
@@ -39,6 +40,11 @@ module.exports = {
         {
             text: '虚拟小组管理',
             path: '/rotate/virtual-team/list',
+            external: false
+        },
+        {
+            text: '轮转组运营',
+            path: '/rotate/group/list',
             external: false
         },
         {

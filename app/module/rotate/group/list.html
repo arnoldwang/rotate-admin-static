@@ -1,0 +1,208 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form class="form-inline op" data-bind="submit: submit">
+            <!-- ko module: modules.biz -->
+            <!-- /ko -->
+            <!-- ko module: modules.shop -->
+            <!--/ko -->
+            <!-- ko module: modules.city -->
+            <!-- /ko -->
+            <div class="form-group">
+                <div class="col-sm-offset-1 col-sm-7">
+                    <button data-bind="enable: bizId()&&shopId()&&cityName()" type="submit" class="btn btn-default">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    门店城市
+                </th>
+                <th>
+                    门店名称
+                </th>
+                <th>
+                    客户类型
+                </th>
+                <th>
+                    门店状态
+                </th>
+                <th>
+                    shopGroupId
+                </th>
+                <th>
+                    rotateGroupId
+                </th>
+                <th>
+                    shopId
+                </th>
+                <th>
+                    责任销售
+                </th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: items, delegateEvent: {
+            click: {
+                '.editable': function(item) {
+                    toEdit(item);
+                }
+            }
+        }">
+            <tr>
+                <td>
+                    {{cityName}}
+                </td>
+                <td>
+                    {{shopName}}
+                </td>
+                <td>
+                    {{type}}
+                </td>
+                <td>
+                    {{shopStatus}}
+                </td>
+                <td>
+                    {{shopGroupId}}
+                </td>
+                <td>
+                    {{rotateGroupId}}
+                </td>
+                <td>
+                    {{shopId}}
+                </td>
+                <td>
+                    <span class="editable">
+                        {{owner}}
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="panel-footer">
+        <!-- ko module: pagination -->
+        <!-- /ko -->
+    </div>
+</div>
+
+<script>
+    var _ = require('lodash');
+    var ko = require('knockout');
+    var kom = require('knockout.mapping');
+    var notification = require('service/notification');
+
+    // control
+    var SimpleFormGroup = require('module/control/simple-form-group');
+    var TextBox = require('module/control/text-box');
+    var Select = require('module/control/select');
+
+    model = [
+        function() {
+            this.reset();
+            this.buildModules();
+
+            this.resetQuery();
+            // module
+            this.pagination = new(require('module/control/pagination'))({
+                size: this.pageSize,
+                index: this.pageIndex,
+                total: this.total,
+                onChange: this.updateList.bind(this)
+            });
+        }, {
+            reset: function() {
+                this.setData({
+                    bizId: null,
+                    items: [],
+                    shopId: null,
+                    cityId: null,
+                    cityName: null,
+                    total: 0
+                });
+            },
+
+            buildModules: function() {
+                this.modules = {
+                    biz: new SimpleFormGroup({
+                        content: new Select({
+                            value: this.bizId,
+                            optionsCaption: '请选择...',
+                            options: enums.biz
+                        }),
+                        label: 'BU'
+                    }),
+
+                    shop: new SimpleFormGroup({
+                        content: new(require('module/control/text-box'))({
+                            value: this.shopId
+                        }),
+                        label: 'shopId'
+                    }),
+
+                    city: new SimpleFormGroup({
+                        content: new(require('module/control/city-typeahead'))({
+                            text: this.cityName,
+                            value: this.cityId
+                        }),
+                        label: 'city(需选中)',
+                        required: false
+                    })
+                }
+            },
+
+            resetQuery: function() {
+                this.setData({
+                    pageIndex: 1,
+                    pageSize: 10
+                })
+            },
+
+            updateList: function() {
+                if(this.bizId() && this.shopId() && this.cityName()){
+                    this.pipe([
+                        function(callback) {
+                            this.fetch({
+                                method: 'post',
+                                url: '/rotate/queryShopInfo',
+                                data: {
+                                    bizID: this.bizId(),
+                                    shopID: this.shopId(),
+                                    cityID: this.cityId(),
+                                    pageSize: this.pageSize(),
+                                    pageIndex: this.pageIndex()
+                                },
+                                success: callback
+                            })
+                        },
+                        function(data) {
+                            this.setData(data);
+                        }
+                    ])
+                }
+            },
+
+            toEdit: function(item) {
+                item.bizId = this.bizId();
+                item.cityId = this.cityId();
+                item.pageIndex = this.pageIndex();
+                item.pageSize = this.pageSize();
+
+                this.modal({
+                    data: item,
+                    target: require('./edit-owner'),
+                    confirm: function(data) {
+                        console.log(data)
+                        this.setData(data);
+                    }
+                })
+            },
+
+            submit: function() {
+                this.resetQuery();
+                this.updateList();
+            }
+        }
+    ]
+</script>
