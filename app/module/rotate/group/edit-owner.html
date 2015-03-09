@@ -12,7 +12,7 @@
             </div>
             <div class="modal-footer" >
                 <button type="button" class="btn btn-default" data-bind="click: cancel">取消</button>
-                <button type="button" class="btn btn-primary" data-bind="click: confirm">完成</button>
+                <button type="button" class="btn btn-primary" data-bind="click: confirm, enable: !isRunning()">完成</button>
             </div>
         </div>
     </div>
@@ -44,11 +44,17 @@
             reset: function() {
                 this.setData({
                     bizId: null,
+                    cityId: null,
+                    pageIndex: null,
+                    pageSize: null,
                     salesName: null,
                     salesId: null,
+                    rotateGroupShopId: null,
                     shopId: null,
                     shopGroupId: null,
-                    rotateGroupId: null
+                    rotateGroupId: null,
+
+                    isRunning: false
                 });
             },
 
@@ -85,18 +91,25 @@
 
             confirm: function() {
                 if (this.validate()) {
+                    this.isRunning(true);
                     this.fetch({
                         url: '/rotate/changeOwner',
                         method: 'post',
                         data: {
+                            bizID: this.bizId(),
+                            cityID: this.cityId(),
+                            pageSize: this.pageSize(),
+                            pageIndex: this.pageIndex(),
                             salesID: this.salesId(),
+                            rotateGroupShopID: this.rotateGroupShopId(),
                             rotateGroupID: this.rotateGroupId(),
                             shopID: this.shopId(),
                             shopGroupID: this.shopGroupId()
                         },
-                        success: function(a) {
-                            notification.success('战区绑定成功')
-                            this.callback(true);
+                        success: function(data) {
+                            console.log(data);
+                            notification.success('修改责任销售成功');
+                            this.callback(data);
                         }
                     })
                 }

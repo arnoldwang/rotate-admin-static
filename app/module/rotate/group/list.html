@@ -185,14 +185,16 @@
 
             toEdit: function(item) {
                 item.bizId = this.bizId();
+                item.cityId = this.cityId();
+                item.pageIndex = this.pageIndex();
+                item.pageSize = this.pageSize();
 
                 this.modal({
                     data: item,
                     target: require('./edit-owner'),
-                    confirm: function() {
-                        // clearCache 是 cache方法添加上去的
-                        // this.loadBizTeams.clearCache(this.bizId());
-                        // this.search();
+                    confirm: function(data) {
+                        console.log(data)
+                        this.setData(data);
                     }
                 })
             },
