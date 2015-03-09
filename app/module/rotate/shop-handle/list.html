@@ -108,7 +108,6 @@
     var Validator = require('service/validator');
     var v = require('service/validate-handlers');
 
-
     model = [
         function () {
             this.reset();
@@ -250,9 +249,10 @@
             setVIP: function () {
                 this.fetch({
                     url: '/shop/setVIP',
+                    method: 'POST',
                     data: {
-                        selectItems: this.getSelectedItems(),
-                        bizId: this.bizId
+                        selectedItems: kom.toJS(this.getSelectedItems()),
+                        bizId: this.bizId()
                     },
                     success: function () {
                         this.getSelectedItems().forEach(function (item) {
@@ -265,9 +265,10 @@
             cancelVIP: function () {
                 this.fetch({
                     url: '/shop/cancelVIP',
+                    method: 'POST',
                     data: {
-                        selectItems: this.getSelectedItems(),
-                        bizId: this.bizId
+                        selectedItems: kom.toJS(this.getSelectedItems()),
+                        bizId: this.bizId()
                     },
                     success: function () {
                         this.getSelectedItems().forEach(function (item) {
@@ -281,7 +282,7 @@
                 this.fetch({
                     url: '/shop/release',
                     data: {
-                        selectItems: this.getSelectedItems(),
+                        selectedItems: this.getSelectedItems(),
                         bizId: this.bizId
                     },
                     success: function () {
