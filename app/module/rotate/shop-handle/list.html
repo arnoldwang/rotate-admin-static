@@ -126,8 +126,8 @@
                 this.setData({
                     items: [],
                     total: 0,
-                    bizId: null,
-                    shopId: null,
+                    bizId: 101,
+                    shopId: 500596,
                     salesId: null,
                     salesName: null,
                     shopName: null,
@@ -281,9 +281,10 @@
             release: function () {
                 this.fetch({
                     url: '/shop/release',
+                    method: 'POST',
                     data: {
-                        selectedItems: this.getSelectedItems(),
-                        bizId: this.bizId
+                        selectedItems: kom.toJS(this.getSelectedItems()),
+                        bizId: this.bizId()
                     },
                     success: function () {
                         this.updateList();
@@ -296,7 +297,7 @@
                 this.modal({
                     data: {
                         bizId: this.bizId(),
-                        items: kom.toJS(this.getSelectedItems())
+                        selectedItems: kom.toJS(this.getSelectedItems())
                     },
                     target: require('./change-sales'),
                     confirm: function () {
