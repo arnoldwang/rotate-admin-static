@@ -1,6 +1,6 @@
 {
     "name": "rotate-admin-static",
-    "version": "0.0.15",
+    "version": "0.0.17",
     "description": "",
     "main": "index.js",
     "scripts": {
@@ -13,9 +13,10 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "events": "*",
         "crystal-page": "^4.0.0",
         "crystal-state": "^1.0.0",
+        "events": "*",
+        "gulp": "^3.8.11",
         "jquery": "^2.1.1",
         "knockout-commonjs": "0.0.3",
         "knockout.mapping": "^2.4.2",
@@ -23,8 +24,8 @@
         "ko-string-template": "0.0.1",
         "lodash": "^3",
         "mixin-class": "^2.0.2",
-        "query-string": "^0.4.0",
-        "moment": "2.7.0"
+        "moment": "2.7.0",
+        "query-string": "^0.4.0"
     },
     "devDependencies": {
         "browserify-windows-fix": "~3.43.0",

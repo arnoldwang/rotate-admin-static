@@ -108,7 +108,6 @@
     var Validator = require('service/validator');
     var v = require('service/validate-handlers');
 
-
     model = [
         function () {
             this.reset();
@@ -250,9 +249,10 @@
             setVIP: function () {
                 this.fetch({
                     url: '/shop/setVIP',
+                    method: 'POST',
                     data: {
-                        selectItems: this.getSelectedItems(),
-                        bizId: this.bizId
+                        selectedItems: kom.toJS(this.getSelectedItems()),
+                        bizId: this.bizId()
                     },
                     success: function () {
                         this.getSelectedItems().forEach(function (item) {
@@ -265,9 +265,10 @@
             cancelVIP: function () {
                 this.fetch({
                     url: '/shop/cancelVIP',
+                    method: 'POST',
                     data: {
-                        selectItems: this.getSelectedItems(),
-                        bizId: this.bizId
+                        selectedItems: kom.toJS(this.getSelectedItems()),
+                        bizId: this.bizId()
                     },
                     success: function () {
                         this.getSelectedItems().forEach(function (item) {
@@ -280,9 +281,10 @@
             release: function () {
                 this.fetch({
                     url: '/shop/release',
+                    method: 'POST',
                     data: {
-                        selectItems: this.getSelectedItems(),
-                        bizId: this.bizId
+                        selectedItems: kom.toJS(this.getSelectedItems()),
+                        bizId: this.bizId()
                     },
                     success: function () {
                         this.updateList();
@@ -295,7 +297,7 @@
                 this.modal({
                     data: {
                         bizId: this.bizId(),
-                        items: kom.toJS(this.getSelectedItems())
+                        selectedItems: kom.toJS(this.getSelectedItems())
                     },
                     target: require('./change-sales'),
                     confirm: function () {
