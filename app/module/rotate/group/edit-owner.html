@@ -110,6 +110,9 @@
                             console.log(data);
                             notification.success('修改责任销售成功');
                             this.callback(data);
+                        },
+                        complete: function(){
+                            this.callback();
                         }
                     })
                 }
