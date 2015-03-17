@@ -9,7 +9,7 @@
             <!-- /ko -->
             <div class="form-group">
                 <div class="col-sm-offset-1 col-sm-7">
-                    <button data-bind="enable: bizId()&&shopId()&&cityName()" type="submit" class="btn btn-default">查询</button>
+                    <button data-bind="enable: bizId()&&shopId()&&cityName(), enable: !isRunning()" type="submit" class="btn btn-default">查询</button>
                 </div>
             </div>
         </form>
@@ -119,7 +119,9 @@
                     shopId: null,
                     cityId: null,
                     cityName: null,
-                    total: 0
+                    total: 0, 
+
+                    isRunning: false
                 });
             },
 
@@ -178,6 +180,7 @@
                         },
                         function(data) {
                             this.setData(data);
+                            this.isRunning(false);
                         }
                     ])
                 }
@@ -200,6 +203,7 @@
             },
 
             submit: function() {
+                this.isRunning(true);
                 this.resetQuery();
                 this.updateList();
             }
