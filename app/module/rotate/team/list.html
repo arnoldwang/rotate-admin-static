@@ -27,10 +27,6 @@
             click: {
                 '[data-action=edit]': function(team) {
                     toEdit(team);
-                },
-
-                '[data-action=unbind]': function(team) {
-                    toUnbind(team);
                 }
             }
         }">
@@ -43,7 +39,6 @@
                 <td class="op">     
                     {{#if: territoryName}}
                         <a href="/rotate/territory/detail?id={{territoryId}}">{{territoryName}}</a>
-                        <span class="text-danger editable" data-action="unbind">[解除绑定]</span>
                     {{/}}
                     {{#ifnot: territoryName}}
                         <span class="text-danger">[无]</span>
@@ -179,20 +174,6 @@
                     }
                 })
             }),
-
-            unbindTeam: function(team) {
-                this.fetch({
-                    url: '/team/unbindTeam',
-                    method: 'post',
-                    data: {
-                        teamId: team.teamId
-                    },
-                    success: function(a) {
-                        notification.success('战区解除绑定成功')
-                        this.refresh();
-                    }
-                })
-            },
 
             toEdit: function(team) {
                 team.bizId = this.bizId();

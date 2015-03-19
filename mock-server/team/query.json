@@ -4,6 +4,8 @@
         "teamName": "teamName",        
         "territoryId": 11,
         "territoryName": "territoryName",
+        "updateByName": "111",
+        "updateTime": null,
         "territoryChiefName": "territoryChiefName"
     },
     {
@@ -11,13 +13,17 @@
         "territoryId": 11,
         "territoryName": "territoryName",
         "teamName": "teamName",
+        "updateByName": "111",
+        "updateTime": null,
         "territoryChiefName": null
     },
     {
         "teamId": 1,   
-        "territoryId": 11,
+        "territoryId": null,
         "territoryName": null,
         "teamName": "teamName",
+        "updateByName": "111",
+        "updateTime": null,
         "territoryChiefName": null
     }
 ]
