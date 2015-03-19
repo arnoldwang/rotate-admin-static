@@ -51,6 +51,11 @@ module.exports = {
             text: '门店标记和转移',
             path: '/rotate/shop-handle/list',
             external : false
+        },
+        {
+            text: '报表－跨BU门店',
+            path: '/rotate/report/cross-bu-shop-report',
+            external : false
         }
 
     ]

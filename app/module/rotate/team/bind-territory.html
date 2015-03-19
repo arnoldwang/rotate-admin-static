@@ -12,6 +12,7 @@
             </div>
             <div class="modal-footer" >
                 <button type="button" class="btn btn-default" data-bind="click: cancel">取消</button>
+                <button type="button" class="btn btn-danger" data-bind="click: unbind, visible: territoryId">解除绑定</button>
                 <button type="button" class="btn btn-primary" data-bind="click: confirm">完成</button>
             </div>
         </div>
@@ -101,6 +102,20 @@
                 else {
                     notification.warning('有部分字段填写错误，请改正后重新提交');
                 }                
+            },
+
+            unbind: function() {
+                this.fetch({
+                    url: '/team/unbindTeam',
+                    method: 'post',
+                    data: {
+                        teamId: this.teamId(),
+                    },
+                    success: function(a) {
+                        notification.success('战区解除绑定成功')
+                        this.callback(true);
+                    }
+                })
             },
 
             validate: function() {

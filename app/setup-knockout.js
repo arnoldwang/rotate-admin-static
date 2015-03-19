@@ -73,6 +73,13 @@ ko.filters.highlightNull = function(value) {
     }    
 };
 
+ko.filters.date = function(value) {
+    value = ko.unwrap(value);
+    if (value) {        
+        var date = moment(value);
+        return date.format('YYYY-MM-DD hh:mm:ss');
+    }
+};
 
 
 (function(config) {    
