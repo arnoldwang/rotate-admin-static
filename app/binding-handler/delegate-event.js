@@ -24,7 +24,7 @@ module.exports = {
                     var matches = $element.find(selector);
                     for (cur = e.target; cur && cur !== element; cur = cur.parentNode) {
                         if (matches.index(cur) != -1) {
-                            return handler.call(viewModel, ko.dataFor(cur), e);
+                            return handler.call(viewModel, ko.dataFor(cur),ko.contextFor(cur), e);
                         }
                     }
 
