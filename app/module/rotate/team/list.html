@@ -19,27 +19,41 @@
                 <th style="width: 40%">
                     战区
                 </th>
-                <th style="width: 20%">
-                    战区长官
-                </th>
+                <th>最后更新人</th>
+                <th>最后更新时间</th>
             </tr>
         </thead>
         <tbody data-bind="foreach: filteredItems, delegateEvent: {
             click: {
-                '.editable': function(team) {
+                '[data-action=edit]': function(team) {
                     toEdit(team);
+                },
+
+                '[data-action=unbind]': function(team) {
+                    toUnbind(team);
                 }
             }
         }">
             <tr>
                 <td>
-                    <span class="editable">
+                    <span class="editable" data-action="edit">
                         {{teamName}}
                     </span>                    
                 </td>
-                <td data-bind="html: territoryName | highlightNull">         
+                <td class="op">     
+                    {{#if: territoryName}}
+                        <a href="/rotate/territory/detail?id={{territoryId}}">{{territoryName}}</a>
+                        <span class="text-danger editable" data-action="unbind">[解除绑定]</span>
+                    {{/}}
+                    {{#ifnot: territoryName}}
+                        <span class="text-danger">[无]</span>
+                    {{/}}
                 </td>
-                <td data-bind="html: territoryChiefName | highlightNull">
+                <td>
+                    {{updateByName}}
+                </td>
+                <td>
+                    {{updateTime | date}}
                 </td>
             </tr>
         </tbody>
@@ -166,18 +180,40 @@
                 })
             }),
 
+            unbindTeam: function(team) {
+                this.fetch({
+                    url: '/team/unbindTeam',
+                    method: 'post',
+                    data: {
+                        teamId: team.teamId
+                    },
+                    success: function(a) {
+                        notification.success('战区解除绑定成功')
+                        this.refresh();
+                    }
+                })
+            },
+
             toEdit: function(team) {
                 team.bizId = this.bizId();
 
                 this.modal({
                     data: team,
                     target: require('./bind-territory'),
-                    confirm: function() {
-                        // clearCache 是 cache方法添加上去的
-                        this.loadBizTeams.clearCache(this.bizId());
-                        this.search();
-                    }
+                    confirm: this.refresh
                 })
+            },
+
+            refresh: function() {
+                // clearCache 是 cache方法添加上去的
+                this.loadBizTeams.clearCache(this.bizId());
+                this.search();
+            },
+
+            toUnbind: function(team) {
+                if (confirm('您确认要解除[' + team.teamName + ']绑定的战区吗？')) {
+                    this.unbindTeam(team)
+                }
             }
         }
     ]

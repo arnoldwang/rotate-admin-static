@@ -40,7 +40,14 @@
                         {{territoryName}}
                     </a>                    
                 </td>
-                <td data-bind="html: territoryChiefName | highlightNull">
+                <td>
+                    {{#if: territoryChiefName}}
+                        {{territoryChiefName}}
+                        （{{territoryChiefDepartmentName}}）
+                    {{/}}
+                    {{#ifnot: territoryChiefName}}
+                        <span class="text-danger">[无]</span>
+                    {{/}}
                 </td>  
                 <td data-bind="html: notOnlineSingleGroupCountLimit | highlightNull">  
                 <td data-bind="html: notOnlineMutGroupCountLimit | highlightNull">  
