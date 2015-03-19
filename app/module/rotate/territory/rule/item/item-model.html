@@ -69,7 +69,6 @@
                 var a = window.enums.territoryRuleProperty.filter(function(t){
                     return t.value===field
                 })[0];
-                debugger
 
                 if(a.type===1){
                     return new (require('module/rotate/territory/rule/item/select'))(child, a.enumKey);
