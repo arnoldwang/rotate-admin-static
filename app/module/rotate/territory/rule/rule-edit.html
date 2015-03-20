@@ -19,7 +19,19 @@
                             <th>操作</th>
                         </tr>
                         </thead>
-                        <tbody data-bind="foreach:items">
+                        <tbody data-bind="foreach:items,delegateEvent:{
+                            click:{
+                                '[data-action=ruleItemDelete]':function(node,context){
+                                    context.$parent.value.remove(node)
+                                },
+                                '[data-action=ruleItemAdd]':function(node,context){
+                                    node.value.push(node.createChild())
+                                },
+                                '[data-action=ruleDelete]':function(node,context){
+                                    context.$parents[1].items.remove(node)
+                                }
+                            }
+                        }">
                         <!--ko module:$data --><!--/ko-->
                         </tbody>
                     </table>
@@ -135,12 +147,15 @@
                     url: "/territory/queryTerritoryRuleWithItem",
                     data: query,
                     success: function (data) {
+                        var items = data.items
+                        delete data.items
                         this.setData(data);
-                        this.items(data.items.map(function(item){
+                        items = items.map(function(item){
                             var model = new ItemModel()
                             model.setData(item);
                             return model;
-                        }))
+                        })
+                        this.items(items)
                     }
                 });
 
