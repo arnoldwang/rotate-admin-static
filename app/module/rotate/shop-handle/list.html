@@ -247,6 +247,10 @@
                 })
             },
             setVIP: function () {
+                if(this.getSelectedItems().length==0){
+                    notification.warning("请选择需要处理的分店")
+                    return
+                }
                 this.fetch({
                     url: '/shop/setVIP',
                     method: 'POST',
@@ -263,6 +267,10 @@
                 })
             },
             cancelVIP: function () {
+                if(this.getSelectedItems().length==0){
+                    notification.warning("请选择需要处理的分店")
+                    return
+                }
                 this.fetch({
                     url: '/shop/cancelVIP',
                     method: 'POST',
@@ -279,6 +287,10 @@
                 })
             },
             release: function () {
+                if(this.getSelectedItems().length==0){
+                    notification.warning("请选择需要处理的分店")
+                    return
+                }
                 this.fetch({
                     url: '/shop/release',
                     method: 'POST',
@@ -294,6 +306,10 @@
                 })
             },
             change: function () {
+                if(this.getSelectedItems().length==0){
+                    notification.warning("请选择需要处理的分店")
+                    return
+                }
                 this.modal({
                     data: {
                         bizId: this.bizId(),
