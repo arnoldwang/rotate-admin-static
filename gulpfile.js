@@ -240,4 +240,45 @@ gulp.task('default', ['mkdir'], function() {
     gulp.start('copy-image');
 });
 
+
+var http = require('http');
+var querystring = require('query-string');
+
+gulp.task('lion', function() {
+
+    var postData = querystring.stringify({
+        configId: 44978,
+        envIds: 2,
+        trim: true,
+        value: '//f2e.dp:3002/rotate-admin-static'
+    });
+
+
+    var req = http.request({
+        hostname: 'lion.dp',
+        path: '/config/saveDefaultValueAjax.vhtml',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Cookie': 'lioner=b2b482da76e51d2b571428c1823f22ba5ab546c77f0022e5edb8349fe9a85351',
+            'Content-Length': postData.length
+        }
+    }, function(res) {
+        console.log('STATUS: ' + res.statusCode);
+        console.log('HEADERS: ' + JSON.stringify(res.headers));
+        res.setEncoding('utf8');
+        res.on('data', function (chunk) {
+            console.log('BODY: ' + chunk);
+        });
+    });
+
+    req.on('error', function(e) {
+      console.log('problem with request: ' + e.message);
+    });
+
+    req.write(postData);
+    req.end();
+
+})
+
 module.exports = gulp

@@ -26,6 +26,8 @@
                 <th >
                     连锁店上限
                 </th>
+                <th>最后更新人</th>
+                <th>最后更新时间</th>
             </tr>
         </thead>
         <tbody data-bind="foreach: filteredItems, delegateEvent: {
@@ -51,7 +53,13 @@
                 </td>  
                 <td data-bind="html: notOnlineSingleGroupCountLimit | highlightNull">  
                 <td data-bind="html: notOnlineMutGroupCountLimit | highlightNull">  
-                </td>                
+                </td>  
+                <td>
+                    {{updateByName}}
+                </td>
+                <td>
+                    {{updateTime | date}}
+                </td>              
             </tr>
         </tbody>
     </table>

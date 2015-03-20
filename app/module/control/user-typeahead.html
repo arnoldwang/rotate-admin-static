@@ -1,10 +1,11 @@
 <script>
 var ko = require('knockout');
+var cache = require('service/cache');
 
 model = [
     require('./abstract-typeahead'),
     {
-        source: function(keyword, callback) {
+        source: cache(function(keyword, callback) {
             this.fetch({
                 url: '/common/searchUser',
                 data: {
@@ -16,10 +17,10 @@ model = [
                             value: item.loginId,
                             text: item.realName + '(' + item.departmentName + ')'
                         }
-                    }))
+                    }).slice(0, 10))
                 }
             });
-        }
+        })
     }
 ]
 </script>
