@@ -83,7 +83,9 @@
 
             ko.computed(function() {
                 this.bizId();
-                this.bus([]);
+                this.bus(this.categoryList().map(function(item){
+                    return item.value;
+                }));
             }, this);
 
             this.buildValidators();
