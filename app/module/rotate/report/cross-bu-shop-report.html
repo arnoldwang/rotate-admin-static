@@ -70,6 +70,9 @@
     var Select = require('module/control/select');
     var CheckBox_Group = require('module/control/checkbox-group');
 
+    var Validator = require('service/validator');
+    var v = require('service/validate-handlers');
+
     model = [
         function () {
             this.reset();
@@ -83,7 +86,7 @@
                 this.bus([]);
             }, this);
 
-
+            this.buildValidators();
             this.buildModules();
 
             this.pagination = new (require('module/control/pagination'))({
@@ -104,6 +107,12 @@
                     bus:[]
                 });
             },
+            buildValidators: function () {
+                this.validators = {
+                    bizId: new Validator(this.bizId, [v.required]),
+                    bus:new Validator(this.bus,[v.required])
+                };
+            },
 
             buildModules: function () {
 
@@ -111,19 +120,23 @@
                     biz: new FormGroup({
                         content: new Select({
                             value: this.bizId,
+                            validator: this.validators.bizId,
                             optionsCaption: '请选择...',
                             options: enums.biz
                         }),
                         cols: [2, 4],
-                        label: 'BU'
+                        label: 'BU',
+                        required: true
                     }),
                     filterBu: new FormGroup({
                         content: new CheckBox_Group({
                             value: this.bus,
+                            validator: this.validators.bus,
                             options: this.categoryList
                         }),
                         cols: [2, 5],
-                        label: '销售所在bu'
+                        label: '销售所在bu',
+                        required: true
                     })
                 }
             },
@@ -133,21 +146,25 @@
             },
 
             updateList: function () {
-                this.resetResults();
+                if(this.validate()){
+                    this.resetResults();
+                    this.fetch({
+                        url: '/report/searchShop',
+                        method:'post',
+                        data: {
+                            pageSize: this.pageSize(),
+                            pageIndex: this.pageIndex(),
+                            bizId: this.bizId(),
+                            bus:this.bus()
+                        },
+                        success: function (data) {
+                            this.setData(data);
+                        }
+                    });
+                }else{
+                    notification.warning('有部分字段填写错误，请改正后重新提交');
+                }
 
-                this.fetch({
-                    url: '/report/searchShop',
-                    method:'post',
-                    data: {
-                        pageSize: this.pageSize(),
-                        pageIndex: this.pageIndex(),
-                        bizId: this.bizId(),
-                        bus:this.bus()
-                    },
-                    success: function (data) {
-                        this.setData(data);
-                    }
-                });
 
             },
 
@@ -160,6 +177,16 @@
 
             resetResults: function () {
                 this.items([]);
+            },
+            validate: function () {
+                var isValid = true;
+                _.forEach(this.validators, function (v) {
+                    v.validate();
+                    if (!v.isValid()) {
+                        isValid = false;
+                    }
+                });
+                return isValid;
             }
         }
     ]
